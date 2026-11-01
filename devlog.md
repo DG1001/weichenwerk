@@ -2,6 +2,13 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-01 - Installierbare App (PWA)
+
+- Manifest, App-Icons (192/512, maskable, erzeugt mit `scripts/build-icons.cjs`) und Service Worker `sw.js`.
+- Strategie: zuerst Netz, Cache nur offline. Damit liefert ein vergessener Versionswechsel online nie veraltete Dateien; offline startet die zuletzt geladene Version.
+- Grenze: Browser erlauben Service Worker nur ueber HTTPS oder localhost. Ueber die http-Workspace-URL und als Datei laeuft das Spiel wie bisher, ohne Installation.
+- Test `tests/browser-pwa.cjs` (lokaler Server): alle geladenen Dateien vorab gespeichert, Service Worker aktiv, Spiel und Hilfe offline, Dateistart ohne Fehler. Besteht.
+
 ## 2026-11-01 - Spielhilfe mit Bildern
 
 - Wunsch: eine Anleitung mit Bildern, z. B. Block- vs. Pfadsignal, Ausweichgleise, Bruecken. Das geplante Ausweichgleis-Werkzeug ist dafuer zurueckgestellt.
@@ -71,5 +78,4 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 
 - Werkzeug fuer Ausweichgleise (zurueckgestellt; Bau von Hand ist in der Hilfe beschrieben und getestet). Entwurf: Modus "Ausweichgleis" in der Streckenplanung, plant Gleis, Weichen und vier Einwegsignale atomar.
 - Neigen per Geste: bewusst nicht geplant (Wunsch, funktioniert ohne gut).
-- PWA (Manifest, Service Worker) fuer Homescreen und Offline-Start.
 - Leistung auf Mittelklasse-Handys pruefen (Pixeldichte, Detailstufen, 30-fps-Modus).

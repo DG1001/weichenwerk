@@ -1911,6 +1911,8 @@ function init() {
   flash("Baue zwei Stationen, verbinde sie und kaufe ein Fahrzeug.");
   loadThree();
   requestAnimationFrame(frame);
+  // Installable app with offline start; browsers allow service workers only over HTTPS or localhost.
+  if(typeof navigator!=="undefined"&&"serviceWorker" in navigator&&window.isSecureContext&&location.protocol!=="file:")navigator.serviceWorker.register("sw.js").catch(()=>{});
 }
 
 init();
