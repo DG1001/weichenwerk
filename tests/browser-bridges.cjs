@@ -22,7 +22,7 @@ function pixels(buffer){const p=PNG.sync.read(buffer),s=new Set();for(let i=0;i<
    const drag=async(y)=>{
     await canvas.scrollIntoViewIfNeeded();const a=await screen(11,y),b=await screen(17,y);await page.mouse.move(a.x,a.y);await page.mouse.down();await page.mouse.move(b.x,b.y,{steps:16});await page.mouse.up();await page.waitForFunction(()=>construction.frozen);
    };
-   await page.locator('#routeMode').selectOption('bridge');await page.getByRole('button',{name:'Schiene',exact:true}).click();
+   await page.getByRole('button',{name:'Schiene',exact:true}).click();await page.locator('#routeMode').selectOption('bridge');
    const cash=await page.evaluate(()=>game.cash);await drag(8);
    assert.equal(await page.evaluate(()=>construction.error),'');assert.equal(await page.evaluate(()=>construction.path.length),7);
    assert.equal(await page.evaluate(()=>game.map.flat().filter(t=>t.bridge).length),0);assert.equal(await page.evaluate(()=>game.cash),cash);

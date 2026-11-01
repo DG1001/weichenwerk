@@ -67,6 +67,45 @@ const { pathToFileURL } = require('node:url');
       assert.deepEqual(await page.evaluate(() => mapCoordinates.target), { x: 5, y: 6 });
       if (!landscape) assert.equal(await page.evaluate(() => scrollY), 0, 'Coordinate jump must uncover the map');
 
+      // Only the options of the current tool are shown.
+      const shown = () => page.evaluate(() => Object.fromEntries(['.route-options', '.station-options', '.signal-options'].map(s => [s, getComputedStyle(document.querySelector(s)).display !== 'none'])));
+      await page.locator('[data-tool="inspect"]').click();
+      assert.deepEqual(await shown(), { '.route-options': false, '.station-options': false, '.signal-options': false });
+      for (const [tool, expected] of [['rail', '.route-options'], ['road', '.route-options'], ['station', '.station-options'], ['signal', '.signal-options']]) {
+        await page.locator(`[data-tool="${tool}"]`).click();
+        const visible = await shown();
+        assert.ok(Object.entries(visible).every(([key, value]) => value === (key === expected)), `${tool}: ${JSON.stringify(visible)}`);
+      }
+
+      // A signal can be set up from the preview bar alone: direction cycles both -> one way -> reversed -> both.
+      const tile = await page.evaluate(() => {
+        for (let x = 3; x <= 9; x++) Object.assign(getTile(x, 4), { terrain: 'grass', build: 'rail', station: null, signal: null, town: null, industry: null, links: x === 3 ? 1 : x === 9 ? 2 : 3 });
+        mark3dDirty(); return { x: 6, y: 4 };
+      });
+      await page.evaluate(t => { scrollTo(0, 0); const w = tileToWorld3d(t.x, t.y); Object.assign(three.orbit, { targetX: w.x, targetZ: w.z, distance: 12 }); render(); }, tile);
+      const at = await page.evaluate(t => { syncOrbitCamera(); const w = tileToWorld3d(t.x, t.y), v = new THREE.Vector3(w.x, 0.04, w.z).project(three.camera), r = three.renderer.domElement.getBoundingClientRect(); return { x: r.left + (v.x + 1) / 2 * r.width, y: r.top + (1 - v.y) / 2 * r.height }; }, tile);
+      await page.touchscreen.tap(at.x, at.y);
+      await page.waitForFunction(() => construction.action === 'signal');
+      const settings = () => page.evaluate(() => ({ oneWay: construction.settings.oneWay, direction: construction.settings.direction, type: construction.settings.type }));
+      const first = await settings();
+      assert.equal(first.oneWay, false);
+      await page.locator('#previewSignalDirection').click();
+      const oneWay = await settings();
+      assert.equal(oneWay.oneWay, true);
+      await page.locator('#previewSignalDirection').click();
+      const reversed = await settings();
+      assert.ok(reversed.oneWay && reversed.direction !== oneWay.direction, 'Second press reverses the one-way direction');
+      await page.locator('#previewSignalDirection').click();
+      assert.equal((await settings()).oneWay, false, 'Third press returns to both directions');
+      await page.locator('#previewSignalDirection').click();
+      assert.equal(await page.locator('#previewSignalType').textContent(), 'Typ: Block');
+      await page.locator('#previewSignalType').click();
+      assert.equal(await page.locator('#previewSignalType').textContent(), 'Typ: PBS');
+      await page.locator('#confirmBuild').click();
+      assert.deepEqual(await page.evaluate(t => ({ ...getTile(t.x, t.y).signal }), tile), { direction: oneWay.direction, oneWay: true, type: 'path' });
+      assert.equal(await page.locator('#previewSignalDirection').isHidden(), true, 'Signal buttons leave with the preview');
+      await page.locator('[data-tool="inspect"]').click();
+
       assert.deepEqual(await overflow(), { inner: viewport.width, scroll: viewport.width });
       assert.deepEqual(errors, []);
       await page.close();
@@ -74,5 +113,5 @@ const { pathToFileURL } = require('node:url');
   } finally {
     await browser.close();
   }
-  console.log('Phone layout passed: portrait 390/320 and landscape 844x390/667x375, no overflow, tools on screen, map stays put, build preview reachable, map uncovered after tool choice and coordinate jump.');
+  console.log('Phone layout passed: portrait 390/320 and landscape 844x390/667x375, no overflow, tools on screen, map stays put, build preview reachable, map uncovered after tool choice and coordinate jump, options per tool, signal set up from the preview bar.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

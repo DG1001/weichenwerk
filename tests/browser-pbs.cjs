@@ -14,7 +14,8 @@ const { pathToFileURL } = require('node:url');
       const errors=[];page.on('pageerror',error=>errors.push(error.message));
       await page.goto(pathToFileURL(resolve('index.html')).href);
       await page.waitForFunction(()=>three.ready);
-      await page.locator('#signalType').selectOption('path');
+      // Phone layouts show signal options only with the signal tool.
+      await page.getByRole('button',{name:'Signal',exact:true}).click();await page.locator('#signalType').selectOption('path');await page.getByRole('button',{name:'Info',exact:true}).click();
       await page.evaluate(()=>{
         game.speed=0;
         for(const t of game.map.flat())Object.assign(t,{terrain:'grass',build:null,station:null,signal:null,town:null,industry:null});

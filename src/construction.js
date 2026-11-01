@@ -95,6 +95,10 @@ function updateConstructionUi() {
   const label={rail:"Schiene",road:"Strasse",station:"Station",signal:"Signal",bulldoze:"Abriss"}[construction.kind]||"Strecke";
   const summary=construction.action==="signal"?`${construction.settings.type==="path"?"Pfadsignal":"Blocksignal"} | ${construction.settings.oneWay?"Einweg":"Beide Richtungen"} | ${money(construction.cost)}`:`${construction.bridge?label+"nbruecke":label} | ${construction.path.length} Felder | ${money(construction.cost)}`;
   document.getElementById("buildSummary").textContent=construction.error||summary;
+  const signal=construction.action==="signal";
+  document.getElementById("previewSignalDirection").hidden=!signal;
+  document.getElementById("previewSignalType").hidden=!signal;
+  if(signal)document.getElementById("previewSignalType").textContent=construction.settings.type==="path"?"Typ: PBS":"Typ: Block";
   document.getElementById("confirmBuild").textContent=construction.kind==="bulldoze"?"Abreissen":"Bauen";
   document.getElementById("confirmBuild").disabled=!construction.frozen||Boolean(construction.error)||!construction.path.length;
 }
@@ -203,6 +207,17 @@ function initConstruction() {
   document.getElementById("flipSignal").addEventListener("click",()=>{
     if(document.getElementById("signalBothDirections").checked)return;
     signalPlacement.reversed=!signalPlacement.reversed;refreshSignalPlacement();
+  });
+  // Preview shortcuts, so a signal can be set up on a phone without opening the panel.
+  document.getElementById("previewSignalDirection").addEventListener("click",()=>{
+    const both=document.getElementById("signalBothDirections");
+    if(both.checked){both.checked=false;signalPlacement.reversed=false;}
+    else if(!signalPlacement.reversed)signalPlacement.reversed=true;
+    else {both.checked=true;signalPlacement.reversed=false;}
+    refreshSignalPlacement();
+  });
+  document.getElementById("previewSignalType").addEventListener("click",()=>{
+    const type=document.getElementById("signalType");type.value=type.value==="path"?"block":"path";refreshSignalPlacement();
   });
   document.getElementById("signalBothDirections").addEventListener("change",refreshSignalPlacement);
   document.getElementById("signalType").addEventListener("change",refreshSignalPlacement);
