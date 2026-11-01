@@ -2,6 +2,10 @@
 
 Spielregeln und Bedienung aus Sicht der Spielenden: was das Spiel kann, wie es sich verhaelt, Kosten und Grenzen. Technische Umsetzung: [technisch.md](technisch.md). Aenderungsverlauf: [devlog.md](devlog.md).
 
+## Hilfe
+
+Der Knopf **?** oben rechts oeffnet die Spielhilfe `help.html` in einem neuen Tab: erste Schritte, Bedienung (Handy/PC), Strecken und Verbindungen, Bruecken, Signale, Block- oder Pfadsignal, Ausweichgleise, Fahrzeuge und Staedte, jeweils mit Schemabildern. Bei den Optionen von Schiene/Strasse und Signal fuehren kurze Links direkt zum passenden Abschnitt. Die Hilfe funktioniert offline.
+
 ## Bedienung
 
 Fahrzeug auswaehlen und im Fahrzeugbereich **Fuehrerhaus** anklicken. Die Kamera sitzt auf Augenhoehe der Lok bzw. des Lkw und folgt Kurven, Bruecken und dem Wenden. Linke/rechte Maustaste gedrueckt halten oder auf dem Touchscreen ziehen, um sich umzusehen; das Zielsymbol richtet den Blick wieder geradeaus. Tempo, Fahrziel und Haltstatus stehen am unteren Bildrand. Das Ausstiegssymbol, Escape oder ein erneuter Klick auf **Fuehrerhaus** stellt die unveraenderte Kartenkamera wieder her. Ein anderes Fahrzeug aus der Liste wechselt die Mitfahrt; Bergen beendet sie. Im Depot ist die Ansicht gesperrt. Karten-Baugesten sind waehrend der Mitfahrt deaktiviert. Speichern behaelt die normale Kartenkamera; die Mitfahrt wird nicht mitgespeichert.

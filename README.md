@@ -24,6 +24,7 @@ Das Spiel besitzt ausschliesslich eine 3D-Ansicht. Three.js, Modelle und Bibliot
 
 ## Dokumentation
 
+- [help.html](help.html): Spielhilfe mit Bildern (erste Schritte, Bedienung, Bruecken, Block- und Pfadsignale, Ausweichgleise), im Spiel ueber **?** oben rechts
 - [fachlich.md](fachlich.md): Spielregeln, Bedienung, Kosten und Grenzen aus Spielersicht
 - [technisch.md](technisch.md): Aufbau des Codes, Abhaengigkeiten, Spielstaende, Tests und Testumgebung
 - [devlog.md](devlog.md): Entwicklungsverlauf, neueste Eintraege zuerst

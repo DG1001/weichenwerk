@@ -2,6 +2,15 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-01 - Spielhilfe mit Bildern
+
+- Wunsch: eine Anleitung mit Bildern, z. B. Block- vs. Pfadsignal, Ausweichgleise, Bruecken. Das geplante Ausweichgleis-Werkzeug ist dafuer zurueckgestellt.
+- Neu: `help.html`, offline, mit Inline-SVG-Schemata: erste Schritte, Bedienung (Handy/PC), Strecken und gewollte Verbindungen, Bruecken, Signale (Bloecke, Einweg/Beide), Block- vs. Pfadsignal mit Vergleich, Ausweichgleis in drei Schritten mit typischen Fehlern, Fahrzeuge/Probleme, Staedte. Im Spiel ueber **?** oben rechts und Links bei den Werkzeugoptionen.
+- Ausweichgleise lassen sich bereits ohne eigenes Werkzeug bauen: Mit "Hindernisse umfahren" von einem Gleisfeld zu einem anderen auf derselben Strecke ziehen; die Wegsuche fuehrt um die Strecke herum. Dazu vier Einwegsignale (Strecke eine Richtung, Ausweichgleis die andere, je ein Feld hinter den Weichen).
+- Abgesichert mit `tests/passing-loop.cjs`: zwei Zuege, je ca. 59 Wendungen, kein Stillstand. Gegenproben: ohne Signale startet der zweite Zug gar nicht; mit nur einem Signal je Gleis blockieren sich beide dauerhaft. Faustregel "Wagenzahl plus 4 Felder Abstand" mit 1, 4 und 8 Wagen geprueft (funktioniert auch kuerzer).
+- Beim Pruefen der Texte gefunden: Darlehen kosten 0,4 % Zinsen pro Monat; die Hilfe sagt das korrekt.
+- Testergebnisse: siehe Commit-Verlauf und naechsten Eintrag.
+
 ## 2026-11-01 - Optionen je Werkzeug, Signale aus der Bauvorschau
 
 - Handy-Layout: Im Panel stehen nur noch die Optionen des aktiven Werkzeugs (Streckenplanung bei Schiene/Strasse, Stationstyp bei Station, Signaloptionen bei Signal). Desktop unveraendert.
@@ -59,7 +68,7 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 
 ## Offene Punkte
 
-- Neigen der Kamera per Touch-Geste.
-- Werkzeug fuer Ausweichgleise (paralleles Gleis mit Weichen und Signalen als Vorschlag).
+- Werkzeug fuer Ausweichgleise (zurueckgestellt; Bau von Hand ist in der Hilfe beschrieben und getestet). Entwurf: Modus "Ausweichgleis" in der Streckenplanung, plant Gleis, Weichen und vier Einwegsignale atomar.
+- Neigen per Geste: bewusst nicht geplant (Wunsch, funktioniert ohne gut).
 - PWA (Manifest, Service Worker) fuer Homescreen und Offline-Start.
 - Leistung auf Mittelklasse-Handys pruefen (Pixeldichte, Detailstufen, 30-fps-Modus).

@@ -13,6 +13,7 @@ Libre Transport Tycoon: a self-contained, OpenTTD-inspired transport tycoon game
   - `fachlich.md`: game rules and controls from the player's point of view (costs, speeds, limits, gestures). This is the feature spec.
   - `technisch.md`: architecture, implementation details, save compatibility, dependencies, the test list and the test environment. Add each new test to its "Testliste".
   - `devlog.md`: dated entries, newest first. Record what changed and why, test results, and open points.
+  - `help.html`: the in-game player guide with SVG diagrams. Update it whenever rules or controls change. Its passing-loop recipe is verified by `tests/passing-loop.cjs`.
   - `README.md`: short entry point with start, feature overview and links. Update it when the overview or the controls change.
 - `OPENTTD-AUDIT.md` tracks the differences from OpenTTD.
 

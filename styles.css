@@ -493,6 +493,8 @@ button:focus-visible, select:focus-visible { outline: 2px solid #3574a8; outline
 }
 
 [hidden] { display: none !important; }
+.help-link { display: grid; place-items: center; align-self: center; flex: 0 0 34px; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--accent); font-weight: 800; font-size: 17px; text-decoration: none; }
+.help-inline { display: inline-block; margin-top: 6px; font-size: 12px; color: var(--accent); }
 #worldSettings { grid-column: 1 / -1; }
 .town-panel { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 16px; }
 .inspector:has(#townPanel:not([hidden])) .vehicle-shop { display: none; }
