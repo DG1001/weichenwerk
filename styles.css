@@ -693,10 +693,10 @@ dialog::backdrop { background: #172d3866; }
   .tools > .finance-actions, .tools > .save-actions { order: 5; }
   .inspector > .log { padding-bottom: 24px; }
   .inspector > #selectionText { margin: 0; padding-top: 10px; }
-  /* Only the options of the current tool (body[data-tool] is kept in sync by updateUi). */
-  body:not([data-tool="rail"]):not([data-tool="road"]) .route-options,
-  body:not([data-tool="station"]) .station-options,
-  body:not([data-tool="signal"]) .signal-options { display: none; }
+  /* Only the options of the current tool (body[data-active-tool] is kept in sync by updateUi). */
+  body:not([data-active-tool="rail"]):not([data-active-tool="road"]) .route-options,
+  body:not([data-active-tool="station"]) .station-options,
+  body:not([data-active-tool="signal"]) .signal-options { display: none; }
 
   .tools > .tool-grid {
     margin-top: calc(-1 * var(--dock)); height: 78px; padding: 16px 8px 6px;

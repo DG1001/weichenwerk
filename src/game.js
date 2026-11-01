@@ -1468,7 +1468,7 @@ function maintenanceForTile(tile) {
 }
 
 function updateUi() {
-  if(document.body?.dataset&&document.body.dataset.tool!==game.tool)document.body.dataset.tool=game.tool;
+  if(document.body?.dataset&&document.body.dataset.activeTool!==game.tool)document.body.dataset.activeTool=game.tool;
   refreshCabControls();
   if (typeof refreshManagement === "function") refreshManagement();
   document.querySelector("#trafficStatus").textContent = `${game.map.flat().filter((tile) => tile.signal).length} Signale | ${new Set(railBlocks().values()).size} Bloecke | ${game.vehicles.filter((v) => v.pathReservation).length} Fahrwege`;
