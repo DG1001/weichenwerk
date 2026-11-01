@@ -52,7 +52,7 @@ const { pathToFileURL } = require('node:url');
       await page.locator('#cancelBuild').click();
 
       // Picking a tool uncovers the map again in portrait.
-      await page.locator('#routeMode').scrollIntoViewIfNeeded();
+      await page.locator('#saveGame').scrollIntoViewIfNeeded();
       await page.locator('[data-tool="rail"]').click();
       const scrollY = await page.evaluate(() => scrollY);
       if (!landscape) assert.equal(scrollY, 0, 'Tool choice must scroll the panel back down');
