@@ -9,7 +9,9 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 - Folgen des Hochformat-Layouts aus den Browser-Tests: Nach Klicks im hochgeschobenen Panel blieb die Karte verdeckt (bridges, cab, signal-controls, towns). `revealMap()` schiebt bei Werkzeugwahl, Fuehrerhaus, Koordinatensprung und Stadtfokus zurueck. Die Bauvorschau liegt jetzt fest ueber dem Panel, damit **Bauen** auch nach Aenderungen an Signaloptionen erreichbar ist.
 - Hochformat-Karte ist hoeher (844 statt ca. 520 px), bei festem vertikalem Sichtfeld also seitlich schmaler. `browser-bridges` nutzt deshalb auf schmalen Bildschirmen mehr Kameraabstand.
 - Ueberlauf behoben: Der laengere Knopftext liess die vierspaltigen Spielstand-Knoepfe ueberlaufen; im Querformat-Panel jetzt zweispaltig.
-- Neuer Test `tests/browser-layout.cjs` fuer Hoch- und Querformat. Ergebnisse: siehe folgende Eintraege.
+- Neuer Test `tests/browser-layout.cjs` fuer Hoch- und Querformat.
+- Erster Lauf deckte auf: Die Bauvorschau lag trotz `z-index` unter dem Panel, weil die sticky Karte immer einen eigenen Stapelkontext bildet. Die Vorschau steht jetzt im HTML ausserhalb der Karte und ist ueberall `position: fixed` (Desktop an derselben Stelle wie vorher).
+- Ergebnis danach: layout, signal-controls, bridges, startup, touch, cab bestehen; alle Tests ohne Browser bestehen. Vorher schon nach dem Hochformat-Umbau bestanden: assets, browser, curves, depot-returns, pbs, physics, railway, towns. Nicht aussagekraeftig hier (Software-WebGL, grosse Karten): construction, coordinates, landscape.
 
 ## 2026-11-01 - Handy-Layout: Karte im Vollbild mit Bottom-Sheet
 
