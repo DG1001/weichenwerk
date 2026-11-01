@@ -145,7 +145,7 @@ const projectInPage = (p) => { syncOrbitCamera(); const v = new THREE.Vector3(p.
       assert.ok(loupe && loupe.width >= 96, 'Magnifier must show while drawing');
       assert.ok(loupe.y + loupe.height <= end.y - 40 || loupe.x >= end.x + 40 || loupe.x + loupe.width <= end.x - 40, 'Magnifier must not sit under the finger');
       assert.ok(loupe.x >= box.x && loupe.x + loupe.width <= box.x + box.width && loupe.y >= box.y, 'Magnifier must stay inside the map');
-      for (const overlay of ['.camera-tools', '#mapCoordinates']) {
+      for (const overlay of ['.camera-tools']) {
         const r = await page.locator(overlay).boundingBox();
         assert.ok(!r || loupe.y >= r.y + r.height || loupe.x >= r.x + r.width || loupe.x + loupe.width <= r.x, `Magnifier must not be covered by ${overlay}`);
       }

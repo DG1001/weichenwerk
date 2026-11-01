@@ -31,7 +31,7 @@ const {pathToFileURL}=require('node:url');
   await page.waitForFunction(()=>document.querySelector('#rendererMessage').textContent.includes('WebGL'));
   assert.ok(await page.locator('#rendererStatus').isVisible());assert.ok(await page.locator('#retryRenderer').isVisible());
   assert.ok(await page.locator('.camera-tools').isHidden());
-  assert.ok(await page.locator('#mapCoordinates').isHidden());
+  assert.equal(await page.locator('#mapCoordinates').count(),0,'Coordinate box was removed from the map');
   assert.equal(await page.locator('#gameCanvas, #threeViewport canvas').count(),0);
   const day=await page.evaluate(()=>game.dayProgress);await page.waitForTimeout(300);assert.equal(await page.evaluate(()=>game.dayProgress),day,'Invisible simulation kept advancing');
   await page.locator('#rendererStatus').scrollIntoViewIfNeeded();await page.screenshot({path:'artifacts/3d-unavailable-390.png',fullPage:true});

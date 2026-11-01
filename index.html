@@ -103,6 +103,7 @@
             <button id="importGame">Importieren</button>
             <button id="worldSettings">Neue Welt / Kartengroesse</button>
             <button id="townListButton">Staedte</button>
+            <button id="openCoordinates" type="button" title="Zu Koordinaten springen">Zu Koordinaten</button>
             <input id="importFile" type="file" accept=".json,application/json" hidden>
             <output id="saveStatus" aria-live="polite">Noch kein Spielstand</output>
           </div>
@@ -119,10 +120,6 @@
             <button id="zoomOut" title="Verkleinern" aria-label="Verkleinern">-</button>
             <button id="fitCamera" title="Gesamte Karte" aria-label="Gesamte Karte">&#x26F6;</button>
             <button id="toggleBlocks" title="Signalbloecke" aria-label="Signalbloecke" aria-pressed="false">#</button>
-          </div>
-          <div id="mapCoordinates" class="map-coordinates" role="group" aria-label="Feldkoordinaten" hidden>
-            <output id="coordinateReadout" aria-label="Letztes Kartenfeld">X: -  Y: -</output>
-            <button id="openCoordinates" type="button" title="Zu Koordinaten springen" aria-label="Zu Koordinaten springen"><img src="src/assets/icons/locate-fixed.svg" width="20" height="20" alt=""></button>
           </div>
           <div id="cabView" class="cab-view" aria-label="Fuehrerhaus" hidden>
             <div class="cab-header"><strong id="cabVehicleName"></strong><button id="exitCab" type="button" title="Fuehrerhaus verlassen (Escape)" aria-label="Fuehrerhaus verlassen"><img src="src/assets/icons/log-out.svg" width="20" height="20" alt=""></button></div>

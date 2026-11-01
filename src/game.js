@@ -28,8 +28,6 @@ const ui = {
   rendererStatus: document.querySelector("#rendererStatus"),
   rendererMessage: document.querySelector("#rendererMessage"),
   cameraTools: document.querySelector(".camera-tools"),
-  coordinateTools: document.querySelector("#mapCoordinates"),
-  coordinateReadout: document.querySelector("#coordinateReadout"),
   buildLoupe: document.querySelector("#buildLoupe"),
   retryRenderer: document.querySelector("#retryRenderer")
 };
@@ -821,7 +819,6 @@ function sampleRoute(path, distance) {
 }
 
 function render() {
-  updateCoordinateReadout();
   render3d();
 }
 
@@ -837,7 +834,6 @@ function loadThree() {
     init3d();
     ui.rendererStatus.hidden = true;
     ui.cameraTools.hidden = false;
-    ui.coordinateTools.hidden = false;
   } catch (error) {
     three.ready = false;
     three.renderer?.dispose();
@@ -847,7 +843,6 @@ function loadThree() {
       : "Die 3D-Bibliothek fehlt. Bitte die Projektdateien vollstaendig bereitstellen.";
     ui.rendererStatus.hidden = false;
     ui.cameraTools.hidden = true;
-    ui.coordinateTools.hidden = true;
     ui.retryRenderer.hidden = false;
   }
 }
@@ -1282,7 +1277,7 @@ function enterCabView(vehicle=game.selected?.vehicle) {
   three.camera.fov=72;three.camera.near=0.02;three.camera.updateProjectionMatrix();
   three.scene.background=new THREE.Color(0xbad9e8);
   document.getElementById("cabView").hidden=false;
-  mapWrap.classList.add("cab-active");ui.cameraTools.hidden=true;ui.coordinateTools.hidden=true;
+  mapWrap.classList.add("cab-active");ui.cameraTools.hidden=true;
   refreshCabControls();updateCabCamera(vehicle);
   return true;
 }
@@ -1296,7 +1291,7 @@ function exitCabView() {
   if(three.scene)three.scene.background=cab.background;
   Object.assign(cab,{vehicle:null,yaw:0,pitch:0,dragging:false,projection:null,background:null});
   document.getElementById("cabView").hidden=true;
-  mapWrap.classList.remove("cab-active");ui.cameraTools.hidden=!three.ready;ui.coordinateTools.hidden=!three.ready;
+  mapWrap.classList.remove("cab-active");ui.cameraTools.hidden=!three.ready;
   refreshCabControls();
 }
 
@@ -1520,11 +1515,6 @@ function displayedCoordinates() {
   return game.hover||mapCoordinates.last||game.selected?.tile||game.selected?.station||game.selected?.town||null;
 }
 
-function updateCoordinateReadout() {
-  const p=displayedCoordinates(),text=p?`X: ${p.x}  Y: ${p.y}`:"X: -  Y: -";
-  if(ui.coordinateReadout.textContent!==text)ui.coordinateReadout.textContent=text;
-}
-
 function focusMapCoordinates(x,y) {
   if(!three.ready||!Number.isInteger(x)||!Number.isInteger(y)||x<0||y<0||x>=config.width||y>=config.height)return false;
   const tile=getTile(x,y);if(!tile)return false;
@@ -1532,7 +1522,7 @@ function focusMapCoordinates(x,y) {
   cancelConstruction();game.hover=null;mapCoordinates.last={x,y};mapCoordinates.target={x,y};
   const world=tileToWorld3d(x,y);three.inertia=null;three.orbit.targetX=world.x;three.orbit.targetZ=world.z;
   three.orbit.distance=clamp(three.orbit.distance,8,18);
-  selectTile(tile);updateCoordinateReadout();return true;
+  selectTile(tile);return true;
 }
 
 function openCoordinateDialog() {
@@ -1582,9 +1572,10 @@ function vehicleAt(x, y) {
   });
 }
 
-// On the narrow layout the map is sticky under a scrolling bottom sheet: scroll the sheet back down to uncover it.
+// On the narrow portrait layout the map is sticky under a scrolling bottom sheet: scroll the sheet back down to uncover it.
 function revealMap() {
-  if(window.matchMedia?.("(max-width: 980px)").matches)window.scrollTo(0,0);
+  if(getComputedStyle(mapWrap).position==="sticky")window.scrollTo(0,0);
+  else if(getComputedStyle(mapWrap).position==="fixed")return;
   else three.renderer?.domElement.scrollIntoView({block:"nearest"});
 }
 
@@ -1699,9 +1690,8 @@ function renderBuildLoupe() {
   if(!show)return;
   const width=threeViewport.clientWidth,height=threeViewport.clientHeight,rect=three.renderer.domElement.getBoundingClientRect();
   const size=Math.round(clamp(Math.min(width,height)*0.34,96,150)),gap=56,x=draw.clientX-rect.left,y=draw.clientY-rect.top;
-  // Stay below the HTML overlays (camera buttons, coordinates) that sit on top of the canvas.
-  let minTop=8;
-  for(const overlay of [ui.cameraTools,ui.coordinateTools])if(!overlay.hidden)minTop=Math.max(minTop,overlay.getBoundingClientRect().bottom-rect.top+8);
+  // Stay below the camera buttons, an HTML overlay on top of the canvas.
+  const minTop=ui.cameraTools.hidden?8:Math.max(8,ui.cameraTools.getBoundingClientRect().bottom-rect.top+8);
   let left=x-size/2,top=y-gap-size;
   if(top<minTop){top=y-size/2;left=x+gap+size<=width-8?x+gap:x-gap-size;}
   left=Math.round(clamp(left,8,Math.max(8,width-size-8)));top=Math.round(clamp(top,minTop,Math.max(minTop,height-size-8)));

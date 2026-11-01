@@ -15,7 +15,7 @@ function pixels(buffer){const p=PNG.sync.read(buffer),s=new Set();for(let i=0;i<
     game.speed=0;game.towns=[];game.industries=[];game.stations=[];game.vehicles=[];game.landscape=null;
     for(const t of game.map.flat()){Object.assign(t,{terrain:'grass',build:null,station:null,signal:null,town:null,industry:null});delete t.links;delete t.bridge;}
     for(const row of game.map)for(let x=12;x<=16;x++)row[x].terrain='water';
-    const w=tileToWorld3d(14,12);Object.assign(three.orbit,{targetX:w.x,targetZ:w.z,distance:24});mark3dDirty();render();
+    const w=tileToWorld3d(14,12);Object.assign(three.orbit,{targetX:w.x,targetZ:w.z,distance:innerWidth<600?36:24}); // the tall portrait map shows less sidewaysmark3dDirty();render();
    });
    const canvas=page.locator('#threeViewport canvas');
    const screen=async(x,y,height=0.04)=>page.evaluate(([x,y,h])=>{update3dCamera();const w=tileToWorld3d(x,y),p=new THREE.Vector3(w.x,h,w.z).project(three.camera),r=three.renderer.domElement.getBoundingClientRect();return {x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};},[x,y,height]);

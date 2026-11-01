@@ -50,6 +50,9 @@ Bis 980 px Breite (`styles.css`, letzter Block) gilt ein Handy-Layout ohne JavaS
 - `.map-wrap` ist `position: sticky` mit `100dvh` Hoehe und bleibt beim Scrollen stehen.
 - `.tools` und `.inspector` haben `display: contents`; ihre Kinder werden direkt Elemente der Flex-Spalte `.workspace` und per `order` sortiert: Werkzeugleiste, Auswahl-Kopf, Werkzeugoptionen und Tempo, Inspektor-Inhalt, Finanzen und Spielstand.
 - Die Werkzeugleiste zieht sich mit negativem Rand (`--dock`, 118 px) ueber den unteren Kartenrand. Das Panel ist damit ein Bottom-Sheet mit nativem Seiten-Scrollen; alle Elemente bleiben im Dokumentfluss sichtbar und anklickbar (wichtig fuer die Browser-Tests).
+- `revealMap()` (`game.js`) schiebt das Panel per `scrollTo(0,0)` zurueck, wenn danach die Karte gebraucht wird: Werkzeugwahl, Fuehrerhaus, Koordinatensprung, Stadtfokus (`towns.js`). Auf breiten Bildschirmen scrollt es wie bisher nur die Karte ins Bild. Signaloptionen schieben bewusst nicht zurueck, damit man mehrfach umschalten kann.
+- Hochformat: Die Kamera hat ein festes vertikales Sichtfeld von 45 Grad. Auf hohen, schmalen Karten ist der seitliche Ausschnitt daher kleiner; Tests mit festem Zoom brauchen dort mehr Abstand.
+- In Browser-Tests verdeckt das hochgeschobene Panel nach Klicks auf Panel-Elemente die Karte. `canvas.scrollIntoViewIfNeeded()` hilft bei der sticky Karte nicht; Tests schieben dann mit `scrollTo(0,0)` zurueck.
 - Ueberlagerungen auf der Karte (Kamera-Knoepfe, Koordinaten, Bauvorschau, Meldungen, Fuehrerhaus) sind um `--bar` bzw. `--dock` versetzt.
 
 ## 3D-Modelle

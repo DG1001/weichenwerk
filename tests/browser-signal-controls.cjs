@@ -24,7 +24,8 @@ function arrowPixels(buffer){const p=PNG.sync.read(buffer);let count=0;for(let i
    await page.getByRole('button',{name:'Signal',exact:true}).click();await page.locator('#signalType').selectOption('path');
    const canvas=page.locator('#threeViewport canvas');
    const point=async(x,y)=>{
-    await canvas.scrollIntoViewIfNeeded();
+    await canvas.scrollIntoViewIfNeeded();await page.evaluate(()=>scrollTo(0,0)); // narrow layout: swipe the bottom sheet back down
+
     return page.evaluate(([x,y])=>{const w=tileToWorld3d(x,y);Object.assign(three.orbit,{targetX:w.x,targetZ:w.z,distance:10});render();const p=new THREE.Vector3(w.x,0.04,w.z).project(three.camera),r=three.renderer.domElement.getBoundingClientRect();return{x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};},[x,y]);
    };
    const preview=()=>page.evaluate(()=>{const a=construction.overlay?.children.find(o=>o.userData.signalArrow);return a?{...a.userData,children:a.children.length,yaw:a.rotation.y}:null;});

@@ -474,9 +474,6 @@ h1 {
   cursor: pointer;
 }
 
-.map-coordinates { position: absolute; top: 58px; left: 12px; max-width: calc(100% - 24px); display: flex; align-items: center; gap: 8px; padding: 4px 4px 4px 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
-#coordinateReadout { display: block; width: 124px; font-size: 13px; font-variant-numeric: tabular-nums; white-space: pre; }
-#openCoordinates { display: grid; place-items: center; width: 36px; height: 32px; padding: 0; border: 0; border-left: 1px solid var(--line); background: transparent; cursor: pointer; }
 .coordinate-form { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px 12px; min-width: 0; }
 .coordinate-form .dialog-head, #jumpCoordinates { grid-column: 1 / -1; }
 .coordinate-form h2 { margin: 0; font-size: 18px; }
@@ -497,7 +494,6 @@ button:focus-visible, select:focus-visible { outline: 2px solid #3574a8; outline
 
 [hidden] { display: none !important; }
 #worldSettings { grid-column: 1 / -1; }
-#townListButton { grid-column: 1 / -1; }
 .town-panel { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 16px; }
 .inspector:has(#townPanel:not([hidden])) .vehicle-shop { display: none; }
 .town-panel h3 { font-size: 14px; margin-bottom: 10px; }
@@ -630,7 +626,8 @@ dialog::backdrop { background: #172d3866; }
   }
 
   .tools .tool-grid { grid-column: 1 / -1; }
-  .tools .save-actions { grid-column: 1 / -1; margin-top: 0; grid-template-columns: repeat(4, 1fr); }
+  .tools .save-actions { grid-column: 1 / -1; margin-top: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tools .save-actions #townListButton, .tools .save-actions #openCoordinates { grid-column: span 2; }
   .tools .field, .tools .segmented, .tools .finance-actions { margin-top: 0; }
 
   .tool-grid {
@@ -685,7 +682,7 @@ dialog::backdrop { background: #172d3866; }
 
   .workspace { display: flex; flex-direction: column; }
   .tools, .inspector { display: contents; }
-  .map-wrap { position: sticky; top: 0; height: 100dvh; z-index: 0; }
+  .map-wrap { position: sticky; top: 0; height: 100dvh; }
   .tools > *, .inspector > * {
     order: 4; position: relative; z-index: 1; margin: 0;
     padding: 8px 12px; background: var(--panel);
@@ -715,8 +712,8 @@ dialog::backdrop { background: #172d3866; }
   .inspector h2 { font-size: 16px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; overflow-wrap: normal; }
 
   .camera-tools { top: calc(var(--bar) + 10px); }
-  .map-coordinates { top: calc(var(--bar) + 56px); }
-  .build-preview { bottom: calc(var(--dock) + 8px); }
+  /* Fixed above the sheet, so Bauen/Abbrechen stay reachable while options in the sheet are changed. */
+  .build-preview { position: fixed; z-index: 15; bottom: calc(var(--dock) + 8px); }
   .toast { bottom: calc(var(--dock) + 12px); }
   .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: calc(var(--dock) + 90px); }
   .cab-view { top: var(--bar); bottom: var(--dock); }
@@ -725,4 +722,31 @@ dialog::backdrop { background: #172d3866; }
 
 @media (max-width: 620px) {
   .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: calc(var(--dock) + 128px); }
+}
+
+/* Phone in landscape: the map is fixed on the left, and the sheet becomes a right-hand column
+   that scrolls with the page, with the tools pinned at its top. */
+@media (max-width: 980px) and (orientation: landscape) and (max-height: 600px) {
+  :root { --bar: 40px; --dock: 0px; --side: min(300px, 42vw); }
+  .brand p { font-size: 12px; }
+  .ledger strong { font-size: 12px; }
+  .workspace { padding-top: var(--bar); min-height: 100dvh; }
+  .map-wrap { position: fixed; top: var(--bar); left: 0; right: var(--side); bottom: 0; height: auto; }
+  .tools > *, .inspector > * { width: var(--side); margin-left: auto; }
+  .tools > .tool-grid {
+    position: sticky; top: var(--bar); z-index: 2; margin-top: 0; height: auto; padding: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 0; box-shadow: none;
+    border-bottom: 1px solid var(--line); border-left: 1px solid var(--line);
+  }
+  .tools > .tool-grid::before { display: none; }
+  .tool-grid .tool { height: 44px; grid-template-columns: 22px minmax(0, 1fr); justify-items: start; padding: 4px 6px; font-size: 12px; }
+  .tools > *:not(.tool-grid), .inspector > * { border-left: 1px solid var(--line); }
+  .inspector > #selectionText { margin-left: auto; }
+  .tools .save-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .camera-tools { top: 10px; }
+  .build-preview { left: 12px; right: calc(var(--side) + 12px); bottom: 12px; }
+  .toast { bottom: 12px; }
+  .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: 90px; }
+  .cab-view { top: 0; bottom: 0; }
+  .map-wrap.cab-active .toast { bottom: 100px; }
 }
