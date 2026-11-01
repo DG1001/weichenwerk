@@ -1,0 +1,456 @@
+{
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "models": [
+    {
+      "id": "house-cottage",
+      "pack": "houses",
+      "source": "building-type-a.obj",
+      "category": "house",
+      "variation": "c",
+      "sha256": "7027f546fbe1568c014c97d52d8ce49f41e34b5120fde12ddc4843a6be531c0d",
+      "bounds": [
+        1,
+        0.641185,
+        0.790875
+      ],
+      "vertices": 1218,
+      "triangles": 2348
+    },
+    {
+      "id": "house-brick",
+      "pack": "houses",
+      "source": "building-type-d.obj",
+      "category": "house",
+      "variation": "b",
+      "sha256": "c9c1531d2974dabe30eabd970e84c21f64a85a00a523a67fb6693850def51d04",
+      "bounds": [
+        1,
+        0.704574,
+        0.585295
+      ],
+      "vertices": 1846,
+      "triangles": 3514
+    },
+    {
+      "id": "house-gable",
+      "pack": "houses",
+      "source": "building-type-c.obj",
+      "category": "house",
+      "variation": "original",
+      "sha256": "46c78a022bb43f44e60e950c32f6267d87a26dbe616d00505e8e2615f7d599a0",
+      "bounds": [
+        1,
+        0.803449,
+        0.799249
+      ],
+      "vertices": 1278,
+      "triangles": 2392
+    },
+    {
+      "id": "house-duplex",
+      "pack": "houses",
+      "source": "building-type-f.obj",
+      "category": "house",
+      "variation": "c",
+      "sha256": "5ed4491433fd2e53865714caf8a328d3ea191fa6847e1527c4bcfb59d01eb512",
+      "bounds": [
+        1,
+        0.796569,
+        0.984518
+      ],
+      "vertices": 1753,
+      "triangles": 3232
+    },
+    {
+      "id": "house-villa",
+      "pack": "houses",
+      "source": "building-type-g.obj",
+      "category": "house",
+      "variation": "a",
+      "sha256": "c8cc99487e7cbaa02deacd59865a77551726922bd5754e8ca30e867c1f1918bd",
+      "bounds": [
+        1,
+        0.5298,
+        0.812414
+      ],
+      "vertices": 1056,
+      "triangles": 2134
+    },
+    {
+      "id": "house-town",
+      "pack": "houses",
+      "source": "building-type-l.obj",
+      "category": "house",
+      "variation": "b",
+      "sha256": "aad3c30e32ed1fab5b44d60c5510b1e55ef9fa89962ec148aee0fc4361fa4de5",
+      "bounds": [
+        0.985127,
+        1,
+        0.972176
+      ],
+      "vertices": 1340,
+      "triangles": 2620
+    },
+    {
+      "id": "oak",
+      "pack": "nature",
+      "source": "tree_oak.obj",
+      "category": "tree",
+      "variation": "original",
+      "sha256": "1a1dba69f49a454492db2413110e0867dc6dc3d5fe412d2499047625c93a3c06",
+      "bounds": [
+        0.522372,
+        1,
+        0.603184
+      ],
+      "vertices": 324,
+      "triangles": 196
+    },
+    {
+      "id": "broadleaf",
+      "pack": "nature",
+      "source": "tree_default.obj",
+      "category": "tree",
+      "variation": "original",
+      "sha256": "91930782c592eb66031cca39704370f833e08f4c062b2a50a901e06ad9498e9a",
+      "bounds": [
+        0.442067,
+        1,
+        0.382841
+      ],
+      "vertices": 192,
+      "triangles": 114
+    },
+    {
+      "id": "pine",
+      "pack": "nature",
+      "source": "tree_pineRoundA.obj",
+      "category": "tree",
+      "variation": "original",
+      "sha256": "00b0a07da08894872f18530086ad582cd9cf93a3da88d9f112e1b022f3ea082a",
+      "bounds": [
+        0.451553,
+        1,
+        0.521409
+      ],
+      "vertices": 316,
+      "triangles": 204
+    },
+    {
+      "id": "spruce",
+      "pack": "nature",
+      "source": "tree_pineDefaultA.obj",
+      "category": "tree",
+      "variation": "original",
+      "sha256": "42a96a38bde77458cedf73345bf83b9954b30164be76fe5f8839c7fed914fbc4",
+      "bounds": [
+        0.344124,
+        1,
+        0.344124
+      ],
+      "vertices": 328,
+      "triangles": 230
+    },
+    {
+      "id": "bush",
+      "pack": "nature",
+      "source": "plant_bush.obj",
+      "category": "prop",
+      "variation": "original",
+      "sha256": "23e2015330dc397c4ebf799902560e7bb10016482f0d73cbd29d9d4d4b160f1b",
+      "bounds": [
+        1,
+        0.617282,
+        1
+      ],
+      "vertices": 80,
+      "triangles": 32
+    },
+    {
+      "id": "rock",
+      "pack": "nature",
+      "source": "rock_largeA.obj",
+      "category": "prop",
+      "variation": "original",
+      "sha256": "60e4896f0bb0077ce820aa842e48a4f50d089a0d39e38d56cbf1bd7286882136",
+      "bounds": [
+        0.772956,
+        0.255821,
+        1
+      ],
+      "vertices": 142,
+      "triangles": 80
+    },
+    {
+      "id": "wheat",
+      "pack": "nature",
+      "source": "crops_wheatStageB.obj",
+      "category": "crop",
+      "variation": "original",
+      "sha256": "802f7f5f3d81a6ae0a2d263fb69eb036c77f57b7b687f8008d9e9922e71f35b6",
+      "bounds": [
+        1,
+        0.991342,
+        0.827822
+      ],
+      "vertices": 720,
+      "triangles": 360
+    },
+    {
+      "id": "factory",
+      "pack": "industry",
+      "source": "building-c.obj",
+      "category": "industry",
+      "variation": "original",
+      "sha256": "9f5d1490becbfb66c420376a893422745be669be1b5102872d0d02cc8882b745",
+      "bounds": [
+        0.889903,
+        0.592973,
+        1
+      ],
+      "vertices": 2107,
+      "triangles": 3856
+    },
+    {
+      "id": "warehouse",
+      "pack": "industry",
+      "source": "building-f.obj",
+      "category": "industry",
+      "variation": "original",
+      "sha256": "773187d9fcaaa7c9f4db3e6d9a644e6a7ef3c237cfc6ea654fa0a9f866fa623d",
+      "bounds": [
+        0.92987,
+        1,
+        0.664935
+      ],
+      "vertices": 1838,
+      "triangles": 3104
+    },
+    {
+      "id": "workshop",
+      "pack": "industry",
+      "source": "building-l.obj",
+      "category": "industry",
+      "variation": "original",
+      "sha256": "0ba4151892a012d788bfcb8e771893a247205bd36a66fa16cb5a6d56dae142af",
+      "bounds": [
+        1,
+        0.923887,
+        0.89749
+      ],
+      "vertices": 2263,
+      "triangles": 3792
+    },
+    {
+      "id": "tank",
+      "pack": "industry",
+      "source": "detail-tank-large.obj",
+      "category": "prop",
+      "variation": "original",
+      "sha256": "5dba8b10e4a0c81879820429b902e03e3aab257af86774af522465d603a9b05f",
+      "bounds": [
+        0.91507,
+        0.583352,
+        1
+      ],
+      "vertices": 352,
+      "triangles": 1132
+    },
+    {
+      "id": "chimney",
+      "pack": "industry",
+      "source": "chimney-large.obj",
+      "category": "prop",
+      "variation": "original",
+      "sha256": "5ab252c50ee4e5d8a4a849bcd3ca7c2b501f415b81d0ab1ab3612c78968f1d3b",
+      "bounds": [
+        0.635294,
+        1,
+        0.635294
+      ],
+      "vertices": 180,
+      "triangles": 436
+    },
+    {
+      "id": "water-tower",
+      "pack": "industry",
+      "source": "water-tower.obj",
+      "category": "prop",
+      "variation": "original",
+      "sha256": "1c76796b7c2c49cd4d4c0391b0ad60b7201f17bff22d74ed3b7ed8d19f9135d5",
+      "bounds": [
+        0.397922,
+        1,
+        0.388389
+      ],
+      "vertices": 712,
+      "triangles": 1936
+    },
+    {
+      "id": "locomotive",
+      "pack": "train",
+      "source": "train-locomotive-a.obj",
+      "category": "vehicle",
+      "variation": "original",
+      "sha256": "611b41c9e5c43de6e5decc3a976f664613e2ec1cda1ed016e6fba9a88b4b5239",
+      "bounds": [
+        0.549743,
+        0.638269,
+        1
+      ],
+      "vertices": 2018,
+      "triangles": 2672
+    },
+    {
+      "id": "coach",
+      "pack": "train",
+      "source": "train-locomotive-passenger-a.obj",
+      "category": "vehicle",
+      "variation": "original",
+      "sha256": "1ed38adb59d03f61a06a2c7cc50433eef629a0bd1c374ef021b4339a04101557",
+      "bounds": [
+        0.459121,
+        0.634276,
+        1
+      ],
+      "vertices": 1632,
+      "triangles": 1984
+    },
+    {
+      "id": "coal-load",
+      "pack": "train",
+      "source": "train-carriage-coal.obj",
+      "category": "load",
+      "variation": "extracted coal payload",
+      "sha256": "86daa841fb8c973cf5e1421f8c3fe568711b2b7878ac2bfaab4339d03b37f150",
+      "bounds": [
+        0.421065,
+        0.183158,
+        1
+      ],
+      "vertices": 98,
+      "triangles": 94
+    },
+    {
+      "id": "grain-load",
+      "pack": "train",
+      "source": "train-carriage-coal.obj",
+      "category": "load",
+      "variation": "extracted payload, grain recolor",
+      "sha256": "86daa841fb8c973cf5e1421f8c3fe568711b2b7878ac2bfaab4339d03b37f150",
+      "bounds": [
+        0.421065,
+        0.183158,
+        1
+      ],
+      "vertices": 98,
+      "triangles": 94
+    },
+    {
+      "id": "hopper",
+      "pack": "train",
+      "source": "train-carriage-coal.obj",
+      "category": "vehicle",
+      "variation": "original",
+      "sha256": "86daa841fb8c973cf5e1421f8c3fe568711b2b7878ac2bfaab4339d03b37f150",
+      "bounds": [
+        0.444453,
+        0.480628,
+        1
+      ],
+      "vertices": 1358,
+      "triangles": 1534
+    },
+    {
+      "id": "flatbed",
+      "pack": "train",
+      "source": "train-carriage-flatbed.obj",
+      "category": "vehicle",
+      "variation": "original",
+      "sha256": "6b4dd21692381c9cf7e9605e13b804e3cc38c13699fd4901d52facbd3b2b7f8e",
+      "bounds": [
+        0.407407,
+        0.429444,
+        1
+      ],
+      "vertices": 1364,
+      "triangles": 1508
+    },
+    {
+      "id": "boxcar",
+      "pack": "train",
+      "source": "train-carriage-box.obj",
+      "category": "vehicle",
+      "variation": "original",
+      "sha256": "89583e37ab9085fdd25c0707eafdffa35846b8d4e415fab4e1e3c56f68f16a0b",
+      "bounds": [
+        0.444453,
+        0.480628,
+        1
+      ],
+      "vertices": 1336,
+      "triangles": 1520
+    },
+    {
+      "id": "truck",
+      "pack": "cars",
+      "source": "truck-flat.obj",
+      "category": "vehicle",
+      "variation": "original",
+      "sha256": "205a8d3cabcb67243438adc59e0a81b109f987eca5f52b4fa0f60fdb9687405e",
+      "bounds": [
+        0.546425,
+        0.473569,
+        1
+      ],
+      "vertices": 2624,
+      "triangles": 2488
+    },
+    {
+      "id": "tractor",
+      "pack": "cars",
+      "source": "tractor.obj",
+      "category": "prop",
+      "variation": "original",
+      "sha256": "da4592a2413b858b98b713995f7003d8af8adfc2861fe802ceffc049498f6f40",
+      "bounds": [
+        0.609605,
+        0.727693,
+        1
+      ],
+      "vertices": 2012,
+      "triangles": 2044
+    },
+    {
+      "id": "crate",
+      "pack": "cars",
+      "source": "box.obj",
+      "category": "prop",
+      "variation": "original",
+      "sha256": "989c8adc77f16cbfb853caf6531cbdc2951a49e7a11c8a2eaeb6337d7b938402",
+      "bounds": [
+        1,
+        1,
+        1
+      ],
+      "vertices": 144,
+      "triangles": 248
+    },
+    {
+      "id": "fence",
+      "pack": "houses",
+      "source": "fence-low.obj",
+      "category": "prop",
+      "variation": "original",
+      "sha256": "81d07ea64d2d1ff835a37c04bb25da4eefd065b2af0a144a7ff3ce18a36fc7e5",
+      "bounds": [
+        1,
+        0.133333,
+        0.656863
+      ],
+      "vertices": 264,
+      "triangles": 360
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Libre Transport Tycoon</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="mark" aria-hidden="true">LT</span>
+          <div>
+            <h1>Libre Transport Tycoon</h1>
+            <p id="dateLabel">Jan 1950</p>
+          </div>
+        </div>
+        <section class="ledger" aria-label="Finanzen">
+          <div>
+            <span>Kontostand</span>
+            <strong id="cashLabel">$0</strong>
+          </div>
+          <div>
+            <span>Wert</span>
+            <strong id="valueLabel">$0</strong>
+          </div>
+          <div>
+            <span>Darlehen</span>
+            <strong id="loanLabel">$0</strong>
+          </div>
+          <div>
+            <span>Fahrzeuge</span>
+            <strong id="vehicleLabel">0</strong>
+          </div>
+        </section>
+      </header>
+
+      <section class="workspace">
+        <aside class="panel tools" aria-label="Werkzeuge">
+          <div class="tool-grid" role="group" aria-label="Bauwerkzeuge">
+            <button class="tool active" data-tool="inspect" title="Auswaehlen">
+              <span class="icon inspect" aria-hidden="true"></span>
+              <span>Info</span>
+            </button>
+            <button class="tool" data-tool="rail" title="Schiene bauen">
+              <span class="icon rail" aria-hidden="true"></span>
+              <span>Schiene</span>
+            </button>
+            <button class="tool" data-tool="road" title="Strasse bauen">
+              <span class="icon road" aria-hidden="true"></span>
+              <span>Strasse</span>
+            </button>
+            <button class="tool" data-tool="station" title="Bahnhof bauen">
+              <span class="icon station" aria-hidden="true"></span>
+              <span>Station</span>
+            </button>
+            <button class="tool danger" data-tool="bulldoze" title="Abriss">
+              <span class="icon bulldoze" aria-hidden="true"></span>
+              <span>Abriss</span>
+            </button>
+            <button class="tool" data-tool="signal" title="Signal setzen oder aendern">
+              <span class="icon signal" aria-hidden="true"></span><span>Signal</span>
+            </button>
+          </div>
+
+          <div class="field">
+            <label for="routeMode">Streckenplanung</label>
+            <select id="routeMode"><option value="avoid">Hindernisse umfahren</option><option value="direct">Direkt (X, dann Y)</option><option value="bridge">Bruecke ueber Wasser</option></select>
+          </div>
+          <div class="field">
+            <label for="stationKind">Stationstyp</label>
+            <select id="stationKind">
+              <option value="rail">Bahn</option>
+              <option value="road">Truck</option>
+            </select>
+          </div>
+
+          <div class="segmented" role="group" aria-label="Spieltempo">
+            <button data-speed="0">Pause</button>
+            <button data-speed="1" class="active">1x</button>
+            <button data-speed="2">2x</button>
+            <button data-speed="4">4x</button>
+          </div>
+          <div class="field signal-options">
+            <label for="signalType">Signaltyp</label>
+            <select id="signalType"><option value="block">Blocksignal</option><option value="path">Pfadsignal (PBS)</option></select>
+            <div class="signal-direction-controls">
+              <label class="checkbox-field"><input id="signalBothDirections" type="checkbox" checked> Beide Richtungen</label>
+              <button id="flipSignal" type="button" title="Richtung umkehren" aria-label="Richtung umkehren" aria-pressed="false" disabled><img src="src/assets/icons/arrow-left-right.svg" width="20" height="20" alt=""></button>
+            </div>
+            <output id="trafficStatus">0 Signale | 0 Bloecke</output>
+          </div>
+
+          <div class="finance-actions">
+            <button id="borrowButton">+ $20k</button>
+            <button id="repayButton">- $20k</button>
+          </div>
+          <div class="save-actions" role="group" aria-label="Spielstand">
+            <button id="saveGame">Speichern</button>
+            <button id="loadGame">Laden</button>
+            <button id="exportGame">Exportieren</button>
+            <button id="importGame">Importieren</button>
+            <button id="worldSettings">Neue Welt / Kartengroesse</button>
+            <button id="townListButton">Staedte</button>
+            <input id="importFile" type="file" accept=".json,application/json" hidden>
+            <output id="saveStatus" aria-live="polite">Noch kein Spielstand</output>
+          </div>
+        </aside>
+
+        <section class="map-wrap" aria-label="Spielkarte">
+          <div id="threeViewport" aria-label="3D-Spielkarte"></div>
+          <div id="rendererStatus" class="renderer-status" role="status">
+            <p id="rendererMessage">3D wird gestartet...</p>
+            <button id="retryRenderer" hidden>Neu laden</button>
+          </div>
+          <div class="camera-tools" role="group" aria-label="Kamera" hidden>
+            <button id="zoomIn" title="Vergroessern" aria-label="Vergroessern">+</button>
+            <button id="zoomOut" title="Verkleinern" aria-label="Verkleinern">-</button>
+            <button id="fitCamera" title="Gesamte Karte" aria-label="Gesamte Karte">&#x26F6;</button>
+            <button id="toggleBlocks" title="Signalbloecke" aria-label="Signalbloecke" aria-pressed="false">#</button>
+          </div>
+          <div id="mapCoordinates" class="map-coordinates" role="group" aria-label="Feldkoordinaten" hidden>
+            <output id="coordinateReadout" aria-label="Letztes Kartenfeld">X: -  Y: -</output>
+            <button id="openCoordinates" type="button" title="Zu Koordinaten springen" aria-label="Zu Koordinaten springen"><img src="src/assets/icons/locate-fixed.svg" width="20" height="20" alt=""></button>
+          </div>
+          <div id="cabView" class="cab-view" aria-label="Fuehrerhaus" hidden>
+            <div class="cab-header"><strong id="cabVehicleName"></strong><button id="exitCab" type="button" title="Fuehrerhaus verlassen (Escape)" aria-label="Fuehrerhaus verlassen"><img src="src/assets/icons/log-out.svg" width="20" height="20" alt=""></button></div>
+            <div class="cab-dashboard"><span id="cabDestination"></span><output id="cabSpeed"><span id="cabSpeedValue">0</span> <small>km/h</small></output><span id="cabStatus"></span><button id="resetCabLook" type="button" title="Geradeaus blicken" aria-label="Geradeaus blicken"><img src="src/assets/icons/locate-fixed.svg" width="20" height="20" alt=""></button></div>
+          </div>
+          <div id="buildLoupe" class="build-loupe" aria-hidden="true" hidden></div>
+          <div class="toast" id="toast" role="status" aria-live="polite"></div>
+          <div id="buildPreview" class="build-preview" hidden>
+            <output id="buildSummary" aria-live="polite"></output>
+            <button id="confirmBuild">Bauen</button><button id="cancelBuild">Abbrechen</button>
+          </div>
+        </section>
+
+        <aside class="panel inspector" aria-label="Inspektor">
+          <div class="inspector-head">
+            <h2 id="selectionTitle">Willkommen</h2>
+            <span id="tileBadge">Welt</span>
+          </div>
+          <p id="selectionText">Waehle ein Werkzeug und klicke auf die Karte.</p>
+
+          <div class="stat-list">
+            <div><span>Fracht</span><strong id="cargoLabel">-</strong></div>
+            <div><span>Nachfrage</span><strong id="demandLabel">-</strong></div>
+            <div><span>Produktion</span><strong id="productionLabel">-</strong></div>
+            <div><span>Wartung</span><strong id="maintenanceLabel">$0/Monat</strong></div>
+            <div><span>Tempo</span><strong id="speedLabel">-</strong></div>
+            <div><span>Ladestatus</span><strong id="loadingLabel">-</strong></div>
+          </div>
+
+          <section id="townPanel" class="town-panel" aria-label="Stadtentwicklung" hidden>
+            <div class="town-panel-head"><h3>Stadtentwicklung</h3><span id="townPeriod"></span></div>
+            <div class="town-stats">
+              <div><span>Einwohner</span><strong id="townPopulation">0</strong></div>
+              <div><span>Zuwachs zuletzt</span><strong id="townDelta">+0</strong></div>
+              <div><span>Personenverkehr / Ziel</span><strong id="townPassengers">0 / 0</strong></div>
+              <div><span>Waren / Ziel</span><strong id="townGoods">0 / 0</strong></div>
+              <div><span>Personenbewegungen</span><strong id="townMovements">0 an / 0 ab</strong></div>
+              <div><span>Halte Personen / Waren</span><strong id="townVisits">0 / 0</strong></div>
+            </div>
+            <label for="townGrowthProgress">Naechstes Haus</label>
+            <progress id="townGrowthProgress" value="0" max="1"></progress>
+            <output id="townGrowthStatus">Noch kein Verkehr</output>
+            <output id="townPreviousSupply"></output>
+            <table class="town-table"><thead><tr><th>Monat</th><th>Einwohner</th><th>Zuwachs</th></tr></thead><tbody id="townHistory"></tbody></table>
+          </section>
+
+          <div class="vehicle-shop">
+            <h3>Depot</h3>
+            <div class="field depot-options">
+              <label for="depotTarget">Zielstation</label>
+              <select id="depotTarget"><option value="">Automatisch</option></select>
+              <label for="depotCargo">Fracht</label>
+              <select id="depotCargo"><option value="">Automatisch</option><option value="passengers">Passagiere</option><option value="goods">Waren</option><option value="coal">Kohle</option><option value="grain">Getreide</option></select>
+              <label for="depotWagons">Wagen</label>
+              <input id="depotWagons" type="number" min="1" max="8" value="4">
+            </div>
+            <button id="buyTrainButton">Zug kaufen</button>
+            <button id="buyTruckButton">Truck kaufen</button>
+          </div>
+
+          <section class="fleet-section" aria-label="Fahrzeuge">
+            <h3>Fahrzeuge</h3>
+            <div id="fleetList"></div>
+          </section>
+          <section id="vehicleEditor" class="fleet-section" hidden>
+            <div class="vehicle-actions">
+              <button id="enterCab" type="button" class="cab-enter" title="Blick aus dem Fuehrerhaus" aria-pressed="false"><img src="src/assets/icons/eye.svg" width="18" height="18" alt="">Fuehrerhaus</button>
+              <button id="toggleVehicle" title="Fahrzeug anhalten oder starten">Anhalten</button>
+              <button id="sellVehicle">Verkaufen</button>
+              <button id="unloadVehicle">Entladen</button>
+              <button id="departVehicle" title="Ladestopp beenden; Signale bleiben wirksam">Abfahrt</button>
+              <button id="recoverVehicle" title="Fahrzeug mit Ladung ins Depot bergen">Bergen</button>
+            </div>
+            <form id="orderForm" class="field">
+              <label for="orderTarget">Ziel ab aktuellem Bahnhof</label>
+              <select id="orderTarget" required></select>
+              <label for="orderCargo">Fracht</label>
+              <select id="orderCargo"><option value="passengers">Passagiere</option><option value="goods">Waren</option><option value="coal">Kohle</option><option value="grain">Getreide</option></select>
+              <label for="orderWagons">Wagen</label>
+              <input id="orderWagons" type="number" min="1" max="8" required>
+              <label for="orderLoad">Beladung</label>
+              <select id="orderLoad"><option value="available">Verfuegbare Fracht</option><option value="full">Vollbeladung</option><option value="none">Nicht laden</option></select>
+              <label for="orderReverse">Wenden</label>
+              <select id="orderReverse"><option value="classic">Lok voraus</option><option value="backwards">Rueckwaerts / schieben</option></select>
+              <button type="submit">Auftrag uebernehmen</button>
+            </form>
+          </section>
+
+          <div class="log" id="eventLog" aria-label="Ereignisse"></div>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="coordinateDialog" aria-labelledby="coordinateTitle">
+      <form id="coordinateForm" class="coordinate-form">
+        <div class="dialog-head"><h2 id="coordinateTitle">Koordinaten</h2><button id="closeCoordinates" type="button" title="Schliessen" aria-label="Schliessen">&#215;</button></div>
+        <label><span id="coordinateXLabel">X</span><input id="coordinateX" type="number" min="0" step="1" required></label>
+        <label><span id="coordinateYLabel">Y</span><input id="coordinateY" type="number" min="0" step="1" required></label>
+        <button id="jumpCoordinates" type="submit"><img src="src/assets/icons/locate-fixed.svg" width="18" height="18" alt=""> Anzeigen</button>
+      </form>
+    </dialog>
+    <dialog id="worldDialog" aria-labelledby="worldTitle">
+      <form id="worldForm" class="world-form">
+        <div class="dialog-head"><h2 id="worldTitle">Neue Welt / Kartengroesse</h2><button id="closeWorld" type="button" aria-label="Schliessen" title="Schliessen">&#215;</button></div>
+        <output id="currentMapSize"></output>
+        <label for="mapSize">Kartengroesse</label>
+        <select id="mapSize"><option value="34x26">Klein: 34 x 26</option><option value="64x48">Mittel: 64 x 48</option><option value="96x72">Gross: 96 x 72</option><option value="128x96">Sehr gross: 128 x 96</option></select>
+        <label for="landscapeStyle">Landschaft (neue Welt)</label>
+        <select id="landscapeStyle"><option value="mixed">Binnenland</option><option value="lakes">Seenplatte</option><option value="coast">Kuestenland</option><option value="river">Flussland</option></select>
+        <label for="landscapeSeed">Seed (neue Welt)</label>
+        <div class="seed-row"><input id="landscapeSeed" type="text" maxlength="64" autocomplete="off" spellcheck="false"><button id="randomLandscape" type="button" aria-label="Neue Zufallslandschaft" title="Neue Zufallslandschaft">&#8635;</button></div>
+        <canvas id="landscapePreview" width="384" height="216" aria-label="Landschaftsvorschau"></canvas>
+        <output id="landscapeSummary" aria-live="polite"></output>
+        <button id="expandMap" type="submit" value="expand">Bestehende Karte erweitern</button>
+        <button id="newWorld" type="submit" value="new">Neue Welt starten</button>
+        <button id="previousWorld" type="button">Vorherige Welt wiederherstellen</button>
+      </form>
+    </dialog>
+    <dialog id="townDialog" aria-labelledby="townListTitle">
+      <div class="dialog-head"><h2 id="townListTitle">Staedte</h2><button id="closeTowns" aria-label="Schliessen" title="Schliessen">&#215;</button></div>
+      <table class="town-table"><thead><tr><th>Stadt</th><th>Einwohner</th><th>Zuwachs zuletzt</th></tr></thead><tbody id="townListRows"></tbody></table>
+    </dialog>
+    <script src="src/vendor/three-0.164.1.min.js"></script>
+    <script src="src/vendor/pathfinding-0.4.18.min.js"></script>
+    <script src="src/vendor/simplex-noise-4.0.3.min.js"></script>
+    <script src="src/landscape.js"></script>
+    <script src="src/assets/models.js"></script>
+    <script src="src/models.js"></script>
+    <script src="src/towns.js"></script>
+    <script src="src/railway.js"></script>
+    <script src="src/construction.js"></script>
+    <script src="src/physics.js"></script>
+    <script src="src/game.js"></script>
+    <script src="src/management.js"></script>
+  </body>
+</html>

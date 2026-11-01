@@ -1,0 +1,35 @@
+const {readFileSync}=require('node:fs');
+const {join}=require('node:path');
+const {runInNewContext}=require('node:vm');
+const assert=require('node:assert/strict');
+const nodes=new Map(),storage=new Map();
+const element=()=>({value:'block',checked:true,getContext:()=>({}),getBoundingClientRect:()=>({width:1000,height:700}),classList:{add(){},remove(){},toggle(){}},replaceChildren(){},append(){},setAttribute(k,v){this[k]=v;}});
+const get=id=>{if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);};
+const source=['vendor/pathfinding-0.4.18.min','vendor/simplex-noise-4.0.3.min','landscape','towns','railway','construction','physics','game','management'].map(n=>readFileSync(join(__dirname,'../src/'+n+'.js'),'utf8').replace(/\ninit(?:Management)?\(\);\s*$/,'')).join('\n');
+runInNewContext(source+`
+makeMap();for(const t of game.map.flat()){Object.assign(t,{terrain:'grass',build:null,station:null,signal:null,town:null,industry:null});delete t.links;delete t.bridge;}
+game.stations=[];game.vehicles=[];game.towns=[];game.industries=[];game.cash=90000;
+for(let x=2;x<=30;x++)getTile(x,10).build='rail';for(let y=2;y<=20;y++)getTile(28,y).build='rail';mark3dDirty();
+assert.equal(signalTrackDirection(getTile(8,10)),'east');assert.equal(signalTrackDirection(getTile(8,10),true),'west');
+assert.equal(signalTrackDirection(getTile(28,6)),'south');assert.equal(signalTrackDirection(getTile(28,6),true),'north');
+assert.equal(signalTrackDirection(getTile(28,10)),null,'Junction accepted');assert.equal(signalTrackDirection(getTile(2,10)),null,'Dead end accepted');
+for(const [x,y] of [[18,20],[19,20],[18,21]])getTile(x,y).build='rail';assert.equal(signalTrackDirection(getTile(18,20)),null,'Curve accepted');
+getTile(8,11).build='rail';getTile(8,10).links=3;assert.equal(signalTrackDirection(getTile(8,10)),'east','Explicit links ignored');getTile(8,10).links=7;assert.equal(signalTrackDirection(getTile(8,10)),null);getTile(8,10).links=3;
+getTile(8,10).bridge={axis:'x',start:7,end:9};assert.equal(signalTrackDirection(getTile(8,10)),null);delete getTile(8,10).bridge;
+get('signalType').value='path';const before=JSON.stringify(createSave().state);previewMapAction(getTile(8,10),'signal');
+assert.equal(construction.settings.direction,'east');assert.equal(construction.settings.oneWay,false);assert.equal(get('flipSignal').disabled,true);
+get('signalBothDirections').checked=false;refreshSignalPlacement();assert.equal(construction.settings.oneWay,true);assert.equal(get('flipSignal').disabled,false);
+signalPlacement.reversed=true;refreshSignalPlacement();assert.equal(construction.settings.direction,'west');assert.equal(JSON.stringify(createSave().state),before,'Pending edits mutated live state');
+assert.ok(confirmConstruction());assert.deepEqual(getTile(8,10).signal,{direction:'west',oneWay:true,type:'path'});assert.equal(game.cash,89700);
+assert.ok(railStepAllowed(getTile(9,10),getTile(8,10)));assert.equal(railStepAllowed(getTile(7,10),getTile(8,10)),false);
+get('signalBothDirections').checked=true;get('signalType').value='block';signalPlacement.reversed=false;previewMapAction(getTile(8,10),'signal');
+assert.equal(construction.settings.direction,'west');assert.equal(construction.settings.type,'path');assert.equal(get('signalBothDirections').checked,false);assert.equal(signalPlacement.reversed,true);
+get('signalType').value='block';refreshSignalPlacement();assert.equal(construction.settings.direction,'west');cancelConstruction();assert.equal(getTile(8,10).signal.type,'path');assert.equal(game.cash,89700);
+previewMapAction(getTile(8,10),'signal');get('signalBothDirections').checked=true;refreshSignalPlacement();assert.ok(confirmConstruction());
+assert.equal(getTile(8,10).signal.oneWay,false);assert.equal(game.cash,89700);assert.ok(railStepAllowed(getTile(7,10),getTile(8,10)));assert.ok(railStepAllowed(getTile(9,10),getTile(8,10)));
+previewMapAction(getTile(28,6),'signal');assert.equal(construction.settings.direction,'north');assert.ok(confirmConstruction());assert.equal(getTile(28,6).signal.direction,'north');
+const saved=JSON.stringify(createSave());restoreSave(saved);assert.equal(getTile(8,10).signal.direction,'west');assert.equal(getTile(28,6).signal.direction,'north');
+previewMapAction(getTile(18,20),'signal');assert.ok(construction.error);assert.equal(get('confirmBuild').disabled,true);assert.equal(confirmConstruction(),false);
+previewMapAction(getTile(9,10),'signal');getTile(9,10).build=null;const cash=game.cash;assert.equal(confirmConstruction(),false);assert.equal(game.cash,cash);
+`,{assert,get,document:{querySelector:get,querySelectorAll:()=>[],getElementById:get,createElement:()=>element()},performance:{now:()=>1},window:{devicePixelRatio:1,confirm:()=>true},localStorage:{setItem:(k,v)=>storage.set(k,v),getItem:k=>storage.get(k)},Date});
+console.log('Signal controls passed: automatic axes/opposites, explicit links, rejected curves/junctions/bridges, preview/flip/cancel, existing settings, both directions, save compatibility and stale targets.');
