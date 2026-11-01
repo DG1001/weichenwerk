@@ -111,6 +111,7 @@
             <button id="worldSettings">Neue Welt / Kartengroesse</button>
             <button id="townListButton">Staedte</button>
             <button id="openCoordinates" type="button" title="Zu Koordinaten springen">Zu Koordinaten</button>
+            <button id="taskButton" type="button" title="Optionale Aufgaben, die immer schwieriger werden">Aufgaben</button>
             <input id="importFile" type="file" accept=".json,application/json" hidden>
             <output id="saveStatus" aria-live="polite">Noch kein Spielstand</output>
           </div>
@@ -137,6 +138,7 @@
             <div class="cab-dashboard"><span id="cabDestination"></span><output id="cabSpeed"><span id="cabSpeedValue">0</span> <small>km/h</small></output><span id="cabStatus"></span><button id="resetCabLook" type="button" title="Geradeaus blicken" aria-label="Geradeaus blicken"><img src="src/assets/icons/locate-fixed.svg" width="20" height="20" alt=""></button></div>
           </div>
           <div id="buildLoupe" class="build-loupe" aria-hidden="true" hidden></div>
+          <button id="taskCard" class="task-card" type="button" title="Aufgaben anzeigen" hidden><span id="taskCardTitle"></span><progress id="taskCardProgress" max="1" value="0"></progress><span id="taskCardValue"></span></button>
           <div class="toast" id="toast" role="status" aria-live="polite"></div>
         </section>
 
@@ -251,6 +253,16 @@
         <button id="previousWorld" type="button">Vorherige Welt wiederherstellen</button>
       </form>
     </dialog>
+    <dialog id="taskDialog" aria-labelledby="taskTitle">
+      <div class="dialog-head"><h2 id="taskTitle">Aufgaben</h2><button id="closeTasks" type="button" aria-label="Schliessen" title="Schliessen">&#215;</button></div>
+      <p id="taskIntro">Optional: zehn Aufgaben, die nacheinander freigeschaltet werden und schwieriger werden. Jede bringt eine Praemie. Fortschritt zaehlt ab dem Start der jeweiligen Aufgabe. Ohne Aufgaben bleibt es beim freien Bauen.</p>
+      <ol id="taskList" class="task-list"></ol>
+      <div class="task-actions">
+        <button id="startTasks" type="button">Aufgaben starten</button>
+        <button id="skipTask" type="button" hidden>Aktuelle Aufgabe ueberspringen</button>
+        <button id="stopTasks" type="button" hidden>Aufgaben beenden (freies Bauen)</button>
+      </div>
+    </dialog>
     <dialog id="townDialog" aria-labelledby="townListTitle">
       <div class="dialog-head"><h2 id="townListTitle">Staedte</h2><button id="closeTowns" aria-label="Schliessen" title="Schliessen">&#215;</button></div>
       <table class="town-table"><thead><tr><th>Stadt</th><th>Einwohner</th><th>Zuwachs zuletzt</th></tr></thead><tbody id="townListRows"></tbody></table>
@@ -267,5 +279,6 @@
     <script src="src/physics.js"></script>
     <script src="src/game.js"></script>
     <script src="src/management.js"></script>
+    <script src="src/tasks.js"></script>
   </body>
 </html>

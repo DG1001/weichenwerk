@@ -17,6 +17,7 @@ Am Handy (hoch und quer) fuellt die Karte den Bildschirm; Werkzeuge und Infos li
 - Kaufbare Zuege mit mehreren Wagen, Trucks mit Anhaenger und automatische Routensuche ueber verbundene Netze
 - Passagiere, Waren, Kohle und Getreide als Frachtarten
 - Einnahmen, Wartungskosten, Darlehen und monatlicher Spieltakt
+- Optionale Aufgaben, die aufeinander aufbauen und schwieriger werden; Standard bleibt freies Bauen
 
 Baue zwei passende Stationen, verbinde sie mit Schiene oder Strasse und kaufe danach ein Fahrzeug am ausgewaehlten Depot.
 

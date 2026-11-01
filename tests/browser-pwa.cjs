@@ -43,7 +43,8 @@ const server = http.createServer((req, res) => {
     await page.evaluate(() => navigator.serviceWorker.ready);
     await page.reload();
     await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 60000 });
-    await page.evaluate(() => caches.open('libre-transport-v1').then(c => c.keys()).then(k => k.length)).then(n => assert.ok(n >= precached.length - 1, `Precache incomplete: ${n}`));
+    const version = readFileSync(join(root, 'sw.js'), 'utf8').match(/const VERSION = "([^"]+)"/)[1];
+    await page.evaluate(v => caches.open(v).then(c => c.keys()).then(k => k.length), version).then(n => assert.ok(n >= precached.length - 1, `Precache incomplete: ${n}`));
 
     // Offline: the game and the help still load from the cache.
     await context.setOffline(true);

@@ -148,13 +148,14 @@ function startNewWorld(width,height,settings=createLandscapeSettings(undefined,"
   cancelConstruction();
   for(const vehicle of game.vehicles)invalidateVehicleMesh(vehicle);
   config.width=width;config.height=height;
-  Object.assign(game,{cash:90000,loan:40000,month:0,dayProgress:0,speed:1,vehicles:[],stations:[],nextVehicleId:0,selected:null,hover:null,log:[],tool:"inspect",showBlocks:false});
+  Object.assign(game,{cash:90000,loan:40000,month:0,dayProgress:0,speed:1,vehicles:[],stations:[],nextVehicleId:0,selected:null,hover:null,log:[],tool:"inspect",showBlocks:false,stats:null,tasks:null});
   Object.assign(game,world);mark3dDirty();fitCamera();
   management.fleetKey="";management.editorKey="";management.depotKey="";
   document.querySelectorAll("[data-tool]").forEach(b=>b.classList.toggle("active",b.dataset.tool==="inspect"));
   document.querySelectorAll("[data-speed]").forEach(b=>b.classList.toggle("active",Number(b.dataset.speed)===1));
   byId("toggleBlocks").setAttribute("aria-pressed","false");
   const town=game.towns[0];selectTile(getTile(town?.x??6,town?.y??5));log(`1950: Neue Welt, Seed ${game.landscape.seed}.`);renderLog();
+  if(typeof renderTaskUi==="function")renderTaskUi(true);
   lastFrame=performance.now();saveGame(true);return true;
 }
 
@@ -276,7 +277,7 @@ function refreshManagement(force = false) {
 }
 
 function createSave() {
-  const fields = ["cash", "loan", "month", "dayProgress", "speed", "map", "stations", "vehicles", "nextVehicleId", "industries", "towns", "log", "landscape"];
+  const fields = ["cash", "loan", "month", "dayProgress", "speed", "map", "stations", "vehicles", "nextVehicleId", "industries", "towns", "log", "landscape", "stats", "tasks"];
   return {
     version: 1, savedAt: new Date().toISOString(), size:{width:config.width,height:config.height},
     state: Object.fromEntries(fields.map((key) => [key, game[key]])),
@@ -393,6 +394,13 @@ function decodeSave(text) {
     v.blocked = !vehicleRouteAheadOpen(v, s.map);
   }
   check(list(s.log, 7) && s.log.every((line) => typeof line === "string" && line.length <= 512));
+  // Optional delivery statistics and task progress (absent in older saves).
+  const amounts = (value) => value && typeof value === "object" && !Array.isArray(value) && Object.keys(value).every(cargo) && Object.values(value).every((n) => number(n, 0, 1e15));
+  check(s.stats === undefined || s.stats === null || (typeof s.stats === "object" && amounts(s.stats.delivered) && number(s.stats.income, 0, 1e15)));
+  const t = s.tasks;
+  check(t === undefined || t === null || (typeof t === "object" && integer(t.index, 0, 100) && list(t.done, 100) && t.done.every((id) => typeof id === "string" && id.length <= 40)
+    && t.baseline && typeof t.baseline === "object" && amounts(t.baseline.delivered) && number(t.baseline.income, 0, 1e15)
+    && t.baseline.populations && typeof t.baseline.populations === "object" && Object.entries(t.baseline.populations).every(([id, n]) => /^\d{1,3}$/.test(id) && number(n, 0, 1e7))));
   check(trafficStateValid(s));
   if (file.camera !== undefined) check(file.camera && number(file.camera.x, -1e6, 1e6) && number(file.camera.y, -1e6, 1e6) && number(file.camera.zoom, 0.01, 5));
   const o = file.orbit;
@@ -412,6 +420,7 @@ function restoreSave(text) {
   const fields = ["cash", "loan", "month", "dayProgress", "speed", "map", "stations", "vehicles", "nextVehicleId", "industries", "towns", "log"];
   for (const key of fields) game[key] = file.state[key];
   game.landscape=file.state.landscape??null;
+  game.stats=file.state.stats??null;game.tasks=file.state.tasks??null;
   game.selected = null; game.hover = null;
   mapCoordinates.last=null;mapCoordinates.target=null;
   game.stations.forEach(station=>{station.sources=[...new Set(stationTiles(station).flatMap(p=>[...nearbyDemand(p).sources]))];});
@@ -423,6 +432,7 @@ function restoreSave(text) {
   if (game.stations.some((station) => !station.closed)) selectStation(game.stations.find((station) => !station.closed));
   else {const town=game.towns[0];selectTile(getTile(town?.x??6,town?.y??5));}
   renderLog();
+  if (typeof renderTaskUi === "function") renderTaskUi(true);
   lastFrame = performance.now();
   return file;
 }

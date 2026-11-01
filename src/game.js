@@ -82,8 +82,16 @@ const game = {
   industries: [],
   towns: [],
   landscape: null,
-  log: []
+  log: [],
+  // Delivery totals for the optional tasks; created on the first delivery, so old saves need none.
+  stats: null,
+  // Optional task mode (src/tasks.js); null means free building.
+  tasks: null
 };
+
+function newStats() {
+  return { delivered:Object.fromEntries(Object.keys(cargoMeta).map(cargo=>[cargo,0])), income:0 };
+}
 
 
 const mapCoordinates = { last:null, target:null };
@@ -690,6 +698,7 @@ function visitStation(vehicle) {
 function deliverCargo(vehicle,current,amount) {
   const payout=amount*(vehicle.path.length*9+(vehicle.type === "train"?52:34));
   earn(payout);vehicle.profit+=payout;current.delivered+=amount;
+  const stats=game.stats||=newStats();stats.delivered[vehicle.cargo]+=amount;stats.income+=payout;
   const consumer=game.industries.find(industry=>industry.accepts.includes(vehicle.cargo)&&new Set(current.sources||nearbyDemand(current).sources).has(`industry:${industry.id}`));
   if(consumer)consumer.stock+=amount;
   recordTownTransport(vehicle,current,amount);
@@ -1489,12 +1498,19 @@ function maintenanceForTile(tile) {
 const mapTotals = { map:null, revision:-1, signals:0, blocks:0, infrastructure:0 };
 function mapUiTotals() {
   if(mapTotals.map===game.map&&mapTotals.revision===traffic.revision)return mapTotals;
-  let signals=0,infrastructure=0;
+  let signals=0,infrastructure=0,bridges=0;
   for(const row of game.map)for(const tile of row) {
     if(tile.signal){signals++;infrastructure+=300;}
+    if(tile.bridge)bridges++;
     infrastructure+=(tile.build==="rail"?config.costs.rail:tile.build==="road"?config.costs.road:0)+(tile.bridge?config.costs.bridge[tile.build]:0);
   }
-  return Object.assign(mapTotals,{map:game.map,revision:traffic.revision,signals,blocks:new Set(railBlocks().values()).size,infrastructure});
+  return Object.assign(mapTotals,{map:game.map,revision:traffic.revision,signals,bridges,blocks:new Set(railBlocks().values()).size,infrastructure});
+}
+
+function companyValue() {
+  return game.cash - game.loan + mapUiTotals().infrastructure
+    + game.stations.filter(s=>!s.closed).reduce((sum,s)=>sum+config.costs.station+(stationTiles(s).length-1)*800,0)
+    + game.vehicles.reduce((sum, vehicle) => sum + (vehicle.type === "train" ? config.costs.train : config.costs.truck) * 0.65, 0);
 }
 
 function setText(element, text) { if(element.textContent!==text)element.textContent=text; }
@@ -1505,13 +1521,12 @@ function updateUi() {
   if (typeof refreshManagement === "function") refreshManagement();
   const totals = mapUiTotals();
   setText(document.querySelector("#trafficStatus"), `${totals.signals} Signale | ${totals.blocks} Bloecke | ${game.vehicles.filter((v) => v.pathReservation).length} Fahrwege`);
-  const assets = game.cash - game.loan + totals.infrastructure
-    + game.stations.filter(s=>!s.closed).reduce((sum,s)=>sum+config.costs.station+(stationTiles(s).length-1)*800,0)
-    + game.vehicles.reduce((sum, vehicle) => sum + (vehicle.type === "train" ? config.costs.train : config.costs.truck) * 0.65, 0);
+  const assets = companyValue();
   setText(ui.cash, money(game.cash));
   setText(ui.value, money(assets));
   setText(ui.loan, money(game.loan));
   setText(ui.vehicles, String(game.vehicles.length));
+  if (game.tasks && typeof updateTasks === "function") updateTasks();
   const year = 1950 + Math.floor(game.month / 12);
   const monthName = ["Jan", "Feb", "Maerz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"][game.month % 12];
   setText(ui.date, `${Math.floor(game.dayProgress) + 1}. ${monthName} ${year}`);
@@ -1727,8 +1742,9 @@ function renderBuildLoupe() {
   if(!show)return;
   const width=threeViewport.clientWidth,height=threeViewport.clientHeight,rect=three.renderer.domElement.getBoundingClientRect();
   const size=Math.round(clamp(Math.min(width,height)*0.34,96,150)),gap=56,x=draw.clientX-rect.left,y=draw.clientY-rect.top;
-  // Stay below the camera buttons, an HTML overlay on top of the canvas.
-  const minTop=ui.cameraTools.hidden?8:Math.max(8,ui.cameraTools.getBoundingClientRect().bottom-rect.top+8);
+  // Stay below the HTML overlays on top of the canvas (camera buttons, task card).
+  let minTop=8;
+  for(const overlay of [ui.cameraTools,document.getElementById("taskCard")])if(overlay&&!overlay.hidden)minTop=Math.max(minTop,overlay.getBoundingClientRect().bottom-rect.top+8);
   let left=x-size/2,top=y-gap-size;
   if(top<minTop){top=y-size/2;left=x+gap+size<=width-8?x+gap:x-gap-size;}
   left=Math.round(clamp(left,8,Math.max(8,width-size-8)));top=Math.round(clamp(top,minTop,Math.max(minTop,height-size-8)));

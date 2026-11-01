@@ -6,6 +6,25 @@ Spielregeln und Bedienung aus Sicht der Spielenden: was das Spiel kann, wie es s
 
 Der Knopf **?** oben rechts oeffnet die Spielhilfe `help.html` in einem neuen Tab: erste Schritte, Bedienung (Handy/PC), Strecken und Verbindungen, Bruecken, Signale, Block- oder Pfadsignal, Ausweichgleise, Fahrzeuge und Staedte, jeweils mit Schemabildern. Bei den Optionen von Schiene/Strasse und Signal fuehren kurze Links direkt zum passenden Abschnitt. Die Hilfe funktioniert offline.
 
+## Aufgaben (optional)
+
+Standard ist freies Bauen ohne Ziele. Im Panel oeffnet **Aufgaben** eine Liste mit zehn Aufgaben; **Aufgaben starten** schaltet sie fuer die aktuelle Welt ein. Es ist immer genau eine Aufgabe aktiv; ist sie erfuellt, gibt es die Praemie und die naechste wird freigeschaltet:
+
+| Nr. | Aufgabe | Ziel (ab Start der Aufgabe) | Praemie |
+| --- | --- | --- | --- |
+| 1 | Erste Bahnlinie | mindestens ein Zug | $10,000 |
+| 2 | Fahrgaeste | 100 Passagiere befoerdert | $15,000 |
+| 3 | Rohstoffe fuer die Fabrik | 150 Kohle oder Getreide geliefert | $20,000 |
+| 4 | Waren in die Stadt | 100 Waren geliefert | $25,000 |
+| 5 | Mehrere Zuege | 3 Zuege und 4 Signale | $25,000 |
+| 6 | Ueber das Wasser | eine Bruecke | $20,000 |
+| 7 | Gegenverkehr | zwei Zuege mit mindestens 8 gemeinsamen Gleisfeldern auf ihren Fahrwegen, 200 Einheiten geliefert | $30,000 |
+| 8 | Wachsende Stadt | eine Stadt waechst um 50 Einwohner | $30,000 |
+| 9 | Verkehrsnetz | 8 Fahrzeuge und 6 Stationen | $40,000 |
+| 10 | Grossunternehmen | Firmenwert $750,000 | $50,000 |
+
+Lieferungen und Stadtwachstum zaehlen erst ab dem Start der jeweiligen Aufgabe; Bestandsziele (Zuege, Signale, Bruecke, Stationen, Firmenwert) gelten sofort. Die aktuelle Aufgabe steht mit Fortschritt oben links auf der Karte. **Ueberspringen** geht ohne Praemie weiter, **Aufgaben beenden** kehrt zum freien Bauen zurueck. Der Stand wird im Spielstand gespeichert; eine neue Welt startet ohne Aufgaben. Aeltere Spielstaende laden ohne Aufgaben.
+
 ## Grafik
 
 Im Panel unter **Grafik**: **Hoch** (bis doppelte Pixeldichte, volle Bildrate), **Ausgewogen** (bis 1,5-fache Pixeldichte) und **Akku sparen** (einfache Pixeldichte, hoechstens 30 Bilder pro Sekunde; Spiel und Zuege laufen gleich schnell weiter, nur seltener gezeichnet). Auf Touch-Geraeten ist **Ausgewogen** voreingestellt, sonst **Hoch**. Die Wahl gilt fuer diesen Browser und wird nicht im Spielstand gespeichert.

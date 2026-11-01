@@ -1,7 +1,7 @@
 // Offline support for the installed app. Network first, so an online player always gets the current
 // files; the cache is only the fallback when offline. Every file the game loads must be listed in
 // FILES (tests/browser-pwa.cjs checks this); bump VERSION when the list changes.
-const VERSION = "libre-transport-v1";
+const VERSION = "libre-transport-v2";
 const FILES = [
   "./",
   "index.html",
@@ -20,6 +20,7 @@ const FILES = [
   "src/physics.js",
   "src/game.js",
   "src/management.js",
+  "src/tasks.js",
   "src/assets/icons/app-192.png",
   "src/assets/icons/app-512.png",
   "src/assets/icons/arrow-left-right.svg",

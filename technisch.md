@@ -60,6 +60,13 @@ Bis 980 px Breite (`styles.css`, letzter Block) gilt ein Handy-Layout ohne JavaS
 - Signal-Kurzwahl in der Bauvorschau: `#previewSignalDirection` und `#previewSignalType` (`construction.js`) aendern dieselben Panel-Eingaben (`#signalBothDirections`, `signalPlacement.reversed`, `#signalType`) und rufen `refreshSignalPlacement`; sichtbar nur bei `construction.action === "signal"`.
 - Die fruehere Koordinaten-Box auf der Karte ist entfernt; der Dialog wird ueber `#openCoordinates` im Panel geoeffnet. `mapCoordinates` (letztes Feld, Sprungziel) bleibt fuer Vorbelegung und Markierung erhalten.
 
+## Aufgaben-Modus
+
+- `src/tasks.js` (nach `management.js` geladen, endet mit `initTasks();`): Liste `TASKS` mit `id`, Text, Praemie, Hilfe-Anker und `progress()` -> `{value, target}`.
+- Zustand `game.tasks` = `null` (freies Bauen) oder `{index, done[], baseline}`; `baseline` haelt Lieferzahlen, Einnahmen und Einwohner je Stadt beim Start der aktuellen Aufgabe. `game.stats` zaehlt Lieferungen je Fracht und Einnahmen (in `deliverCargo`, beim ersten Liefern angelegt).
+- `updateUi` ruft `updateTasks()` nur bei aktivem Modus; Pruefung hoechstens alle 500 ms. Bestandsziele nutzen `mapUiTotals()` (inkl. `bridges`) und `companyValue()`.
+- Spielstand: `stats` und `tasks` stehen in `createSave`; `decodeSave` prueft sie streng (Frachtschluessel, Zahlenbereiche, Index, IDs, Einwohner je Stadt), fehlende Felder bleiben `null`. `startNewWorld` setzt beide zurueck.
+
 ## Leistung
 
 - `updateUi` laeuft jedes Frame. Kartenweite Werte (Signale, Bloecke, Infrastrukturwert) liefert `mapUiTotals()`, neu berechnet nur wenn `traffic.revision` (erhoeht durch `mark3dDirty`) oder das Kartenobjekt wechselt. Jeder Code, der Felder aendert, muss `mark3dDirty()` aufrufen. Gemessen auf 128 x 96: 3,27 ms -> 0,10 ms pro Frame. `setText` schreibt DOM-Texte nur bei Aenderung.
@@ -131,6 +138,8 @@ Browser: unter Windows der feste Chrome-Pfad, sonst `$CHROME_PATH` oder Playwrig
 `node tests/coordinates.cjs` prueft grosse Karten, Grenzen/ungueltige Werte, Sprung/Kamera, Abbruch offener Entwuerfe und unveraenderte Simulation.
 `node tests/browser-coordinates.cjs` prueft echte Mauskoordinaten, Dialog und Tastatur, Sprungmarkierung per Pixelcheck, grosse Karten, Speicher/Kamera und kollisionsfreies Layout auf Desktop sowie bei 390 und 320 Pixel Breite.
 `node tests/passing-loop.cjs` baut ein Ausweichgleis von Hand (wie in der Hilfe) und mit dem Werkzeug und laesst jeweils zwei Zuege gegeneinander pendeln: beide kreuzen sich wiederholt ohne Blockade, jede Richtung auf ihrem Gleis. Dazu Kosten, Seitenwahl und Ablehnung ungeeigneter Abschnitte.
+`node tests/tasks.cjs` prueft den Aufgaben-Modus: standardmaessig aus, Fortschritt erst ab Aufgabenstart, Praemie einmalig, Ueberspringen und Beenden, Stadtwachstum je Stadt, gemeinsame Strecke zweier Zuege, Spielstaende mit und ohne Aufgaben, Abweisung fehlerhafter Daten.
+`node tests/browser-tasks.cjs` prueft die Aufgaben-Oberflaeche hoch, quer und am Desktop.
 `node tests/browser-graphics.cjs` prueft die Grafikstufen bei dreifacher Geraete-Pixeldichte: Vorgabe Handy/Desktop, Pixeldichte je Stufe, hoechstens 30 Bilder/s bei Akku sparen, Wahl bleibt nach Neuladen.
 `node tests/browser-pwa.cjs` startet einen lokalen Server auf `127.0.0.1` und prueft Manifest und Icons, dass jede von den Seiten geladene Datei vorab gespeichert wird, dass der Service Worker die Seite uebernimmt, Spiel und Hilfe offline laden und der Start als Datei unberuehrt bleibt.
 `node tests/browser-help.cjs` prueft die Spielhilfe: offline, Inhaltsverzeichnis und Abschnitte, gezeichnete Schemabilder, kein Ueberlauf auf Handy/Desktop, Hilfe-Knopf in der Leiste (hoch, quer, Desktop) und Links bei den Werkzeugoptionen.
