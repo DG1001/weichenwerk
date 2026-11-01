@@ -6,7 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Libre Transport Tycoon: a self-contained, OpenTTD-inspired transport tycoon game in the browser (3D only, WebGL via Three.js). It has no build step, no `package.json` and no server. Open `index.html` directly over `file://`. All libraries and model data are vendored locally. **The game must never fetch anything from the network at runtime**, and `tests/browser-startup.cjs` checks this. The UI text, README and OPENTTD-AUDIT.md are in German, written with ASCII umlaut substitutes (`ae`, `oe`, `ue`, `ss`). Keep that convention in user-facing strings.
 
-`README.md` is the feature spec. It documents exact game rules: costs, speeds, limits, save behaviour. Update it whenever behaviour changes. `OPENTTD-AUDIT.md` tracks the differences from OpenTTD.
+## Workflow and documentation (user requirement)
+
+- **Commit early and often**, locally, in small logical steps (e.g. feature, then tests, then docs). Commit messages are in German. Don't push unless asked.
+- With every change, keep these files current (German, ASCII umlaut substitutes):
+  - `fachlich.md`: game rules and controls from the player's point of view (costs, speeds, limits, gestures). This is the feature spec.
+  - `technisch.md`: architecture, implementation details, save compatibility, dependencies, the test list and the test environment. Add each new test to its "Testliste".
+  - `devlog.md`: dated entries, newest first. Record what changed and why, test results, and open points.
+  - `README.md`: short entry point with start, feature overview and links. Update it when the overview or the controls change.
+- `OPENTTD-AUDIT.md` tracks the differences from OpenTTD.
 
 This workspace is a XaresAICoder container (see `AGENTS.md`). If you need to serve the game over HTTP, bind to `0.0.0.0`. Normally it isn't needed, because the game runs from `file://`.
 
