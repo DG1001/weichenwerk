@@ -45,7 +45,8 @@ const { pathToFileURL } = require('node:url');
       const help = page.locator('.topbar .help-link');
       assert.equal(await help.getAttribute('href'), 'help.html');
       const box = await help.boundingBox();
-      assert.ok(box && box.x >= 0 && box.x + box.width <= viewport.width && box.y >= 0 && box.y + box.height <= 60, `Help button must be in the top bar: ${JSON.stringify(box)}`);
+      const bar = await page.locator('.topbar').boundingBox();
+      assert.ok(box && box.x >= 0 && box.x + box.width <= viewport.width && box.y >= bar.y && box.y + box.height <= bar.y + bar.height, `Help button must be inside the top bar: ${JSON.stringify({ box, bar })}`);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Top bar with help button must not overflow');
       await page.close();
     }

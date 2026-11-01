@@ -37,9 +37,12 @@
       th, td { padding: 8px 10px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
       th { background: #eef3e9; }
       kbd, b.key { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: #fff; font: inherit; font-size: 14px; }
-      svg text { font: 13px Inter, ui-sans-serif, system-ui, sans-serif; fill: var(--ink); }
-      svg .small { font-size: 11px; fill: var(--muted); }
+      svg text { font: 22px Inter, ui-sans-serif, system-ui, sans-serif; fill: var(--ink); }
+      svg .small { font-size: 19px; fill: #3d4a52; }
       svg .label { font-weight: 700; }
+      .pair { display: flex; flex-wrap: wrap; gap: 12px; }
+      .pair > div { flex: 1 1 260px; min-width: 0; }
+      .pair figcaption { margin-top: 4px; }
     </style>
   </head>
   <body>
@@ -70,18 +73,17 @@
           <li>Eine Station antippen und im Bereich <b>Depot</b> <b>Zug kaufen</b>. Der Zug pendelt selbststaendig, laedt, liefert und verdient Geld.</li>
         </ol>
         <figure>
-          <svg viewBox="0 0 600 150" role="img" aria-label="Zwei Stationen bei einer Stadt und einer Fabrik, verbunden durch eine Schiene, mit einem Zug">
-            <rect x="0" y="0" width="600" height="150" fill="var(--land)" rx="6"/>
-            <g fill="#e9d9c4" stroke="#a88c6c"><rect x="28" y="22" width="22" height="20"/><rect x="56" y="16" width="22" height="26"/><rect x="40" y="48" width="24" height="20"/></g>
-            <text x="30" y="92" class="label">Stadt</text>
+          <svg viewBox="0 0 600 170" role="img" aria-label="Zwei Stationen bei einer Stadt und einer Fabrik, verbunden durch eine Schiene, mit einem Zug">
+            <rect x="0" y="0" width="600" height="170" fill="var(--land)" rx="6"/>
+            <g fill="#e9d9c4" stroke="#a88c6c"><rect x="24" y="22" width="22" height="20"/><rect x="52" y="16" width="22" height="26"/><rect x="36" y="48" width="24" height="20"/></g>
+            <text x="20" y="102" class="label">Stadt</text>
             <g fill="#b9c2c8" stroke="#6d7880"><rect x="520" y="20" width="56" height="44"/><rect x="560" y="8" width="8" height="16"/></g>
-            <text x="522" y="92" class="label">Fabrik</text>
+            <text x="516" y="102" class="label">Fabrik</text>
             <line x1="100" y1="60" x2="500" y2="60" stroke="var(--track)" stroke-width="5"/>
             <rect x="88" y="48" width="26" height="24" fill="#fff" stroke="var(--accent)" stroke-width="3" rx="3"/>
             <rect x="486" y="48" width="26" height="24" fill="#fff" stroke="var(--accent)" stroke-width="3" rx="3"/>
-            <text x="74" y="94" class="small">Station 1</text><text x="472" y="94" class="small">Station 2</text>
+            <text x="96" y="146" class="small">Station 1</text><text x="404" y="146" class="small">Station 2</text>
             <g><rect x="230" y="51" width="34" height="18" rx="4" fill="var(--red)"/><rect x="268" y="52" width="30" height="16" rx="3" fill="#9b6b5a"/><rect x="302" y="52" width="30" height="16" rx="3" fill="#9b6b5a"/></g>
-            <text x="150" y="130" class="small">Ziehen mit Schiene, dann Bauen &middot; Station antippen &middot; Zug kaufen</text>
           </svg>
           <figcaption>Zwei Stationen, eine Strecke, ein Zug: das kleinste funktionierende Netz.</figcaption>
         </figure>
@@ -117,20 +119,19 @@
         <h3>Verbindungen sind immer gewollt</h3>
         <p>Gleise, die nur nebeneinander liegen, sind <b>nicht</b> verbunden. Eine Weiche entsteht nur, wenn eine geplante Strecke auf einem vorhandenen Gleis beginnt oder endet.</p>
         <figure>
-          <svg viewBox="0 0 600 140" role="img" aria-label="Links zwei parallele, unverbundene Gleise; rechts eine geplante Verbindung, die eine Weiche erzeugt">
-            <rect x="0" y="0" width="600" height="140" fill="var(--land)" rx="6"/>
-            <line x1="20" y1="45" x2="270" y2="45" stroke="var(--track)" stroke-width="5"/>
-            <line x1="20" y1="85" x2="270" y2="85" stroke="var(--track)" stroke-width="5"/>
-            <text x="20" y="122" class="small">Nebeneinander: keine Verbindung</text>
-            <line x1="330" y1="45" x2="580" y2="45" stroke="var(--track)" stroke-width="5"/>
-            <line x1="330" y1="85" x2="580" y2="85" stroke="var(--track)" stroke-width="5"/>
-            <path d="M420 45 L420 85" stroke="var(--green)" stroke-width="6" stroke-linecap="round"/>
-            <circle cx="420" cy="45" r="7" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
-            <circle cx="420" cy="85" r="7" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
-            <text x="432" y="70" class="small">von Gleis zu Gleis gezogen</text>
-            <text x="330" y="122" class="small">Weichen entstehen an den Kreisen</text>
+          <svg viewBox="0 0 600 150" role="img" aria-label="Links zwei parallele, unverbundene Gleise; rechts eine geplante Verbindung, die eine Weiche erzeugt">
+            <rect x="0" y="0" width="600" height="150" fill="var(--land)" rx="6"/>
+            <line x1="20" y1="40" x2="270" y2="40" stroke="var(--track)" stroke-width="5"/>
+            <line x1="20" y1="90" x2="270" y2="90" stroke="var(--track)" stroke-width="5"/>
+            <text x="20" y="132" class="small">nicht verbunden</text>
+            <line x1="330" y1="40" x2="580" y2="40" stroke="var(--track)" stroke-width="5"/>
+            <line x1="330" y1="90" x2="580" y2="90" stroke="var(--track)" stroke-width="5"/>
+            <path d="M455 40 L455 90" stroke="var(--green)" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="455" cy="40" r="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="455" cy="90" r="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
+            <text x="330" y="132" class="small">verbunden: 2 Weichen</text>
           </svg>
-          <figcaption>Zum Verbinden von einem vorhandenen Gleis bis auf das andere ziehen.</figcaption>
+          <figcaption>Links: Gleise liegen nur nebeneinander. Rechts: von einem Gleis bis auf das andere gezogen, an den Kreisen entstehen Weichen.</figcaption>
         </figure>
       </section>
 
@@ -142,23 +143,21 @@
           <li>Mit <b>Bauen</b> bestaetigen. Danach wieder <b>Hindernisse umfahren</b> waehlen und die Zufahrten gerade an die Rampen anschliessen.</li>
         </ol>
         <figure>
-          <svg viewBox="0 0 600 170" role="img" aria-label="Bruecke ueber einen Fluss: gerade vom letzten Landfeld zum ersten Landfeld am anderen Ufer">
-            <rect x="0" y="0" width="600" height="170" fill="var(--land)" rx="6"/>
-            <rect x="220" y="0" width="160" height="170" fill="var(--water)"/>
-            <path d="M228 20 q20 10 0 20 M300 120 q20 10 0 20 M350 60 q20 10 0 20" stroke="#b9dbe5" stroke-width="2" fill="none"/>
-            <line x1="30" y1="95" x2="180" y2="95" stroke="var(--track)" stroke-width="5"/>
-            <line x1="420" y1="95" x2="570" y2="95" stroke="var(--track)" stroke-width="5"/>
-            <path d="M180 95 L215 70 L385 70 L420 95" fill="none" stroke="#7d6a58" stroke-width="7" stroke-linejoin="round"/>
-            <path d="M215 70 L385 70" stroke="#a89380" stroke-width="2"/>
-            <g stroke="#7d6a58" stroke-width="3"><line x1="250" y1="72" x2="250" y2="100"/><line x1="300" y1="72" x2="300" y2="100"/><line x1="350" y1="72" x2="350" y2="100"/></g>
-            <rect x="166" y="82" width="28" height="26" fill="none" stroke="var(--green)" stroke-width="3" rx="3"/>
-            <rect x="406" y="82" width="28" height="26" fill="none" stroke="var(--green)" stroke-width="3" rx="3"/>
-            <text x="120" y="134" class="small">letztes Landfeld</text>
-            <text x="388" y="134" class="small">erstes Landfeld</text>
-            <text x="246" y="58" class="small">1 bis 32 Wasserfelder</text>
-            <text x="30" y="158" class="small">Ziehen von Rahmen zu Rahmen, gerade, ohne Kurve</text>
+          <svg viewBox="0 0 600 180" role="img" aria-label="Bruecke ueber einen Fluss: gerade vom letzten Landfeld zum ersten Landfeld am anderen Ufer">
+            <rect x="0" y="0" width="600" height="180" fill="var(--land)" rx="6"/>
+            <rect x="220" y="0" width="160" height="180" fill="var(--water)"/>
+            <path d="M228 140 q20 10 0 20 M330 140 q20 10 0 20" stroke="#b9dbe5" stroke-width="2" fill="none"/>
+            <line x1="20" y1="105" x2="180" y2="105" stroke="var(--track)" stroke-width="5"/>
+            <line x1="420" y1="105" x2="580" y2="105" stroke="var(--track)" stroke-width="5"/>
+            <path d="M180 105 L215 80 L385 80 L420 105" fill="none" stroke="#7d6a58" stroke-width="7" stroke-linejoin="round"/>
+            <g stroke="#7d6a58" stroke-width="3"><line x1="250" y1="82" x2="250" y2="112"/><line x1="300" y1="82" x2="300" y2="112"/><line x1="350" y1="82" x2="350" y2="112"/></g>
+            <rect x="166" y="92" width="28" height="26" fill="none" stroke="var(--green)" stroke-width="3" rx="3"/>
+            <rect x="406" y="92" width="28" height="26" fill="none" stroke="var(--green)" stroke-width="3" rx="3"/>
+            <text x="20" y="150" class="small">letztes Landfeld</text>
+            <text x="440" y="150" class="small">erstes Landfeld</text>
+            <text x="234" y="36" class="small">1 bis 32</text><text x="234" y="60" class="small">Wasserfelder</text>
           </svg>
-          <figcaption>Bruecken sind gerade. Auf Bruecke und Rampen gibt es keine Stationen, Signale, Kurven oder Abzweige; Signale gehoeren davor oder dahinter.</figcaption>
+          <figcaption>Von Rahmen zu Rahmen ziehen, gerade und ohne Kurve. Auf Bruecke und Rampen gibt es keine Stationen, Signale, Kurven oder Abzweige; Signale gehoeren davor oder dahinter.</figcaption>
         </figure>
         <p>Kosten: $900 je Feld bei der Bahn, $650 bei Strassen (inklusive Rampen), dazu $6 Wartung je Feld und Monat. <b>Abriss</b> auf einem Brueckenfeld entfernt die ganze Bruecke, aber nur, wenn kein Fahrzeug sie belegt.</p>
       </section>
@@ -167,20 +166,19 @@
         <h2>Signale</h2>
         <p>Ohne Signale ist eine zusammenhaengende Strecke ein einziger <b>Block</b>: Darauf darf nur ein Zug fahren. Signale teilen die Strecke in Bloecke. Ein Signal zeigt <b>rot</b>, wenn der Block dahinter belegt ist; der folgende Zug wartet, bis der <b>letzte Wagen</b> den Block verlassen hat.</p>
         <figure>
-          <svg viewBox="0 0 600 150" role="img" aria-label="Strecke mit zwei Blocksignalen und drei farbigen Bloecken; ein Zug wartet vor einem roten Signal, weil der naechste Block belegt ist">
-            <rect x="0" y="0" width="600" height="150" fill="var(--land)" rx="6"/>
+          <svg viewBox="0 0 600 140" role="img" aria-label="Strecke mit zwei Blocksignalen und drei farbigen Bloecken; ein Zug wartet vor einem roten Signal, weil der naechste Block belegt ist">
+            <rect x="0" y="0" width="600" height="140" fill="var(--land)" rx="6"/>
             <rect x="20" y="62" width="180" height="16" fill="var(--b1)" opacity=".8"/>
             <rect x="200" y="62" width="200" height="16" fill="var(--b2)" opacity=".8"/>
             <rect x="400" y="62" width="180" height="16" fill="var(--b3)" opacity=".8"/>
             <line x1="20" y1="70" x2="580" y2="70" stroke="var(--track)" stroke-width="5"/>
-            <g><line x1="200" y1="70" x2="200" y2="38" stroke="var(--ink)" stroke-width="3"/><circle cx="200" cy="32" r="9" fill="var(--red)" stroke="var(--ink)" stroke-width="2"/></g>
-            <g><line x1="400" y1="70" x2="400" y2="38" stroke="var(--ink)" stroke-width="3"/><circle cx="400" cy="32" r="9" fill="var(--green)" stroke="var(--ink)" stroke-width="2"/></g>
-            <g><rect x="100" y="61" width="34" height="18" rx="4" fill="#3b6fb6"/><rect x="66" y="62" width="30" height="16" rx="3" fill="#6f8fb9"/><path d="M140 70 l10 0" stroke="#3b6fb6" stroke-width="3"/><path d="M150 64 l8 6 -8 6z" fill="#3b6fb6"/></g>
-            <g><rect x="300" y="61" width="34" height="18" rx="4" fill="var(--red)"/><rect x="262" y="62" width="34" height="16" rx="3" fill="#9b6b5a"/><path d="M340 64 l8 6 -8 6z" fill="var(--red)"/></g>
-            <text x="76" y="104" class="small">Block 1</text><text x="276" y="104" class="small">Block 2 (belegt)</text><text x="466" y="104" class="small">Block 3</text>
-            <text x="20" y="136" class="small">Der blaue Zug wartet am roten Signal, bis der rote Zug Block 2 ganz verlassen hat.</text>
+            <g><line x1="200" y1="70" x2="200" y2="40" stroke="var(--ink)" stroke-width="3"/><circle cx="200" cy="30" r="11" fill="var(--red)" stroke="var(--ink)" stroke-width="2"/></g>
+            <g><line x1="400" y1="70" x2="400" y2="40" stroke="var(--ink)" stroke-width="3"/><circle cx="400" cy="30" r="11" fill="var(--green)" stroke="var(--ink)" stroke-width="2"/></g>
+            <g><rect x="100" y="61" width="34" height="18" rx="4" fill="#3b6fb6"/><rect x="62" y="62" width="34" height="16" rx="3" fill="#6f8fb9"/><path d="M140 64 l9 6 -9 6z" fill="#3b6fb6"/></g>
+            <g><rect x="300" y="61" width="34" height="18" rx="4" fill="var(--red)"/><rect x="262" y="62" width="34" height="16" rx="3" fill="#9b6b5a"/><path d="M340 64 l9 6 -9 6z" fill="var(--red)"/></g>
+            <text x="60" y="112" class="small">Block 1</text><text x="232" y="112" class="small">Block 2 belegt</text><text x="450" y="112" class="small">Block 3</text>
           </svg>
-          <figcaption>Mit der <b>#</b>-Taste auf der Karte werden die Bloecke farbig angezeigt.</figcaption>
+          <figcaption>Der blaue Zug wartet am roten Signal, bis der rote Zug Block 2 mit dem letzten Wagen verlassen hat. Mit der <b>#</b>-Taste auf der Karte werden die Bloecke farbig angezeigt.</figcaption>
         </figure>
         <h3>Ein Signal setzen</h3>
         <ol>
@@ -191,12 +189,12 @@
         <figure>
           <svg viewBox="0 0 600 120" role="img" aria-label="Links ein Signal fuer beide Richtungen mit Doppelpfeil, rechts ein Einwegsignal mit einem Pfeil">
             <rect x="0" y="0" width="600" height="120" fill="var(--land)" rx="6"/>
-            <line x1="20" y1="60" x2="280" y2="60" stroke="var(--track)" stroke-width="5"/>
-            <line x1="320" y1="60" x2="580" y2="60" stroke="var(--track)" stroke-width="5"/>
-            <path d="M110 60 h60 M110 60 l12 -8 M110 60 l12 8 M170 60 l-12 -8 M170 60 l-12 8" stroke="var(--yellow)" stroke-width="5" stroke-linecap="round" fill="none"/>
-            <path d="M410 60 h60 M470 60 l-12 -8 M470 60 l-12 8" stroke="var(--yellow)" stroke-width="5" stroke-linecap="round" fill="none"/>
-            <text x="70" y="100" class="small">Beide Richtungen</text>
-            <text x="360" y="100" class="small">Einweg: Fahrt nur in Pfeilrichtung</text>
+            <line x1="20" y1="50" x2="280" y2="50" stroke="var(--track)" stroke-width="5"/>
+            <line x1="320" y1="50" x2="580" y2="50" stroke="var(--track)" stroke-width="5"/>
+            <path d="M110 50 h60 M110 50 l12 -8 M110 50 l12 8 M170 50 l-12 -8 M170 50 l-12 8" stroke="var(--yellow)" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M410 50 h60 M470 50 l-12 -8 M470 50 l-12 8" stroke="var(--yellow)" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <text x="56" y="98" class="small">Beide Richtungen</text>
+            <text x="352" y="98" class="small">Einweg (Pfeilrichtung)</text>
           </svg>
           <figcaption>Einwegsignale sperren die Gegenrichtung auch fuer die Routensuche. So legt man fest, welches Gleis welche Richtung nimmt.</figcaption>
         </figure>
@@ -208,27 +206,36 @@
         <p><b>Blocksignale</b> sperren den ganzen Block bis zum naechsten Signal. Liegen in einem Block Weichen oder Kreuzungen, kann immer nur ein Zug hindurch, auch wenn sich die Wege gar nicht beruehren.</p>
         <p><b>Pfadsignale (PBS)</b> haben ein tuerkises Gehaeuse. Ein Zug reserviert vor der Einfahrt nur <b>seinen Fahrweg</b> bis zum naechsten Signal oder Zielbahnhof. Fahrwege, die sich nicht kreuzen, koennen gleichzeitig befahren werden. In der <b>#</b>-Ansicht sind reservierte Gleise gelb.</p>
         <figure>
-          <svg viewBox="0 0 600 220" role="img" aria-label="Vergleich: links Blocksignale, ein Zug wartet vor einem Weichenbereich; rechts Pfadsignale, beide Zuege fahren gleichzeitig auf getrennten reservierten Wegen">
-            <rect x="0" y="0" width="290" height="220" fill="var(--land)" rx="6"/>
-            <rect x="310" y="0" width="290" height="220" fill="var(--land)" rx="6"/>
-            <text x="14" y="22" class="label">Blocksignale</text>
-            <text x="324" y="22" class="label">Pfadsignale (PBS)</text>
-            <rect x="70" y="58" width="150" height="104" fill="var(--b2)" opacity=".55" rx="4"/>
-            <g stroke="var(--track)" stroke-width="5"><line x1="14" y1="80" x2="276" y2="80"/><line x1="14" y1="140" x2="276" y2="140"/><line x1="130" y1="80" x2="130" y2="140"/></g>
-            <g><line x1="70" y1="80" x2="70" y2="52" stroke="var(--ink)" stroke-width="3"/><circle cx="70" cy="46" r="8" fill="var(--green)" stroke="var(--ink)" stroke-width="2"/></g>
-            <g><line x1="70" y1="140" x2="70" y2="168" stroke="var(--ink)" stroke-width="3"/><circle cx="70" cy="174" r="8" fill="var(--red)" stroke="var(--ink)" stroke-width="2"/></g>
-            <rect x="150" y="71" width="34" height="18" rx="4" fill="var(--red)"/>
-            <rect x="24" y="131" width="34" height="18" rx="4" fill="#3b6fb6"/>
-            <text x="14" y="206" class="small">Ein Block mit Weiche: blau muss warten.</text>
-            <g stroke="var(--yellow)" stroke-width="12" opacity=".7"><line x1="380" y1="80" x2="586" y2="80"/><line x1="380" y1="140" x2="586" y2="140"/></g>
-            <g stroke="var(--track)" stroke-width="5"><line x1="324" y1="80" x2="586" y2="80"/><line x1="324" y1="140" x2="586" y2="140"/><line x1="440" y1="80" x2="440" y2="140"/></g>
-            <g><line x1="380" y1="80" x2="380" y2="52" stroke="var(--ink)" stroke-width="3"/><rect x="371" y="38" width="18" height="16" rx="3" fill="var(--pbs)" stroke="var(--ink)" stroke-width="2"/><circle cx="380" cy="46" r="4" fill="var(--green)"/></g>
-            <g><line x1="380" y1="140" x2="380" y2="168" stroke="var(--ink)" stroke-width="3"/><rect x="371" y="166" width="18" height="16" rx="3" fill="var(--pbs)" stroke="var(--ink)" stroke-width="2"/><circle cx="380" cy="174" r="4" fill="var(--green)"/></g>
-            <rect x="460" y="71" width="34" height="18" rx="4" fill="var(--red)"/>
-            <rect x="400" y="131" width="34" height="18" rx="4" fill="#3b6fb6"/>
-            <text x="324" y="206" class="small">Getrennte Wege (gelb): beide fahren.</text>
-          </svg>
-          <figcaption>Gleicher Gleisplan, andere Signale: Pfadsignale lassen beide Zuege gleichzeitig durch den Weichenbereich.</figcaption>
+          <div class="pair">
+            <div>
+              <svg viewBox="0 0 300 230" role="img" aria-label="Blocksignale: ein Block mit Weiche, der blaue Zug wartet am roten Signal">
+                <rect x="0" y="0" width="300" height="230" fill="var(--land)" rx="6"/>
+                <text x="14" y="30" class="label">Blocksignale</text>
+                <rect x="70" y="62" width="160" height="104" fill="var(--b2)" opacity=".55" rx="4"/>
+                <g stroke="var(--track)" stroke-width="5"><line x1="14" y1="84" x2="286" y2="84"/><line x1="14" y1="144" x2="286" y2="144"/><line x1="140" y1="84" x2="140" y2="144"/></g>
+                <g><line x1="70" y1="84" x2="70" y2="64" stroke="var(--ink)" stroke-width="3"/><circle cx="70" cy="54" r="10" fill="var(--green)" stroke="var(--ink)" stroke-width="2"/></g>
+                <g><line x1="70" y1="144" x2="70" y2="164" stroke="var(--ink)" stroke-width="3"/><circle cx="70" cy="174" r="10" fill="var(--red)" stroke="var(--ink)" stroke-width="2"/></g>
+                <rect x="160" y="75" width="34" height="18" rx="4" fill="var(--red)"/>
+                <rect x="22" y="135" width="34" height="18" rx="4" fill="#3b6fb6"/>
+                <text x="14" y="214" class="small">blau wartet</text>
+              </svg>
+              <figcaption>Der ganze Weichenbereich ist ein Block: Nur ein Zug darf hinein.</figcaption>
+            </div>
+            <div>
+              <svg viewBox="0 0 300 230" role="img" aria-label="Pfadsignale: zwei getrennte reservierte Fahrwege, beide Zuege fahren gleichzeitig">
+                <rect x="0" y="0" width="300" height="230" fill="var(--land)" rx="6"/>
+                <text x="14" y="30" class="label">Pfadsignale (PBS)</text>
+                <g stroke="var(--yellow)" stroke-width="12" opacity=".7"><line x1="70" y1="84" x2="286" y2="84"/><line x1="70" y1="144" x2="286" y2="144"/></g>
+                <g stroke="var(--track)" stroke-width="5"><line x1="14" y1="84" x2="286" y2="84"/><line x1="14" y1="144" x2="286" y2="144"/><line x1="140" y1="84" x2="140" y2="144"/></g>
+                <g><line x1="70" y1="84" x2="70" y2="64" stroke="var(--ink)" stroke-width="3"/><rect x="60" y="44" width="20" height="20" rx="3" fill="var(--pbs)" stroke="var(--ink)" stroke-width="2"/><circle cx="70" cy="54" r="5" fill="var(--green)"/></g>
+                <g><line x1="70" y1="144" x2="70" y2="164" stroke="var(--ink)" stroke-width="3"/><rect x="60" y="164" width="20" height="20" rx="3" fill="var(--pbs)" stroke="var(--ink)" stroke-width="2"/><circle cx="70" cy="174" r="5" fill="var(--green)"/></g>
+                <rect x="170" y="75" width="34" height="18" rx="4" fill="var(--red)"/>
+                <rect x="90" y="135" width="34" height="18" rx="4" fill="#3b6fb6"/>
+                <text x="14" y="214" class="small">beide fahren</text>
+              </svg>
+              <figcaption>Jeder Zug reserviert nur seinen Weg (gelb). Getrennte Wege: beide gruen.</figcaption>
+            </div>
+          </div>
         </figure>
         <div class="table-wrap">
           <table>
@@ -249,40 +256,40 @@
         <p>Auf einer eingleisigen Strecke koennen zwei Zuege nicht aneinander vorbei. Mit einem Ausweichgleis in der Mitte kreuzen sie sich: Eine Richtung bleibt auf der Strecke, die andere nimmt das Ausweichgleis. So geht es:</p>
         <div class="steps">
           <figure>
-            <svg viewBox="0 0 600 150" role="img" aria-label="Schritt 1: Mit Schiene und Hindernisse umfahren von Feld A zu Feld B auf derselben Strecke ziehen; die Vorschau fuehrt neben der Strecke entlang">
-              <rect x="0" y="0" width="600" height="150" fill="var(--land)" rx="6"/>
-              <line x1="20" y1="60" x2="580" y2="60" stroke="var(--track)" stroke-width="5"/>
-              <path d="M150 60 V100 H450 V60" fill="none" stroke="var(--green)" stroke-width="8" stroke-linejoin="round" opacity=".75"/>
-              <circle cx="150" cy="60" r="9" fill="#fff" stroke="var(--ink)" stroke-width="2"/><text x="144" y="42" class="label">A</text>
-              <circle cx="450" cy="60" r="9" fill="#fff" stroke="var(--ink)" stroke-width="2"/><text x="444" y="42" class="label">B</text>
-              <path d="M175 30 C 260 10, 340 10, 425 30" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 4"/>
-              <path d="M425 30 l-10 -6 1 10z" fill="var(--muted)"/>
-              <text x="20" y="136" class="small">1. Schiene, "Hindernisse umfahren": von A nach B ziehen (mindestens 5 Felder auseinander), Bauen.</text>
+            <svg viewBox="0 0 600 140" role="img" aria-label="Schritt 1: Mit Schiene und Hindernisse umfahren von Feld A zu Feld B auf derselben Strecke ziehen; die Vorschau fuehrt neben der Strecke entlang">
+              <rect x="0" y="0" width="600" height="140" fill="var(--land)" rx="6"/>
+              <line x1="20" y1="70" x2="580" y2="70" stroke="var(--track)" stroke-width="5"/>
+              <path d="M150 70 V110 H450 V70" fill="none" stroke="var(--green)" stroke-width="9" stroke-linejoin="round" opacity=".75"/>
+              <circle cx="150" cy="70" r="10" fill="#fff" stroke="var(--ink)" stroke-width="2"/><text x="142" y="48" class="label">A</text>
+              <circle cx="450" cy="70" r="10" fill="#fff" stroke="var(--ink)" stroke-width="2"/><text x="442" y="48" class="label">B</text>
+              <path d="M180 30 C 260 8, 340 8, 420 30" fill="none" stroke="var(--muted)" stroke-width="3" stroke-dasharray="7 5"/>
+              <path d="M424 32 l-13 -6 2 12z" fill="var(--muted)"/>
             </svg>
+            <figcaption><b>1.</b> Werkzeug <b>Schiene</b>, Streckenplanung <b>Hindernisse umfahren</b>. Von A nach B ziehen (mindestens 5 Felder auseinander) und <b>Bauen</b>. Die Wegsuche fuehrt das neue Gleis um die Strecke herum.</figcaption>
           </figure>
           <figure>
             <svg viewBox="0 0 600 150" role="img" aria-label="Schritt 2: Vier Einwegsignale, auf der Strecke nach rechts, auf dem Ausweichgleis nach links, jeweils ein Feld hinter den Weichen">
               <rect x="0" y="0" width="600" height="150" fill="var(--land)" rx="6"/>
               <line x1="20" y1="60" x2="580" y2="60" stroke="var(--track)" stroke-width="5"/>
               <path d="M150 60 V100 H450 V60" fill="none" stroke="var(--track)" stroke-width="5" stroke-linejoin="round"/>
-              <g stroke="var(--yellow)" stroke-width="5" stroke-linecap="round" fill="none">
-                <path d="M175 60 h30 M205 60 l-9 -6 M205 60 l-9 6"/><path d="M395 60 h30 M425 60 l-9 -6 M425 60 l-9 6"/>
-                <path d="M205 100 h-30 M175 100 l9 -6 M175 100 l9 6"/><path d="M425 100 h-30 M395 100 l9 -6 M395 100 l9 6"/>
+              <g stroke="var(--yellow)" stroke-width="6" stroke-linecap="round" fill="none">
+                <path d="M172 60 h34 M206 60 l-10 -7 M206 60 l-10 7"/><path d="M394 60 h34 M428 60 l-10 -7 M428 60 l-10 7"/>
+                <path d="M206 100 h-34 M172 100 l10 -7 M172 100 l10 7"/><path d="M428 100 h-34 M394 100 l10 -7 M394 100 l10 7"/>
               </g>
-              <text x="250" y="48" class="small">Strecke: Einweg nach rechts</text>
-              <text x="238" y="122" class="small">Ausweichgleis: Einweg nach links</text>
-              <text x="20" y="142" class="small">2. Vier Signale, je ein Feld hinter jeder Weiche, alle Einweg.</text>
+              <text x="236" y="40" class="small">Einweg nach rechts</text>
+              <text x="242" y="134" class="small">Einweg nach links</text>
             </svg>
+            <figcaption><b>2.</b> Vier Signale, je ein Feld hinter jeder Weiche, alle <b>Einweg</b>: auf der Strecke in die eine Richtung, auf dem Ausweichgleis in die andere.</figcaption>
           </figure>
           <figure>
-            <svg viewBox="0 0 600 150" role="img" aria-label="Schritt 3: Ein roter Zug faehrt auf der Strecke nach rechts, ein blauer Zug auf dem Ausweichgleis nach links; sie kreuzen sich">
-              <rect x="0" y="0" width="600" height="150" fill="var(--land)" rx="6"/>
-              <line x1="20" y1="60" x2="580" y2="60" stroke="var(--track)" stroke-width="5"/>
-              <path d="M150 60 V100 H450 V60" fill="none" stroke="var(--track)" stroke-width="5" stroke-linejoin="round"/>
-              <g><rect x="300" y="51" width="34" height="18" rx="4" fill="var(--red)"/><rect x="226" y="52" width="34" height="16" rx="3" fill="#9b6b5a"/><rect x="263" y="52" width="34" height="16" rx="3" fill="#9b6b5a"/><path d="M340 54 l9 6 -9 6z" fill="var(--red)"/></g>
-              <g><rect x="250" y="91" width="34" height="18" rx="4" fill="#3b6fb6"/><rect x="288" y="92" width="34" height="16" rx="3" fill="#6f8fb9"/><rect x="325" y="92" width="34" height="16" rx="3" fill="#6f8fb9"/><path d="M244 94 l-9 6 9 6z" fill="#3b6fb6"/></g>
-              <text x="20" y="136" class="small">3. Ergebnis: Jede Richtung hat ihr eigenes Gleis, die Zuege kreuzen sich ohne Halt.</text>
+            <svg viewBox="0 0 600 130" role="img" aria-label="Schritt 3: Ein roter Zug faehrt auf der Strecke nach rechts, ein blauer Zug auf dem Ausweichgleis nach links; sie kreuzen sich">
+              <rect x="0" y="0" width="600" height="130" fill="var(--land)" rx="6"/>
+              <line x1="20" y1="50" x2="580" y2="50" stroke="var(--track)" stroke-width="5"/>
+              <path d="M150 50 V90 H450 V50" fill="none" stroke="var(--track)" stroke-width="5" stroke-linejoin="round"/>
+              <g><rect x="300" y="41" width="34" height="18" rx="4" fill="var(--red)"/><rect x="226" y="42" width="34" height="16" rx="3" fill="#9b6b5a"/><rect x="263" y="42" width="34" height="16" rx="3" fill="#9b6b5a"/><path d="M340 44 l9 6 -9 6z" fill="var(--red)"/></g>
+              <g><rect x="250" y="81" width="34" height="18" rx="4" fill="#3b6fb6"/><rect x="288" y="82" width="34" height="16" rx="3" fill="#6f8fb9"/><rect x="325" y="82" width="34" height="16" rx="3" fill="#6f8fb9"/><path d="M244 84 l-9 6 9 6z" fill="#3b6fb6"/></g>
             </svg>
+            <figcaption><b>3.</b> Ergebnis: Jede Richtung hat ihr eigenes Gleis, die Zuege kreuzen sich ohne Halt.</figcaption>
           </figure>
         </div>
         <ul>

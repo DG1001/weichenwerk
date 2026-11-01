@@ -9,7 +9,8 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 - Ausweichgleise lassen sich bereits ohne eigenes Werkzeug bauen: Mit "Hindernisse umfahren" von einem Gleisfeld zu einem anderen auf derselben Strecke ziehen; die Wegsuche fuehrt um die Strecke herum. Dazu vier Einwegsignale (Strecke eine Richtung, Ausweichgleis die andere, je ein Feld hinter den Weichen).
 - Abgesichert mit `tests/passing-loop.cjs`: zwei Zuege, je ca. 59 Wendungen, kein Stillstand. Gegenproben: ohne Signale startet der zweite Zug gar nicht; mit nur einem Signal je Gleis blockieren sich beide dauerhaft. Faustregel "Wagenzahl plus 4 Felder Abstand" mit 1, 4 und 8 Wagen geprueft (funktioniert auch kuerzer).
 - Beim Pruefen der Texte gefunden: Darlehen kosten 0,4 % Zinsen pro Monat; die Hilfe sagt das korrekt.
-- Testergebnisse: siehe Commit-Verlauf und naechsten Eintrag.
+- Screenshot-Pruefung am Handy: Die Beschriftungen in den Bildern schrumpften auf ca. 6-7 px. Ueberarbeitet: lange Saetze stehen jetzt in den Bildunterschriften, in den Bildern nur kurze, grosse Beschriftungen; der Block/Pfad-Vergleich besteht aus zwei Bildern, die am Handy untereinander stehen.
+- Tests: `browser-help`, `browser-layout` und alle Tests ohne Browser (inkl. `passing-loop`) bestehen. Im Hilfe-Test war zunaechst die Annahme "Leiste max. 60 px hoch" falsch (Desktop-Leiste 88 px); geprueft wird jetzt, ob der Knopf innerhalb der Leiste liegt.
 
 ## 2026-11-01 - Optionen je Werkzeug, Signale aus der Bauvorschau
 
