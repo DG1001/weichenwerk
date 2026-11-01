@@ -2,6 +2,13 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-01 - Optionen je Werkzeug, Signale aus der Bauvorschau
+
+- Handy-Layout: Im Panel stehen nur noch die Optionen des aktiven Werkzeugs (Streckenplanung bei Schiene/Strasse, Stationstyp bei Station, Signaloptionen bei Signal). Desktop unveraendert.
+- Signal-Vorschau mit Knoepfen **Richtung** (Beide -> Einweg -> Einweg umgekehrt) und **Typ** (Block/PBS), auf allen Layouts. Ablauf am Handy: Gleis antippen, Richtung/Typ, Bauen; das Panel wird nicht gebraucht.
+- `browser-bridges` und `browser-pbs` stellten Optionen vor der Werkzeugwahl ein; jetzt erst Werkzeug, dann Option (wie ein Nutzer). `browser-layout` prueft beides neu.
+- Testlauf: siehe naechste Aktualisierung.
+
 ## 2026-11-01 - Querformat, Koordinaten-Box entfernt, Bauvorschau immer erreichbar
 
 - Querformat (Handy quer bis 980 x 600 px): Karte fest links, rechte Spalte mit oben angehefteten Werkzeugen (3 x 2), darunter Auswahl, Optionen, Inspektor und Spielstand.
@@ -53,8 +60,6 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 ## Offene Punkte
 
 - Neigen der Kamera per Touch-Geste.
-- Signale per Tippen setzen/aendern statt ueber Formularfelder.
 - Werkzeug fuer Ausweichgleise (paralleles Gleis mit Weichen und Signalen als Vorschlag).
-- Werkzeugoptionen nur passend zum gewaehlten Werkzeug zeigen.
 - PWA (Manifest, Service Worker) fuer Homescreen und Offline-Start.
 - Leistung auf Mittelklasse-Handys pruefen (Pixeldichte, Detailstufen, 30-fps-Modus).
