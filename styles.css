@@ -513,7 +513,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid #3574a8; outline
 .town-table button { border: 0; background: none; color: var(--accent-dark); cursor: pointer; text-align: left; padding: 0; overflow-wrap: anywhere; max-width: 100%; }
 #townDialog { width: 430px; max-height: calc(100dvh - 24px); overflow-y: auto; }
 .build-preview {
-  position: absolute; left: 12px; right: 12px; bottom: 12px;
+  position: fixed; z-index: 15; left: 252px; right: 292px; bottom: 12px;
   display: flex; align-items: center; gap: 8px; padding: 10px;
   background: #fff; border: 1px solid #38896a; border-radius: 6px;
   box-shadow: 0 3px 14px #122e3326;
@@ -521,7 +521,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid #3574a8; outline
 .build-preview output { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 13px; }
 .build-preview button { min-height: 38px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; }
 #confirmBuild { background: var(--accent); color: white; }
-.map-wrap:has(.build-preview:not([hidden])) .toast { bottom: 90px; }
+body:has(.build-preview:not([hidden])) .toast { bottom: 90px; }
 .build-loupe { position: absolute; border: 3px solid #fff; border-radius: 6px; box-shadow: 0 0 0 1px #38896a, 0 4px 16px #122e3340; pointer-events: none; }
 .build-loupe::before, .build-loupe::after { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: #18222bd0; }
 .build-loupe::before { width: 20px; height: 2px; }
@@ -544,7 +544,7 @@ dialog::backdrop { background: #172d3866; }
 #newWorld { border-color: var(--danger); color: var(--danger); }
 @media (max-width: 620px) {
   .build-preview { flex-wrap: wrap; }
-  .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: 128px; }
+  body:has(.build-preview:not([hidden])) .toast { bottom: 128px; }
   .build-preview output { flex-basis: 100%; }
   .build-preview button { flex: 1; }
 }
@@ -713,15 +713,15 @@ dialog::backdrop { background: #172d3866; }
 
   .camera-tools { top: calc(var(--bar) + 10px); }
   /* Fixed above the sheet, so Bauen/Abbrechen stay reachable while options in the sheet are changed. */
-  .build-preview { position: fixed; z-index: 15; bottom: calc(var(--dock) + 8px); }
+  .build-preview { left: 12px; right: 12px; bottom: calc(var(--dock) + 8px); }
   .toast { bottom: calc(var(--dock) + 12px); }
-  .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: calc(var(--dock) + 90px); }
+  body:has(.build-preview:not([hidden])) .toast { bottom: calc(var(--dock) + 90px); }
   .cab-view { top: var(--bar); bottom: var(--dock); }
   .map-wrap.cab-active .toast { bottom: calc(var(--dock) + 100px); }
 }
 
 @media (max-width: 620px) {
-  .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: calc(var(--dock) + 128px); }
+  body:has(.build-preview:not([hidden])) .toast { bottom: calc(var(--dock) + 128px); }
 }
 
 /* Phone in landscape: the map is fixed on the left, and the sheet becomes a right-hand column
@@ -746,7 +746,7 @@ dialog::backdrop { background: #172d3866; }
   .camera-tools { top: 10px; }
   .build-preview { left: 12px; right: calc(var(--side) + 12px); bottom: 12px; }
   .toast { bottom: 12px; }
-  .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: 90px; }
+  body:has(.build-preview:not([hidden])) .toast { bottom: 90px; }
   .cab-view { top: 0; bottom: 0; }
   .map-wrap.cab-active .toast { bottom: 100px; }
 }
