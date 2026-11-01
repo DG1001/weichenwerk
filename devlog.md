@@ -2,13 +2,22 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-01 - Querformat, Koordinaten-Box entfernt, Bauvorschau immer erreichbar
+
+- Querformat (Handy quer bis 980 x 600 px): Karte fest links, rechte Spalte mit oben angehefteten Werkzeugen (3 x 2), darunter Auswahl, Optionen, Inspektor und Spielstand.
+- Koordinaten-Box auf der Karte entfernt (Wunsch). Sprung zu Koordinaten bleibt als Knopf **Zu Koordinaten** im Panel; Anzeige des Feldes unter dem Zeiger entfaellt.
+- Folgen des Hochformat-Layouts aus den Browser-Tests: Nach Klicks im hochgeschobenen Panel blieb die Karte verdeckt (bridges, cab, signal-controls, towns). `revealMap()` schiebt bei Werkzeugwahl, Fuehrerhaus, Koordinatensprung und Stadtfokus zurueck. Die Bauvorschau liegt jetzt fest ueber dem Panel, damit **Bauen** auch nach Aenderungen an Signaloptionen erreichbar ist.
+- Hochformat-Karte ist hoeher (844 statt ca. 520 px), bei festem vertikalem Sichtfeld also seitlich schmaler. `browser-bridges` nutzt deshalb auf schmalen Bildschirmen mehr Kameraabstand.
+- Ueberlauf behoben: Der laengere Knopftext liess die vierspaltigen Spielstand-Knoepfe ueberlaufen; im Querformat-Panel jetzt zweispaltig.
+- Neuer Test `tests/browser-layout.cjs` fuer Hoch- und Querformat. Ergebnisse: siehe folgende Eintraege.
+
 ## 2026-11-01 - Handy-Layout: Karte im Vollbild mit Bottom-Sheet
 
 - Vorher standen im Hochformat alle Bedienfelder ueber der Karte; man musste zur Karte scrollen.
 - Neu (bis 980 px Breite): Karte im Vollbild, schmale feste Leiste oben (Datum, Finanzen), unten ein Panel mit Werkzeugleiste und Auswahl-Kopf. Nach oben wischen zeigt alle uebrigen Bedienelemente. Reines CSS: `display: contents` plus `order`, Karte `sticky`.
 - Bewusst kein ausklappbares Panel mit versteckten Inhalten: Alle Elemente bleiben im Dokumentfluss, damit Bedienung per Scrollen und die bestehenden Browser-Tests weiter funktionieren.
 - Geprueft per Screenshot bei 390 und 320 px: kein horizontales Ueberlaufen, keine Luecken im Panel (eine Luecke durch den Aussenabstand von `#selectionText` behoben).
-- Offen: Querformat (bei 390 px Hoehe bleibt nach Leiste und Panel wenig Karte), Werkzeugoptionen nur passend zum gewaehlten Werkzeug zeigen.
+- Offen: Querformat (erledigt im naechsten Eintrag), Werkzeugoptionen nur passend zum gewaehlten Werkzeug zeigen.
 
 ## 2026-11-01 - Dokumentation aufgeteilt
 
@@ -44,6 +53,6 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 - Neigen der Kamera per Touch-Geste.
 - Signale per Tippen setzen/aendern statt ueber Formularfelder.
 - Werkzeug fuer Ausweichgleise (paralleles Gleis mit Weichen und Signalen als Vorschlag).
-- Layout im Querformat (Hochformat erledigt).
+- Werkzeugoptionen nur passend zum gewaehlten Werkzeug zeigen.
 - PWA (Manifest, Service Worker) fuer Homescreen und Offline-Start.
 - Leistung auf Mittelklasse-Handys pruefen (Pixeldichte, Detailstufen, 30-fps-Modus).

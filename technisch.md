@@ -53,7 +53,9 @@ Bis 980 px Breite (`styles.css`, letzter Block) gilt ein Handy-Layout ohne JavaS
 - `revealMap()` (`game.js`) schiebt das Panel per `scrollTo(0,0)` zurueck, wenn danach die Karte gebraucht wird: Werkzeugwahl, Fuehrerhaus, Koordinatensprung, Stadtfokus (`towns.js`). Auf breiten Bildschirmen scrollt es wie bisher nur die Karte ins Bild. Signaloptionen schieben bewusst nicht zurueck, damit man mehrfach umschalten kann.
 - Hochformat: Die Kamera hat ein festes vertikales Sichtfeld von 45 Grad. Auf hohen, schmalen Karten ist der seitliche Ausschnitt daher kleiner; Tests mit festem Zoom brauchen dort mehr Abstand.
 - In Browser-Tests verdeckt das hochgeschobene Panel nach Klicks auf Panel-Elemente die Karte. `canvas.scrollIntoViewIfNeeded()` hilft bei der sticky Karte nicht; Tests schieben dann mit `scrollTo(0,0)` zurueck.
-- Ueberlagerungen auf der Karte (Kamera-Knoepfe, Koordinaten, Bauvorschau, Meldungen, Fuehrerhaus) sind um `--bar` bzw. `--dock` versetzt.
+- Ueberlagerungen auf der Karte (Kamera-Knoepfe, Meldungen, Fuehrerhaus) sind um `--bar` bzw. `--dock` versetzt. Die Bauvorschau ist `position: fixed` mit `z-index` ueber dem Panel; dafuer bildet `.map-wrap` keinen eigenen Stapelkontext (kein `z-index`).
+- Querformat (`max-width: 980px` und `orientation: landscape` und `max-height: 600px`, letzter Block): `.map-wrap` ist `position: fixed` links unter der Leiste, die Panel-Elemente haben die Breite `--side` (max. 300 px) mit `margin-left: auto` und bilden so eine rechte Spalte, die mit der Seite scrollt. Die Werkzeugleiste ist dort `sticky` oben (3 x 2 Knoepfe). `revealMap()` scrollt im Querformat nicht.
+- Die fruehere Koordinaten-Box auf der Karte ist entfernt; der Dialog wird ueber `#openCoordinates` im Panel geoeffnet. `mapCoordinates` (letztes Feld, Sprungziel) bleibt fuer Vorbelegung und Markierung erhalten.
 
 ## 3D-Modelle
 
@@ -103,8 +105,9 @@ Browser: unter Windows der feste Chrome-Pfad, sonst `$CHROME_PATH` oder Playwrig
 `node tests/browser-cab.cjs` prueft Zug/Lkw, Mitfahrt/Umsehen, UI-Ausstieg/Escape, Fahrzeugwechsel/Bergung, lokale Icons, Save/Reload und echte WebGL-Screenshots mit Pixelchecks auf Desktop sowie bei 390 und 320 Pixel Breite.
 `node tests/browser-depot-returns.cjs` prueft Rueckgabe, Umruesten, Anzeige, Save/Reload und erneutes Beladen ueber die echte Depotoberflaeche auf Desktop/Mobile.
 
-`node tests/coordinates.cjs` prueft Koordinatenanzeige, grosse Karten, Grenzen/ungueltige Werte, Sprung/Kamera, Abbruch offener Entwuerfe und unveraenderte Simulation.
+`node tests/coordinates.cjs` prueft grosse Karten, Grenzen/ungueltige Werte, Sprung/Kamera, Abbruch offener Entwuerfe und unveraenderte Simulation.
 `node tests/browser-coordinates.cjs` prueft echte Mauskoordinaten, Dialog und Tastatur, Sprungmarkierung per Pixelcheck, grosse Karten, Speicher/Kamera und kollisionsfreies Layout auf Desktop sowie bei 390 und 320 Pixel Breite.
+`node tests/browser-layout.cjs` prueft das Handy-Layout hochkant (390, 320) und quer (844 x 390, 667 x 375): kein seitlicher Ueberlauf, Werkzeuge ohne Scrollen sichtbar, Karte bleibt beim Scrollen stehen, Bauvorschau nicht vom Panel verdeckt, Karte nach Werkzeugwahl und Koordinatensprung frei, keine Koordinaten-Box.
 
 `node tests/signal-controls.cjs` prueft automatische Gleisachsen, die zwei Gegenrichtungen, explizite Verbindungen, Vorschau/Abbruch, bestehende Signalwerte, Einweg/Beide Richtungen, alte Speicherstaende und ungueltige Standorte.
 `node tests/browser-signal-controls.cjs` prueft Hover-/Klickvorschau, Umkehren, Farb-Pixel des sichtbaren Pfeils bei gedrehter Kamera, beide Gleisachsen, bestehende Signale, Save/Reload, Geometriespeicher, lokale Icons und Desktop/Mobile.

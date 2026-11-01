@@ -6,7 +6,7 @@ Ein kleiner, eigenstaendiger OpenTTD-inspirierter Transport-Tycoon fuer den Brow
 
 Oeffne `index.html` direkt im Browser. Es ist kein Build-Schritt und kein lokaler Server noetig.
 
-Am Handy: Ein Finger verschiebt die Karte, zwei Finger zoomen und drehen. Schienen und Strassen mit einem Finger ziehen; eine Lupe ueber dem Finger zeigt das Zielfeld. Details in [fachlich.md](fachlich.md#bedienung).
+Am Handy (hoch und quer) fuellt die Karte den Bildschirm; Werkzeuge und Infos liegen in einem Panel unten bzw. rechts. Ein Finger verschiebt die Karte, zwei Finger zoomen und drehen. Schienen und Strassen mit einem Finger ziehen; eine Lupe ueber dem Finger zeigt das Zielfeld. Details in [fachlich.md](fachlich.md#bedienung).
 
 ## Spielkern
 
