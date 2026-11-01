@@ -13,7 +13,8 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 - Beim Zeichnen von Schiene/Strasse mit dem Finger zeigt eine Lupe ueber dem Finger das Zielfeld vergroessert mit Fadenkreuz. Zweiter Render-Durchgang mit eigener Kamera in einen Scissor-Bereich, keine zusaetzlichen Dateien.
 - Haelt der zeichnende Finger am Kartenrand, scrollt die Karte mit und die Vorschau waechst weiter.
 - Grund: Der Finger verdeckt beim Zeichnen genau das Zielfeld, und lange Strecken endeten am Bildrand.
-- Test: `tests/browser-touch.cjs` um Lupe und Rand-Scrollen erweitert. Ergebnis des Laufs: siehe naechster Eintrag.
+- Test: `tests/browser-touch.cjs` um Lupe und Rand-Scrollen erweitert; Lauf bestanden (390 und 1440 px).
+- Korrektur nach Screenshot-Pruefung: Die Lupe lag teilweise unter dem Koordinatenfeld, weil HTML-Bedienelemente ueber der 3D-Flaeche liegen. Sie bleibt jetzt unterhalb von Kamera-Knoepfen und Koordinatenfeld; der Test prueft das.
 
 ## 2026-11-01 - Touch-Gesten fuer die Karte
 

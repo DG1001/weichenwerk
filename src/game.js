@@ -1692,9 +1692,12 @@ function renderBuildLoupe() {
   if(!show)return;
   const width=threeViewport.clientWidth,height=threeViewport.clientHeight,rect=three.renderer.domElement.getBoundingClientRect();
   const size=Math.round(clamp(Math.min(width,height)*0.34,96,150)),gap=56,x=draw.clientX-rect.left,y=draw.clientY-rect.top;
+  // Stay below the HTML overlays (camera buttons, coordinates) that sit on top of the canvas.
+  let minTop=8;
+  for(const overlay of [ui.cameraTools,ui.coordinateTools])if(!overlay.hidden)minTop=Math.max(minTop,overlay.getBoundingClientRect().bottom-rect.top+8);
   let left=x-size/2,top=y-gap-size;
-  if(top<8){top=y-size/2;left=x+gap+size<=width-8?x+gap:x-gap-size;}
-  left=Math.round(clamp(left,8,Math.max(8,width-size-8)));top=Math.round(clamp(top,8,Math.max(8,height-size-8)));
+  if(top<minTop){top=y-size/2;left=x+gap+size<=width-8?x+gap:x-gap-size;}
+  left=Math.round(clamp(left,8,Math.max(8,width-size-8)));top=Math.round(clamp(top,minTop,Math.max(minTop,height-size-8)));
   const world=tileToWorld3d(game.hover.x,game.hover.y),elevation=routeElevationAt(game.hover.x,game.hover.y),distance=6;
   const flat=Math.cos(three.orbit.pitch)*distance,camera=three.loupeCamera;
   camera.position.set(world.x+Math.sin(three.orbit.yaw)*flat,elevation+Math.sin(three.orbit.pitch)*distance,world.z+Math.cos(three.orbit.yaw)*flat);
