@@ -1,2 +1,6 @@
 artifacts/
 node_modules/
+# XaresAICoder workspace files, not part of the game
+AGENTS.md
+README_coder.md
+.vscode/

@@ -18,7 +18,9 @@ Weichenwerk (formerly "Libre Transport Tycoon"; renamed because "Transport Tycoo
   - `README.md`: short entry point with start, feature overview and links. Update it when the overview or the controls change.
 - `OPENTTD-AUDIT.md` tracks the differences from OpenTTD.
 
-This workspace is a XaresAICoder container (see `AGENTS.md`). If you need to serve the game over HTTP, bind to `0.0.0.0`. Normally it isn't needed, because the game runs from `file://`.
+The game is developed in a XaresAICoder workspace (Docker container behind a subdomain proxy; its `AGENTS.md` is local and not in the repository). If you need to serve the game over HTTP there, bind to `0.0.0.0`. Normally it isn't needed, because the game runs from `file://`.
+
+Publishing: the public repository is `dg1001/weichenwerk`. `.github/workflows/pages.yml` runs the Node tests and deploys the game files to GitHub Pages on every push to `main`. README media come from `node scripts/capture-media.cjs --gif` (Playwright + ffmpeg).
 
 ## Commands
 

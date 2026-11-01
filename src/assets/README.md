@@ -7,7 +7,7 @@ Selected models by **Kenney**, licensed **CC0 1.0**. Original license notices ar
 Sources verified on 2026-10-31:
 
 - [City Kit (Suburban), 2.0](https://kenney.nl/assets/city-kit-suburban)
-- [Nature Kit, 1.0](https://kenney.nl/assets/nature-kit)
+- [Nature Kit, 2.1](https://kenney.nl/assets/nature-kit)
 - [City Kit (Industrial), 2.0](https://kenney.nl/assets/city-kit-industrial)
 - [Train Kit, 1.1](https://kenney.nl/assets/train-kit)
 - [Car Kit, 3.1](https://kenney.nl/assets/car-kit)
