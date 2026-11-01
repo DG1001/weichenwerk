@@ -14,7 +14,7 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 - Haelt der zeichnende Finger am Kartenrand, scrollt die Karte mit und die Vorschau waechst weiter.
 - Grund: Der Finger verdeckt beim Zeichnen genau das Zielfeld, und lange Strecken endeten am Bildrand.
 - Test: `tests/browser-touch.cjs` um Lupe und Rand-Scrollen erweitert; Lauf bestanden (390 und 1440 px).
-- Korrektur nach Screenshot-Pruefung: Die Lupe lag teilweise unter dem Koordinatenfeld, weil HTML-Bedienelemente ueber der 3D-Flaeche liegen. Sie bleibt jetzt unterhalb von Kamera-Knoepfen und Koordinatenfeld; der Test prueft das.
+- Korrektur nach Screenshot-Pruefung: Die Lupe lag teilweise unter dem Koordinatenfeld, weil HTML-Bedienelemente ueber der 3D-Flaeche liegen. Sie bleibt jetzt unterhalb von Kamera-Knoepfen und Koordinatenfeld; der Test prueft das. Erneuter Lauf bestanden, Screenshot geprueft.
 
 ## 2026-11-01 - Touch-Gesten fuer die Karte
 
