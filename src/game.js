@@ -1467,22 +1467,37 @@ function maintenanceForTile(tile) {
   return 0;
 }
 
+// Map-wide totals for the UI change only when the map does (mark3dDirty bumps traffic.revision);
+// recounting 12k tiles every frame cost several milliseconds on large maps.
+const mapTotals = { map:null, revision:-1, signals:0, blocks:0, infrastructure:0 };
+function mapUiTotals() {
+  if(mapTotals.map===game.map&&mapTotals.revision===traffic.revision)return mapTotals;
+  let signals=0,infrastructure=0;
+  for(const row of game.map)for(const tile of row) {
+    if(tile.signal){signals++;infrastructure+=300;}
+    infrastructure+=(tile.build==="rail"?config.costs.rail:tile.build==="road"?config.costs.road:0)+(tile.bridge?config.costs.bridge[tile.build]:0);
+  }
+  return Object.assign(mapTotals,{map:game.map,revision:traffic.revision,signals,blocks:new Set(railBlocks().values()).size,infrastructure});
+}
+
+function setText(element, text) { if(element.textContent!==text)element.textContent=text; }
+
 function updateUi() {
   if(document.body?.dataset&&document.body.dataset.activeTool!==game.tool)document.body.dataset.activeTool=game.tool;
   refreshCabControls();
   if (typeof refreshManagement === "function") refreshManagement();
-  document.querySelector("#trafficStatus").textContent = `${game.map.flat().filter((tile) => tile.signal).length} Signale | ${new Set(railBlocks().values()).size} Bloecke | ${game.vehicles.filter((v) => v.pathReservation).length} Fahrwege`;
-  const assets = game.cash - game.loan
-    + game.map.flat().reduce((sum, tile) => sum + (tile.build === "rail" ? config.costs.rail : tile.build === "road" ? config.costs.road : 0) + (tile.signal ? 300 : 0) + (tile.bridge?config.costs.bridge[tile.build]:0), 0)
+  const totals = mapUiTotals();
+  setText(document.querySelector("#trafficStatus"), `${totals.signals} Signale | ${totals.blocks} Bloecke | ${game.vehicles.filter((v) => v.pathReservation).length} Fahrwege`);
+  const assets = game.cash - game.loan + totals.infrastructure
     + game.stations.filter(s=>!s.closed).reduce((sum,s)=>sum+config.costs.station+(stationTiles(s).length-1)*800,0)
     + game.vehicles.reduce((sum, vehicle) => sum + (vehicle.type === "train" ? config.costs.train : config.costs.truck) * 0.65, 0);
-  ui.cash.textContent = money(game.cash);
-  ui.value.textContent = money(assets);
-  ui.loan.textContent = money(game.loan);
-  ui.vehicles.textContent = String(game.vehicles.length);
+  setText(ui.cash, money(game.cash));
+  setText(ui.value, money(assets));
+  setText(ui.loan, money(game.loan));
+  setText(ui.vehicles, String(game.vehicles.length));
   const year = 1950 + Math.floor(game.month / 12);
   const monthName = ["Jan", "Feb", "Maerz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"][game.month % 12];
-  ui.date.textContent = `${Math.floor(game.dayProgress) + 1}. ${monthName} ${year}`;
+  setText(ui.date, `${Math.floor(game.dayProgress) + 1}. ${monthName} ${year}`);
   ui.buyTrain.disabled = !game.selected?.station || game.selected.station.kind !== "rail";
   ui.buyTruck.disabled = !game.selected?.station || game.selected.station.kind !== "road";
 }
