@@ -692,7 +692,7 @@ dialog::backdrop { background: #172d3866; }
   .tools > .tool-grid { order: 1; }
   .inspector > .inspector-head { order: 2; }
   .tools > .field, .tools > .segmented { order: 3; }
-  .tools > .finance-actions, .tools > .save-actions { order: 5; }
+  .tools > .finance-actions, .tools > .save-actions, .tools > .graphics-options { order: 5; }
   .inspector > .log { padding-bottom: 24px; }
   .inspector > #selectionText { margin: 0; padding-top: 10px; }
   /* Only the options of the current tool (body[data-active-tool] is kept in sync by updateUi). */

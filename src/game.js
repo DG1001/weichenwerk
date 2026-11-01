@@ -847,12 +847,29 @@ function loadThree() {
   }
 }
 
+// Graphics quality: caps the pixel ratio and optionally the frame rate. Stored per browser, not in saves.
+const graphicsModes = { high:{ pixelRatio:2, frameMs:0 }, balanced:{ pixelRatio:1.5, frameMs:0 }, battery:{ pixelRatio:1, frameMs:30 } };
+const graphics = { mode:"high" };
+
+function loadGraphicsMode() {
+  let mode=null;
+  try { mode=localStorage.getItem("libre-transport-graphics"); } catch {}
+  return Object.hasOwn(graphicsModes,mode||"")?mode:window.matchMedia?.("(pointer: coarse)").matches?"balanced":"high";
+}
+
+function applyGraphicsMode(mode) {
+  graphics.mode=Object.hasOwn(graphicsModes,mode)?mode:"high";
+  three.renderer?.setPixelRatio(Math.min(window.devicePixelRatio||1,graphicsModes[graphics.mode].pixelRatio));
+  const select=document.getElementById("graphicsQuality");
+  if(select)select.value=graphics.mode;
+}
+
 function init3d() {
   three.renderer = new THREE.WebGLRenderer({ antialias: true });
   three.renderer.outputColorSpace=THREE.SRGBColorSpace;
   three.renderer.toneMapping=THREE.ACESFilmicToneMapping;
   three.renderer.toneMappingExposure=0.95;
-  three.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  applyGraphicsMode(graphics.mode);
   threeViewport.appendChild(three.renderer.domElement);
   three.scene = new THREE.Scene();
   three.scene.background = new THREE.Color(0xa9c3ad);
@@ -1639,6 +1656,10 @@ function setupEvents() {
     });
   });
   ui.retryRenderer.addEventListener("click", () => window.location.reload());
+  document.getElementById("graphicsQuality").addEventListener("change", (event) => {
+    applyGraphicsMode(event.target.value);
+    try { localStorage.setItem("libre-transport-graphics", graphics.mode); } catch {}
+  });
   ui.buyTrain.addEventListener("click", () => buyVehicle("train", depotOptions()));
   ui.buyTruck.addEventListener("click", () => buyVehicle("truck", depotOptions()));
   ui.borrow.addEventListener("click", () => {
@@ -1902,6 +1923,8 @@ function zoomMap(direction) {
 
 let lastFrame = performance.now();
 function frame(now) {
+  requestAnimationFrame(frame);
+  if (now - lastFrame < graphicsModes[graphics.mode].frameMs) return;
   const delta = Math.min(Math.max(now - lastFrame,0), 1000);
   lastFrame = now;
   if(three.ready&&!document.hidden)update(delta);
@@ -1914,10 +1937,10 @@ function frame(now) {
   if (game.selected?.tile?.signal) selectTile(game.selected.tile);
   if (game.selected?.town) selectTown(game.selected.town);
   render();
-  requestAnimationFrame(frame);
 }
 
 function init() {
+  graphics.mode = loadGraphicsMode();
   makeMap(createLandscapeSettings());
   setupEvents();
   fitCamera();

@@ -59,6 +59,12 @@ Bis 980 px Breite (`styles.css`, letzter Block) gilt ein Handy-Layout ohne JavaS
 - Signal-Kurzwahl in der Bauvorschau: `#previewSignalDirection` und `#previewSignalType` (`construction.js`) aendern dieselben Panel-Eingaben (`#signalBothDirections`, `signalPlacement.reversed`, `#signalType`) und rufen `refreshSignalPlacement`; sichtbar nur bei `construction.action === "signal"`.
 - Die fruehere Koordinaten-Box auf der Karte ist entfernt; der Dialog wird ueber `#openCoordinates` im Panel geoeffnet. `mapCoordinates` (letztes Feld, Sprungziel) bleibt fuer Vorbelegung und Markierung erhalten.
 
+## Leistung
+
+- `updateUi` laeuft jedes Frame. Kartenweite Werte (Signale, Bloecke, Infrastrukturwert) liefert `mapUiTotals()`, neu berechnet nur wenn `traffic.revision` (erhoeht durch `mark3dDirty`) oder das Kartenobjekt wechselt. Jeder Code, der Felder aendert, muss `mark3dDirty()` aufrufen. Gemessen auf 128 x 96: 3,27 ms -> 0,10 ms pro Frame. `setText` schreibt DOM-Texte nur bei Aenderung.
+- Grafikstufen `graphicsModes` (`game.js`): Pixeldichte-Obergrenze 2 / 1,5 / 1 und optional `frameMs: 30` (die `frame`-Schleife ueberspringt Frames, `delta` waechst entsprechend, die Simulation bleibt zeitgleich). Gespeichert in localStorage `libre-transport-graphics`; Vorgabe per `(pointer: coarse)`.
+- Keine Schattenberechnung: Schatten sind instanzierte Kreisflaechen; Gelaende, Baeume und Felder sind gebuendelt bzw. instanziert.
+
 ## Installierbare App (PWA)
 
 - `manifest.webmanifest` (Name, `standalone`, Farben, Icons 192/512 inkl. `maskable`); eingebunden in `index.html` mit `theme-color` und Apple-Touch-Icon.
@@ -124,6 +130,7 @@ Browser: unter Windows der feste Chrome-Pfad, sonst `$CHROME_PATH` oder Playwrig
 `node tests/coordinates.cjs` prueft grosse Karten, Grenzen/ungueltige Werte, Sprung/Kamera, Abbruch offener Entwuerfe und unveraenderte Simulation.
 `node tests/browser-coordinates.cjs` prueft echte Mauskoordinaten, Dialog und Tastatur, Sprungmarkierung per Pixelcheck, grosse Karten, Speicher/Kamera und kollisionsfreies Layout auf Desktop sowie bei 390 und 320 Pixel Breite.
 `node tests/passing-loop.cjs` baut ein Ausweichgleis wie in der Hilfe beschrieben (Ziehen mit "Hindernisse umfahren", vier Einwegsignale) und laesst zwei Zuege gegeneinander pendeln: beide kreuzen sich wiederholt ohne Blockade, jede Richtung auf ihrem Gleis.
+`node tests/browser-graphics.cjs` prueft die Grafikstufen bei dreifacher Geraete-Pixeldichte: Vorgabe Handy/Desktop, Pixeldichte je Stufe, hoechstens 30 Bilder/s bei Akku sparen, Wahl bleibt nach Neuladen.
 `node tests/browser-pwa.cjs` startet einen lokalen Server auf `127.0.0.1` und prueft Manifest und Icons, dass jede von den Seiten geladene Datei vorab gespeichert wird, dass der Service Worker die Seite uebernimmt, Spiel und Hilfe offline laden und der Start als Datei unberuehrt bleibt.
 `node tests/browser-help.cjs` prueft die Spielhilfe: offline, Inhaltsverzeichnis und Abschnitte, gezeichnete Schemabilder, kein Ueberlauf auf Handy/Desktop, Hilfe-Knopf in der Leiste (hoch, quer, Desktop) und Links bei den Werkzeugoptionen.
 `node tests/browser-layout.cjs` prueft das Handy-Layout hochkant (390, 320) und quer (844 x 390, 667 x 375): kein seitlicher Ueberlauf, Werkzeuge ohne Scrollen sichtbar, Karte bleibt beim Scrollen stehen, Bauvorschau nicht vom Panel verdeckt, Karte nach Werkzeugwahl und Koordinatensprung frei, keine Koordinaten-Box, Optionen je Werkzeug und Signal-Einstellung allein ueber die Vorschau-Knoepfe.

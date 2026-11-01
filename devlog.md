@@ -2,6 +2,12 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-01 - Leistung: Anzeige-Werte gecacht, Grafikstufen
+
+- Messung: `updateUi` zaehlte jedes Frame alle Felder (Signale, Bloecke, Infrastrukturwert); auf 128 x 96 waren das 3,27 ms pro Frame, auf einem Mittelklasse-Handy vermutlich ein Mehrfaches. Jetzt nur nach Umbau neu berechnet: 0,10 ms.
+- Neu: Einstellung **Grafik** (Hoch / Ausgewogen / Akku sparen) begrenzt Pixeldichte (2 / 1,5 / 1) und bei Akku sparen die Bildrate auf 30. Auf Touch-Geraeten ist Ausgewogen voreingestellt.
+- Test `tests/browser-graphics.cjs` besteht. Auf echten Handys nicht gemessen (hier keine GPU); die Wirkung von Pixeldichte und Bildrate auf GPU-Last und Akku ist aber direkt proportional zur Pixel- bzw. Bildzahl.
+
 ## 2026-11-01 - Installierbare App (PWA)
 
 - Manifest, App-Icons (192/512, maskable, erzeugt mit `scripts/build-icons.cjs`) und Service Worker `sw.js`.
@@ -78,4 +84,5 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 
 - Werkzeug fuer Ausweichgleise (zurueckgestellt; Bau von Hand ist in der Hilfe beschrieben und getestet). Entwurf: Modus "Ausweichgleis" in der Streckenplanung, plant Gleis, Weichen und vier Einwegsignale atomar.
 - Neigen per Geste: bewusst nicht geplant (Wunsch, funktioniert ohne gut).
-- Leistung auf Mittelklasse-Handys pruefen (Pixeldichte, Detailstufen, 30-fps-Modus).
+- Leistung auf echten Mittelklasse-Handys messen (Grafikstufen sind eingebaut, hier ohne GPU nicht messbar).
+- Aufgaben-Modus (optional, Standard bleibt freies Bauen): Auftraege, die aufeinander aufbauen und schwieriger werden.

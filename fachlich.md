@@ -6,6 +6,10 @@ Spielregeln und Bedienung aus Sicht der Spielenden: was das Spiel kann, wie es s
 
 Der Knopf **?** oben rechts oeffnet die Spielhilfe `help.html` in einem neuen Tab: erste Schritte, Bedienung (Handy/PC), Strecken und Verbindungen, Bruecken, Signale, Block- oder Pfadsignal, Ausweichgleise, Fahrzeuge und Staedte, jeweils mit Schemabildern. Bei den Optionen von Schiene/Strasse und Signal fuehren kurze Links direkt zum passenden Abschnitt. Die Hilfe funktioniert offline.
 
+## Grafik
+
+Im Panel unter **Grafik**: **Hoch** (bis doppelte Pixeldichte, volle Bildrate), **Ausgewogen** (bis 1,5-fache Pixeldichte) und **Akku sparen** (einfache Pixeldichte, hoechstens 30 Bilder pro Sekunde; Spiel und Zuege laufen gleich schnell weiter, nur seltener gezeichnet). Auf Touch-Geraeten ist **Ausgewogen** voreingestellt, sonst **Hoch**. Die Wahl gilt fuer diesen Browser und wird nicht im Spielstand gespeichert.
+
 ## Als App installieren
 
 Wird das Spiel ueber HTTPS (oder `localhost`) aufgerufen, laesst es sich ueber das Browsermenue (z. B. **Zum Startbildschirm hinzufuegen** bzw. **App installieren**) als App installieren. Es startet dann mit eigenem Symbol ohne Browserleiste und funktioniert nach dem ersten Aufruf auch ohne Internet. Online werden immer die aktuellen Dateien geladen. Ueber `http://` oder direkt als Datei (`index.html`) ist keine Installation moeglich; das Spiel laeuft dort wie bisher. Spielstaende haengen weiter an der jeweiligen Adresse.
