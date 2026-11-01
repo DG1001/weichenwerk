@@ -44,6 +44,12 @@ Neue parallele Gleise/Strassen werden nicht seitlich automatisch verbunden. Eine
 
 Grosse Karten verwenden in 3D gebuendelte Terrain-, Baum- und Feldgeometrien statt einzelner Objekte je Kachel. Der Kartenausschnitt laesst sich verschieben und deutlich weiter herauszoomen.
 
+## Ausweichgleise
+
+Unter **Streckenplanung** mit dem Schienenwerkzeug **Ausweichgleis mit Signalen** waehlen und entlang einer geraden Strecke von A nach B ziehen (mindestens 5 Felder). Die Vorschau zeigt ein paralleles Gleis auf der freien Nachbarreihe, Weichen an A und B und vier Einweg-Blocksignale je ein Feld innerhalb der Weichen: auf der Strecke in Ost- bzw. Suedrichtung, auf dem Ausweichgleis in die Gegenrichtung. Bevorzugt wird die Seite suedlich bzw. oestlich; ist sie belegt, die andere. **Seite wechseln** legt das Gleis auf die andere Seite, sofern dort Platz ist. **Bauen** errichtet alles in einem Schritt (neue Gleisfelder plus 4 x $300 Signale) oder gar nicht.
+
+Voraussetzungen: Der Abschnitt A bis B ist durchgehend verbundenes, gerades Gleis ohne Bahnhof, Bruecke, Signal oder vorhandene Weiche; daneben liegt eine Reihe freies, bebaubares Land. Sonst nennt die Vorschau den Grund. Von Hand geht es ebenso (siehe Spielhilfe): mit **Hindernisse umfahren** von A nach B ziehen und die vier Signale selbst setzen.
+
 ## Bruecken
 
 Schiene oder Strasse waehlen und unter **Streckenplanung** auf **Bruecke ueber Wasser** wechseln. Vom letzten Landfeld direkt am einen Ufer zum ersten Landfeld direkt am anderen Ufer ziehen. Beide Ufer muessen in derselben Zeile oder Spalte liegen; dazwischen duerfen 1 bis 32 unbebaute Wasserfelder liegen. Die erhoehte Vorschau zeigt den Preis. Erst **Bauen** errichtet die gesamte Bruecke; Loslassen oder Abbrechen veraendert nichts.

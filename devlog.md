@@ -2,6 +2,12 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-01 - Ausweichgleis-Werkzeug
+
+- Neuer Modus **Ausweichgleis mit Signalen** unter Streckenplanung: Ziehen entlang einer geraden Strecke plant paralleles Gleis, beide Weichen und vier Einweg-Blocksignale; **Seite wechseln**; **Bauen** baut alles atomar.
+- Gleiche Anordnung wie das von Hand gebaute Rezept der Hilfe. `tests/passing-loop.cjs` prueft jetzt beide Wege (je 59 Wendungen pro Zug, kein Stillstand) sowie Kosten, Seitenwahl und Fehlermeldungen (zu kurz, nicht gerade, Signal im Abschnitt, keine freie Seite).
+- Hilfe und fachliche Doku ergaenzt.
+
 ## 2026-11-01 - Leistung: Anzeige-Werte gecacht, Grafikstufen
 
 - Messung: `updateUi` zaehlte jedes Frame alle Felder (Signale, Bloecke, Infrastrukturwert); auf 128 x 96 waren das 3,27 ms pro Frame, auf einem Mittelklasse-Handy vermutlich ein Mehrfaches. Jetzt nur nach Umbau neu berechnet: 0,10 ms.
@@ -82,7 +88,6 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 
 ## Offene Punkte
 
-- Werkzeug fuer Ausweichgleise (zurueckgestellt; Bau von Hand ist in der Hilfe beschrieben und getestet). Entwurf: Modus "Ausweichgleis" in der Streckenplanung, plant Gleis, Weichen und vier Einwegsignale atomar.
 - Neigen per Geste: bewusst nicht geplant (Wunsch, funktioniert ohne gut).
 - Leistung auf echten Mittelklasse-Handys messen (Grafikstufen sind eingebaut, hier ohne GPU nicht messbar).
 - Aufgaben-Modus (optional, Standard bleibt freies Bauen): Auftraege, die aufeinander aufbauen und schwieriger werden.

@@ -1,4 +1,4 @@
-const construction = { start:null, end:null, kind:null, action:null, settings:null, bridge:null, path:[], error:"", cost:0, dragging:false, frozen:false, revision:0, rendered:-1, overlay:null };
+const construction = { start:null, end:null, kind:null, action:null, settings:null, bridge:null, loop:null, loopSide:1, path:[], error:"", cost:0, dragging:false, frozen:false, revision:0, rendered:-1, overlay:null };
 const signalPlacement = { reversed:false, hoverKey:"" };
 
 function signalPlacementSettings(tile) {
@@ -41,6 +41,44 @@ function previewMapAction(tile,action) {
   construction.revision++;updateConstructionUi();
 }
 
+// Passing loop beside a straight stretch a..b (5+ tiles): a parallel track on a free neighbouring row,
+// switches at both ends and four one-way block signals one tile inside the switches, main line in the
+// positive axis direction and the loop in the opposite one (the layout tests/passing-loop.cjs verifies).
+function planPassingLoop(a,b,preferSide=1) {
+  if(construction.kind!=="rail")throw new Error("Ausweichgleise gibt es nur fuer Schienen.");
+  if(a.x!==b.x&&a.y!==b.y)throw new Error("Start und Ziel auf derselben geraden Strecke waehlen.");
+  const axis=a.y===b.y?"x":"y",lo=Math.min(a[axis],b[axis]),hi=Math.max(a[axis],b[axis]);
+  if(hi-lo<4)throw new Error("Ein Ausweichgleis braucht mindestens 5 Felder gerade Strecke.");
+  const at=(n,side=0)=>axis==="x"?getTile(n,a.y+side):getTile(a.x+side,n);
+  const along=axis==="x"?railDirections.east:railDirections.south,across=axis==="x"?railDirections.south:railDirections.east;
+  const linked=(tile,d,sign=1)=>networkConnected(tile,getTile(tile.x+d.x*sign,tile.y+d.y*sign),"rail");
+  for(let n=lo;n<=hi;n++) {
+    const tile=at(n);
+    if(!tile||tile.build!=="rail"||tile.bridge||tile.signal)throw new Error("Zwischen Start und Ziel muss freies Gleis liegen: kein Bahnhof, keine Bruecke, kein Signal.");
+    if(n>lo&&!linked(tile,along,-1)||n<hi&&!linked(tile,along))throw new Error("Start und Ziel muessen auf einer durchgehend verbundenen Strecke liegen.");
+    if(linked(tile,across)||linked(tile,across,-1))throw new Error("Auf diesem Abschnitt liegt schon eine Weiche oder Kreuzung.");
+  }
+  const free=side=>{for(let n=lo;n<=hi;n++)if(!constructionPointAllowed(at(n,side),false,"rail"))return false;return true;};
+  const side=[preferSide,-preferSide].find(free);
+  if(!side)throw new Error("Neben der Strecke ist auf keiner Seite eine freie Reihe.");
+  const point=t=>({x:t.x,y:t.y}),main=axis==="x"?"east":"south",back=railOpposites[main];
+  const path=[point(at(lo))];
+  for(let n=lo;n<=hi;n++)path.push(point(at(n,side)));
+  path.push(point(at(hi)));
+  const signals=[[at(lo+1),main],[at(hi-1),main],[at(lo+1,side),back],[at(hi-1,side),back]].map(([t,direction])=>({...point(t),direction}));
+  return {path,signals,side};
+}
+
+function passingLoopChanges(plan) {
+  construction.path=plan.path;
+  const changes=constructionChanges();
+  for(const s of plan.signals) {
+    const tile=getTile(s.x,s.y);
+    changes.set(tile,{...(changes.get(tile)||{}),signal:{direction:s.direction,oneWay:true,type:"block"}});
+  }
+  return changes;
+}
+
 function constructionPointAllowed(tile, endpoint=false, kind=construction.kind) {
   return Boolean(tile && tile.terrain!=="water" && (!tile.build || endpoint&&passable(tile,kind)));
 }
@@ -55,8 +93,10 @@ function previewConstruction(tile) {
   if(!construction.start || construction.action || !tile)return;
   const {start,kind}=construction;
   construction.end={x:tile.x,y:tile.y};
-  construction.error="";construction.path=[];construction.bridge=null;
-  if(document.getElementById("routeMode").value==="bridge") {
+  construction.error="";construction.path=[];construction.bridge=null;construction.loop=null;
+  if(document.getElementById("routeMode").value==="loop") {
+    try { construction.loop=planPassingLoop(start,tile,construction.loopSide);construction.path=construction.loop.path; } catch(error) {construction.error=error.message;}
+  } else if(document.getElementById("routeMode").value==="bridge") {
     try {
       const plan=planBridge(start,tile,kind);construction.path=plan.path;construction.bridge=plan.bridge;
     } catch(error) {construction.error=error.message;}
@@ -74,7 +114,7 @@ function previewConstruction(tile) {
     construction.path=new PF.AStarFinder({allowDiagonal:false}).findPath(start.x,start.y,tile.x,tile.y,grid).map(([x,y])=>({x,y}));
     if(!construction.path.length)construction.error="Kein baubarer Weg gefunden.";
   }
-  construction.cost=construction.path.reduce((sum,p)=>sum+(!getTile(p.x,p.y).build?config.costs[kind]:0)+(construction.bridge?config.costs.bridge[kind]:0),0);
+  construction.cost=construction.path.reduce((sum,p)=>sum+(!getTile(p.x,p.y).build?config.costs[kind]:0)+(construction.bridge?config.costs.bridge[kind]:0),0)+(construction.loop?construction.loop.signals.length*300:0);
   construction.revision++;updateConstructionUi();
 }
 
@@ -84,7 +124,7 @@ function finishConstruction() {
 }
 
 function cancelConstruction() {
-  Object.assign(construction,{start:null,end:null,kind:null,action:null,settings:null,bridge:null,path:[],error:"",cost:0,dragging:false,frozen:false});
+  Object.assign(construction,{start:null,end:null,kind:null,action:null,settings:null,bridge:null,loop:null,loopSide:1,path:[],error:"",cost:0,dragging:false,frozen:false});
   construction.revision++;updateConstructionUi();
 }
 
@@ -93,11 +133,12 @@ function updateConstructionUi() {
   if(!bar)return;
   bar.hidden=!construction.start;
   const label={rail:"Schiene",road:"Strasse",station:"Station",signal:"Signal",bulldoze:"Abriss"}[construction.kind]||"Strecke";
-  const summary=construction.action==="signal"?`${construction.settings.type==="path"?"Pfadsignal":"Blocksignal"} | ${construction.settings.oneWay?"Einweg":"Beide Richtungen"} | ${money(construction.cost)}`:`${construction.bridge?label+"nbruecke":label} | ${construction.path.length} Felder | ${money(construction.cost)}`;
+  const summary=construction.loop?`Ausweichgleis | ${construction.path.filter(p=>!getTile(p.x,p.y).build).length} Felder | 4 Signale | ${money(construction.cost)}`:construction.action==="signal"?`${construction.settings.type==="path"?"Pfadsignal":"Blocksignal"} | ${construction.settings.oneWay?"Einweg":"Beide Richtungen"} | ${money(construction.cost)}`:`${construction.bridge?label+"nbruecke":label} | ${construction.path.length} Felder | ${money(construction.cost)}`;
   document.getElementById("buildSummary").textContent=construction.error||summary;
   const signal=construction.action==="signal";
   document.getElementById("previewSignalDirection").hidden=!signal;
   document.getElementById("previewSignalType").hidden=!signal;
+  document.getElementById("previewLoopSide").hidden=!construction.loop;
   if(signal)document.getElementById("previewSignalType").textContent=construction.settings.type==="path"?"Typ: PBS":"Typ: Block";
   document.getElementById("confirmBuild").textContent=construction.kind==="bulldoze"?"Abreissen":"Bauen";
   document.getElementById("confirmBuild").disabled=!construction.frozen||Boolean(construction.error)||!construction.path.length;
@@ -139,9 +180,16 @@ function confirmConstruction() {
     if(JSON.stringify(tile)===before&&construction.action!=="signal")return false;
     cancelConstruction();return true;
   }
-  let changes;
-  try { changes=constructionChanges(); } catch(error) {flash(error.message);return false;}
-  const cost=[...changes].reduce((sum,[tile])=>sum+(!tile.build?config.costs[construction.kind]:0)+(construction.bridge?config.costs.bridge[construction.kind]:0),0);
+  let changes,signalCost=0;
+  try {
+    if(construction.loop) {
+      // Re-plan on the chosen side: the map may have changed since the preview.
+      const plan=planPassingLoop(construction.start,construction.end,construction.loop.side);
+      if(plan.side!==construction.loop.side)throw new Error("Die gewaehlte Seite ist inzwischen belegt.");
+      changes=passingLoopChanges(plan);signalCost=plan.signals.length*300;
+    } else changes=constructionChanges();
+  } catch(error) {flash(error.message);return false;}
+  const cost=[...changes].reduce((sum,[tile])=>sum+(!tile.build?config.costs[construction.kind]:0)+(construction.bridge?config.costs.bridge[construction.kind]:0),0)+signalCost;
   if(!canAfford(cost))return false;
   const reserved=reservedTiles(), occupied=new Set(game.vehicles.flatMap(v=>trainFootprint(v).map(p=>tileKey(p.x,p.y))));
   if([...changes.keys()].some(t=>reserved.has(tileKey(t.x,t.y))||occupied.has(tileKey(t.x,t.y)))) {
@@ -158,7 +206,7 @@ function confirmConstruction() {
   if(!safe){flash("Die Strecke wuerde belegte Bloecke verbinden oder ein Signal ungueltig machen.");return false;}
   game.cash-=cost;
   for(const [tile,patch] of changes)Object.assign(tile,patch);
-  mark3dDirty();log(`${construction.bridge?construction.kind==="rail"?"Bahnbruecke":"Strassenbruecke":construction.kind==="rail"?"Schienenstrecke":"Strasse"} gebaut: ${money(cost)}.`);
+  mark3dDirty();log(`${construction.loop?"Ausweichgleis mit 4 Signalen":construction.bridge?construction.kind==="rail"?"Bahnbruecke":"Strassenbruecke":construction.kind==="rail"?"Schienenstrecke":"Strasse"} gebaut: ${money(cost)}.`);
   cancelConstruction();return true;
 }
 
@@ -193,6 +241,11 @@ function updateConstruction3d() {
     const geometry=new THREE.BufferGeometry();geometry.setAttribute("position",new THREE.Float32BufferAttribute(vertices,3));
     group.add(new THREE.Line(geometry,new THREE.LineBasicMaterial({color:0xfff6ba})));
   }
+  if(construction.loop&&!construction.error)for(const s of construction.loop.signals) {
+    const w=tileToWorld3d(s.x,s.y),material=new THREE.MeshBasicMaterial({color:0xffc43d,transparent:true,opacity:1,depthTest:false,depthWrite:false,toneMapped:false});
+    const arrow=makeSignalDirectionArrow3d({direction:s.direction,oneWay:true,type:"block"},material);arrow.position.set(w.x,0.22,w.z);
+    arrow.traverse(o=>{o.renderOrder=5;});group.add(arrow);
+  }
   const settings=construction.action==="signal"&&!construction.error?construction.settings:hoverKey?hoverSettings:null;
   if(settings?.direction) {
     const target=construction.start||hover,w=tileToWorld3d(target.x,target.y);
@@ -218,6 +271,12 @@ function initConstruction() {
   });
   document.getElementById("previewSignalType").addEventListener("click",()=>{
     const type=document.getElementById("signalType");type.value=type.value==="path"?"block":"path";refreshSignalPlacement();
+  });
+  document.getElementById("previewLoopSide").addEventListener("click",()=>{
+    if(!construction.loop)return;
+    const wanted=-construction.loop.side;construction.loopSide=wanted;
+    previewConstruction(getTile(construction.end.x,construction.end.y));
+    if(construction.loop&&construction.loop.side!==wanted)flash("Auf der anderen Seite ist kein Platz.");
   });
   document.getElementById("signalBothDirections").addEventListener("change",refreshSignalPlacement);
   document.getElementById("signalType").addEventListener("change",refreshSignalPlacement);

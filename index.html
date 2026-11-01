@@ -71,7 +71,7 @@
 
           <div class="field route-options">
             <label for="routeMode">Streckenplanung</label>
-            <select id="routeMode"><option value="avoid">Hindernisse umfahren</option><option value="direct">Direkt (X, dann Y)</option><option value="bridge">Bruecke ueber Wasser</option></select>
+            <select id="routeMode"><option value="avoid">Hindernisse umfahren</option><option value="direct">Direkt (X, dann Y)</option><option value="bridge">Bruecke ueber Wasser</option><option value="loop">Ausweichgleis mit Signalen</option></select>
             <a class="help-inline" href="help.html#strecken" target="_blank" rel="noopener">Hilfe: Strecken, Bruecken, Ausweichgleise</a>
           </div>
           <div class="field station-options">
@@ -221,7 +221,7 @@
       <!-- Outside the map: the sticky map is its own stacking context, and the preview must stay above the phone panel. -->
       <div id="buildPreview" class="build-preview" hidden>
         <output id="buildSummary" aria-live="polite"></output>
-        <button id="previewSignalDirection" type="button" title="Beide Richtungen, Einweg, Einweg umgekehrt" hidden>Richtung</button><button id="previewSignalType" type="button" title="Block- oder Pfadsignal" hidden>Typ</button>
+        <button id="previewSignalDirection" type="button" title="Beide Richtungen, Einweg, Einweg umgekehrt" hidden>Richtung</button><button id="previewSignalType" type="button" title="Block- oder Pfadsignal" hidden>Typ</button><button id="previewLoopSide" type="button" title="Ausweichgleis auf die andere Seite legen" hidden>Seite wechseln</button>
         <button id="confirmBuild">Bauen</button><button id="cancelBuild">Abbrechen</button>
       </div>
     </main>
