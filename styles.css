@@ -662,3 +662,67 @@ dialog::backdrop { background: #172d3866; }
 @media (max-width: 360px) {
   .tools .save-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* Mobile: full-screen map with a bottom sheet that scrolls natively over it.
+   Both side panels use display: contents, so their children become items of the
+   .workspace column and can be reordered: tool dock and selection title first. */
+@media (max-width: 980px) {
+  :root { --bar: 48px; --dock: 118px; }
+  body { background: var(--panel); }
+  .topbar {
+    position: fixed; inset: 0 0 auto 0; z-index: 20; height: var(--bar);
+    flex-direction: row; align-items: center; gap: 8px; padding: 0 8px;
+    background: #f4f4ecf2; backdrop-filter: blur(4px);
+  }
+  .brand { min-width: 0; flex: 0 0 auto; gap: 8px; }
+  .mark { width: 32px; height: 32px; border-radius: 6px; font-size: 13px; }
+  .brand h1 { display: none; }
+  .brand p { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .ledger { display: flex; width: auto; min-width: 0; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .ledger div { flex: 0 0 auto; padding: 3px 8px; border-radius: 6px; }
+  .ledger span { font-size: 10px; }
+  .ledger strong { margin-top: 1px; font-size: 13px; }
+
+  .workspace { display: flex; flex-direction: column; }
+  .tools, .inspector { display: contents; }
+  .map-wrap { position: sticky; top: 0; height: 100dvh; z-index: 0; }
+  .tools > *, .inspector > * {
+    order: 4; position: relative; z-index: 1; margin: 0;
+    padding: 8px 12px; background: var(--panel);
+  }
+  .tools > .tool-grid { order: 1; }
+  .inspector > .inspector-head { order: 2; }
+  .tools > .field, .tools > .segmented { order: 3; }
+  .tools > .finance-actions, .tools > .save-actions { order: 5; }
+  .inspector > .log { padding-bottom: 24px; }
+  .inspector > #selectionText { margin: 0; padding-top: 10px; }
+
+  .tools > .tool-grid {
+    margin-top: calc(-1 * var(--dock)); height: 78px; padding: 16px 8px 6px;
+    grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; overflow: visible;
+    border-radius: 16px 16px 0 0; box-shadow: 0 -6px 18px #122e3322;
+  }
+  .tools > .tool-grid::before {
+    content: ""; position: absolute; top: 6px; left: 50%; width: 40px; height: 4px;
+    margin-left: -20px; border-radius: 2px; background: #b8c4bd;
+  }
+  .tool-grid .tool {
+    grid-template-columns: 1fr; justify-items: center; gap: 2px; min-height: 0; height: 56px;
+    padding: 6px 2px; text-align: center; font-size: 11px; line-height: 1.1;
+  }
+  .tool-grid .tool span:last-child { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .inspector > .inspector-head { height: 40px; padding: 4px 12px 8px; border-bottom: 1px solid var(--line); }
+  .inspector h2 { font-size: 16px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; overflow-wrap: normal; }
+
+  .camera-tools { top: calc(var(--bar) + 10px); }
+  .map-coordinates { top: calc(var(--bar) + 56px); }
+  .build-preview { bottom: calc(var(--dock) + 8px); }
+  .toast { bottom: calc(var(--dock) + 12px); }
+  .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: calc(var(--dock) + 90px); }
+  .cab-view { top: var(--bar); bottom: var(--dock); }
+  .map-wrap.cab-active .toast { bottom: calc(var(--dock) + 100px); }
+}
+
+@media (max-width: 620px) {
+  .map-wrap:has(.build-preview:not([hidden])) .toast { bottom: calc(var(--dock) + 128px); }
+}

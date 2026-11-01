@@ -42,6 +42,16 @@ Die Kamera ist eine Orbit-Kamera (`three.orbit`: `targetX/targetZ`, `yaw`, `pitc
 - **Bau-Lupe:** Solange ein Finger zeichnet (`three.touchDraw`), rendert `renderBuildLoupe` nach dem Hauptbild einen zweiten Durchgang mit `three.loupeCamera` (Abstand 6, gleiche Drehung/Neigung) in einen Scissor-Bereich ueber dem Finger. Rahmen und Fadenkreuz sind das CSS-Element `#buildLoupe`.
 - **Rand-Scrollen:** `applyTouchDrawScroll` verschiebt die Karte, solange der zeichnende Finger im Randbereich (max. 48 px) steht, und verlaengert die Vorschau auf das Feld unter dem Finger.
 
+## Layout auf schmalen Bildschirmen
+
+Bis 980 px Breite (`styles.css`, letzter Block) gilt ein Handy-Layout ohne JavaScript:
+
+- `.topbar` ist eine feste Leiste (`--bar`, 48 px) mit Datum und seitlich scrollbaren Finanzwerten.
+- `.map-wrap` ist `position: sticky` mit `100dvh` Hoehe und bleibt beim Scrollen stehen.
+- `.tools` und `.inspector` haben `display: contents`; ihre Kinder werden direkt Elemente der Flex-Spalte `.workspace` und per `order` sortiert: Werkzeugleiste, Auswahl-Kopf, Werkzeugoptionen und Tempo, Inspektor-Inhalt, Finanzen und Spielstand.
+- Die Werkzeugleiste zieht sich mit negativem Rand (`--dock`, 118 px) ueber den unteren Kartenrand. Das Panel ist damit ein Bottom-Sheet mit nativem Seiten-Scrollen; alle Elemente bleiben im Dokumentfluss sichtbar und anklickbar (wichtig fuer die Browser-Tests).
+- Ueberlagerungen auf der Karte (Kamera-Knoepfe, Koordinaten, Bauvorschau, Meldungen, Fuehrerhaus) sind um `--bar` bzw. `--dock` versetzt.
+
 ## 3D-Modelle
 
 Die 3D-Ansicht verwendet 30 lokal eingebundene CC0-Modelle von Kenney statt der bisherigen einfachen Platzhalter: sechs Haustypen mit unterschiedlichen Fassaden und Daechern, vier Baumtypen, Fabrik-/Lagergebaeude, Tanks, Schornsteine, Farmdetails, Dampflok, Personen-/Gueterwagen, Truck, Traktor und Ladung. Die Auswahl ist stilisiert und nicht streng auf ein historisches Baujahr beschraenkt.
