@@ -1582,10 +1582,16 @@ function vehicleAt(x, y) {
   });
 }
 
+// On the narrow layout the map is sticky under a scrolling bottom sheet: scroll the sheet back down to uncover it.
+function revealMap() {
+  if(window.matchMedia?.("(max-width: 980px)").matches)window.scrollTo(0,0);
+  else three.renderer?.domElement.scrollIntoView({block:"nearest"});
+}
+
 function setupEvents() {
   document.getElementById("enterCab").addEventListener("click",()=>{
     if(three.cab.vehicle===game.selected?.vehicle)exitCabView();else enterCabView();
-    three.renderer?.domElement.scrollIntoView({block:"nearest"});
+    revealMap();
   });
   document.getElementById("exitCab").addEventListener("click",exitCabView);
   document.getElementById("resetCabLook").addEventListener("click",()=>{three.cab.yaw=0;three.cab.pitch=0;});
@@ -1598,7 +1604,7 @@ function setupEvents() {
   document.querySelector("#coordinateForm").addEventListener("submit",event=>{
     event.preventDefault();
     if(focusMapCoordinates(document.getElementById("coordinateX").valueAsNumber,document.getElementById("coordinateY").valueAsNumber)) {
-      document.getElementById("coordinateDialog").close();three.renderer.domElement.scrollIntoView({block:"nearest"});
+      document.getElementById("coordinateDialog").close();revealMap();
     }
   });
   document.addEventListener("visibilitychange",()=>{lastFrame=performance.now();});
@@ -1616,6 +1622,7 @@ function setupEvents() {
       cancelConstruction();
       game.tool = button.dataset.tool;
       document.querySelectorAll("[data-tool]").forEach((item) => item.classList.toggle("active", item === button));
+      revealMap();
     });
   });
   document.querySelectorAll("[data-speed]").forEach((button) => {

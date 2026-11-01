@@ -130,7 +130,7 @@ function selectTown(town) {
 }
 
 function focusTown(town) {
-  cancelConstruction();game.tool="inspect";
+  cancelConstruction();game.tool="inspect";revealMap();
   document.querySelectorAll("[data-tool]").forEach(b=>b.classList.toggle("active",b.dataset.tool==="inspect"));
   selectTown(town);
   const world=tileToWorld3d(town.x,town.y);three.inertia=null;three.orbit.targetX=world.x;three.orbit.targetZ=world.z;three.orbit.distance=18;

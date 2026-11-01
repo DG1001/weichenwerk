@@ -33,7 +33,8 @@ function arrowPixels(buffer){const p=PNG.sync.read(buffer);let count=0;for(let i
    await page.mouse.click(p.x,p.y);await page.waitForFunction(()=>construction.action==='signal');
    const cash=await page.evaluate(()=>game.cash);await page.locator('#signalBothDirections').uncheck();await page.getByRole('button',{name:'Richtung umkehren',exact:true}).click();
    assert.equal(await page.evaluate(()=>construction.settings.direction),'west');assert.equal(await page.evaluate(()=>getTile(8,11).signal),null);
-   await canvas.scrollIntoViewIfNeeded();await page.evaluate(()=>{three.orbit.yaw+=0.8;render();});
+   await canvas.scrollIntoViewIfNeeded();await page.evaluate(()=>scrollTo(0,0)); // narrow layout: swipe the bottom sheet back down to uncover the map
+   await page.evaluate(()=>{three.orbit.yaw+=0.8;render();});
    const arrow=await preview();assert.equal(arrow.direction,'west');assert.equal(arrow.children,2);assert.ok(Math.abs(arrow.yaw+Math.PI/2)<1e-8);
    const shot=await canvas.screenshot({path:`artifacts/signal-arrow-${viewport.width}.png`}),buckets=pixels(shot),gold=arrowPixels(shot);
    await page.locator('#confirmBuild').click();assert.equal(await page.evaluate(()=>game.cash),cash-300);
