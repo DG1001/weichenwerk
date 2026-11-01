@@ -1,6 +1,6 @@
-# Libre Transport Tycoon
+# Weichenwerk
 
-Ein kleiner, eigenstaendiger OpenTTD-inspirierter Transport-Tycoon fuer den Browser. Am Handy mit Touch-Gesten spielbar, am PC mit Maus und Tastatur.
+Eine kleine, eigenstaendige, von OpenTTD inspirierte Eisenbahn- und Transportsimulation fuer den Browser. Am Handy mit Touch-Gesten spielbar, am PC mit Maus und Tastatur.
 
 ## Start
 

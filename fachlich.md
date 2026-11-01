@@ -27,7 +27,7 @@ Der Knopf **Zu Koordinaten** im Seitenpanel (neben **Staedte**) oeffnet **Koordi
 - Touchscreen: Ein Finger verschiebt die Karte; der beruehrte Punkt bleibt unter dem Finger, schnelles Wischen laeuft kurz nach. Zwei Finger verschieben, zoomen (auseinander-/zusammenziehen) und drehen (Finger gegeneinander verdrehen). Tippen waehlt aus.
 - Schienen/Strassen auf dem Touchscreen: Mit einem Finger ziehen zeichnet die Vorschau, sobald sich der Finger bewegt. Ein zweiter Finger macht daraus eine Kamerageste und bricht nur ein noch laufendes Zeichnen ab; eine fertige Vorschau bleibt beim Zoomen/Verschieben erhalten. Waehrend des Zeichnens zeigt eine Lupe ueber dem Finger das Zielfeld vergroessert mit Fadenkreuz. Am Kartenrand gehalten scrollt die Karte mit und die Vorschau waechst weiter.
 - Mausrad oder +/-: zoomen. Kamera-Symbol: ganze Karte einpassen.
-- Zuege halten zum Be-/Entladen und wenden danach als ganzer Verband im klassischen Tycoon-Stil. Die Lok fuehrt auch auf der Rueckfahrt; es ist keine reale Rangieranimation.
+- Zuege halten zum Be-/Entladen und wenden danach als ganzer Verband wie in klassischen Transportsimulationen. Die Lok fuehrt auch auf der Rueckfahrt; es ist keine reale Rangieranimation.
 - Signalbloecke erlauben mehrere Zuege auf derselben Strecke. Belegte Bloecke bleiben bis zum letzten Wagen gesperrt.
 - Frachtarten bleiben beim Fahrzeug fest. Kohle/Getreide gehen zur Fabrik, deren Waren in die Staedte; Passagiere zwischen Staedten.
 - Unterbrochene Strecken stoppen Fahrzeuge, bis die Verbindung wiederhergestellt ist.

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Libre Transport Tycoon: a self-contained, OpenTTD-inspired transport tycoon game in the browser (3D only, WebGL via Three.js). It has no build step, no `package.json` and no server. Open `index.html` directly over `file://`. All libraries and model data are vendored locally. **The game must never fetch anything from the network at runtime**, and `tests/browser-startup.cjs` checks this. The UI text, README and OPENTTD-AUDIT.md are in German, written with ASCII umlaut substitutes (`ae`, `oe`, `ue`, `ss`). Keep that convention in user-facing strings.
+Weichenwerk (formerly "Libre Transport Tycoon"; renamed because "Transport Tycoon" is a trademark, so don't reintroduce it): a self-contained, OpenTTD-inspired railway and transport simulation in the browser (3D only, WebGL via Three.js). It has no build step, no `package.json` and no server. Open `index.html` directly over `file://`. All libraries and model data are vendored locally. **The game must never fetch anything from the network at runtime**, and `tests/browser-startup.cjs` checks this. Internal storage keys and the service-worker cache keep the old `libre-transport-*` prefix on purpose, so existing saves keep loading. The UI text, README and OPENTTD-AUDIT.md are in German, written with ASCII umlaut substitutes (`ae`, `oe`, `ue`, `ss`). Keep that convention in user-facing strings.
 
 ## Workflow and documentation (user requirement)
 

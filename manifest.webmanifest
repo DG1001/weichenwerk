@@ -1,7 +1,7 @@
 {
-  "name": "Libre Transport Tycoon",
-  "short_name": "Transport Tycoon",
-  "description": "Eisenbahn- und Transport-Tycoon im Browser: Strecken bauen, Signale setzen, Zuege fahren lassen.",
+  "name": "Weichenwerk",
+  "short_name": "Weichenwerk",
+  "description": "Eisenbahn- und Transportsimulation im Browser: Strecken bauen, Signale setzen, Zuege fahren lassen.",
   "lang": "de",
   "start_url": "./index.html",
   "scope": "./",

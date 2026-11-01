@@ -2,6 +2,12 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-01 - Umbenennung in Weichenwerk, MIT-Lizenz
+
+- "Transport Tycoon" ist eine geschuetzte Marke; das Spiel heisst jetzt **Weichenwerk** (Titel, Leiste, Hilfe, Manifest, README, neues App-Icon mit "W").
+- Interne Schluessel (`libre-transport-save-v1`, `libre-transport-previous-world-v1`, `libre-transport-graphics`, Cache `libre-transport-v1`) bleiben bewusst, damit vorhandene Spielstaende weiter laden.
+- Eigener Code unter MIT (`LICENSE`, Rechteinhaber dg1001). Abhaengigkeiten: Three.js MIT, PathFinding.js MIT, heap PSF, simplex-noise MIT, Kenney-Modelle CC0, Lucide-Icons ISC; vollstaendige Pruefung folgt vor der Veroeffentlichung.
+
 ## 2026-11-01 - Ausweichgleis-Werkzeug
 
 - Neuer Modus **Ausweichgleis mit Signalen** unter Streckenplanung: Ziehen entlang einer geraden Strecke plant paralleles Gleis, beide Weichen und vier Einweg-Blocksignale; **Seite wechseln**; **Bauen** baut alles atomar.

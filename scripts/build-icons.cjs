@@ -8,7 +8,7 @@ const svg = size => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" hei
   <rect width="100" height="100" fill="#245846"/>
   <g stroke="#d9c7a3" stroke-width="2.4" stroke-linecap="round"><line x1="24" y1="70" x2="76" y2="70"/><line x1="24" y1="78" x2="76" y2="78"/></g>
   <g stroke="#8c7559" stroke-width="2"><line x1="30" y1="66" x2="30" y2="82"/><line x1="40" y1="66" x2="40" y2="82"/><line x1="50" y1="66" x2="50" y2="82"/><line x1="60" y1="66" x2="60" y2="82"/><line x1="70" y1="66" x2="70" y2="82"/></g>
-  <text x="50" y="57" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="34" fill="#ffffff">LT</text>
+  <text x="50" y="58" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="44" fill="#ffffff">W</text>
 </svg>`;
 
 (async () => {
