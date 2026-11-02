@@ -6,7 +6,7 @@ Eine kleine, von OpenTTD inspirierte Eisenbahn- und Transportsimulation fuer den
 
 ![Weichenwerk am Desktop: Bahnstrecke mit Ausweichgleis, Zuegen und Staedten](docs/media/desktop.png)
 
-![Kurzer Ausschnitt: Zuege kreuzen sich im Ausweichgleis](docs/media/demo.gif)
+![Nahansicht: Zug wartet am Signal vor dem Ausweichgleis](docs/media/closeup.png)
 
 <p>
   <img src="docs/media/phone.png" alt="Am Handy hochkant: Karte im Vollbild, Werkzeuge im Panel unten" width="260">
