@@ -2,6 +2,11 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-02 - Veroeffentlicht
+
+- Oeffentliches Repository https://github.com/DG1001/weichenwerk, Spiel unter https://dg1001.github.io/weichenwerk/ (GitHub Pages per Actions). Erster Lauf: Tests und Deploy erfolgreich; live im Browser geprueft (Start ohne Fehler, Service Worker registriert).
+- Workflow auf `actions/checkout@v5` und `actions/setup-node@v5` (Node-20-Warnung).
+
 ## 2026-11-01 - Aufgaben-Modus, Vorbereitung der Veroeffentlichung
 
 - Optionaler Aufgaben-Modus (Standard bleibt freies Bauen): zehn aufeinander aufbauende Aufgaben mit Praemien, Fortschritt ab Start der jeweiligen Aufgabe, Aufgabenkarte auf der Karte, Ueberspringen und Beenden. Lieferstatistik und Aufgabenstand im Spielstand, streng geprueft; alte Spielstaende laden ohne Aufgaben.
