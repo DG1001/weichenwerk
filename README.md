@@ -32,7 +32,7 @@ Eine kleine, von OpenTTD inspirierte Eisenbahn- und Transportsimulation fuer den
 
 | | Handy / Tablet | PC |
 |---|---|---|
-| Karte verschieben | ein Finger | mittlere Maustaste |
+| Karte verschieben | ein Finger | linke Maustaste ziehen (mit Schiene/Strasse: Umschalt + ziehen) oder mittlere Maustaste |
 | Zoomen | zwei Finger auseinander/zusammen | Mausrad |
 | Drehen | zwei Finger verdrehen | rechte Maustaste |
 | Strecke zeichnen | mit einem Finger ziehen (Lupe zeigt das Zielfeld) | linke Maustaste ziehen |

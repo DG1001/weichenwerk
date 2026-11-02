@@ -1763,6 +1763,7 @@ function renderBuildLoupe() {
 function bindMapTarget(target) {
   let painting = false;
   let drawingPointer = null;
+  let leftPan = null;
   // Touch: one finger pans (or draws once it moves with a rail/road tool); two fingers pan, pinch-zoom and twist.
   // The ground point under the fingers is re-anchored after every change so the map sticks to them.
   const touches=new Map();
@@ -1865,6 +1866,11 @@ function bindMapTarget(target) {
     game.hover = getTile(point.x, point.y);
     if(game.hover)mapCoordinates.last={x:game.hover.x,y:game.hover.y};
     if(painting && game.hover)previewConstruction(game.hover);
+    // A left drag pans once it moves a few pixels, so a plain click still selects or builds.
+    if(leftPan&&leftPan.pointerId===event.pointerId&&!three.dragging&&Math.hypot(event.clientX-leftPan.x,event.clientY-leftPan.y)>5) {
+      Object.assign(three,{dragging:true,panning:true,dragStartX:leftPan.x,dragStartY:leftPan.y,originTargetX:three.orbit.targetX,originTargetZ:three.orbit.targetZ});
+      target.setPointerCapture(event.pointerId);
+    }
     if (three.dragging) {
       const dx = event.clientX - three.dragStartX;
       const dy = event.clientY - three.dragStartY;
@@ -1891,6 +1897,11 @@ function bindMapTarget(target) {
       }
       return;
     }
+    // Left drag pans the map (touchpads have no middle button); with rail/road it needs Shift.
+    if(event.button===0&&(event.shiftKey||(game.tool!=="rail"&&game.tool!=="road"))) {
+      leftPan={pointerId:event.pointerId,x:event.clientX,y:event.clientY};
+      return;
+    }
     if (event.button === 0 && (game.tool === "rail" || game.tool === "road")) {
       const point = pointerTile(event);
       if(!getTile(point.x,point.y))return;
@@ -1911,6 +1922,11 @@ function bindMapTarget(target) {
   });
   target.addEventListener("pointerup", (event) => {
     if(touches.has(event.pointerId)){touchUp(event);return;}
+    if(leftPan&&leftPan.pointerId===event.pointerId) {
+      leftPan=null;
+      if(target.hasPointerCapture(event.pointerId))target.releasePointerCapture(event.pointerId);
+      return;
+    }
     if(three.cab.dragging&&three.cab.pointerId===event.pointerId) {
       three.cab.dragging=false;
       if(target.hasPointerCapture(event.pointerId))target.releasePointerCapture(event.pointerId);
@@ -1923,7 +1939,7 @@ function bindMapTarget(target) {
   });
   target.addEventListener("pointercancel",(event)=>{
     if(touches.has(event.pointerId)){touchUp(event,true);return;}
-    three.cab.dragging=false;painting=false;drawingPointer=null;cancelConstruction();});
+    leftPan=null;three.cab.dragging=false;painting=false;drawingPointer=null;cancelConstruction();});
   target.addEventListener("contextmenu", (event) => event.preventDefault());
   target.addEventListener("click", onCanvasClick);
   target.addEventListener("wheel", (event) => {

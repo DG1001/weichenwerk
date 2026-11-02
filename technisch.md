@@ -35,7 +35,7 @@ Alte Spielstaende muessen weiter laden (ohne Groesse, Seed, Signale, PBS, `links
 
 Die Kamera ist eine Orbit-Kamera (`three.orbit`: `targetX/targetZ`, `yaw`, `pitch`, `distance`), gesetzt in `update3dCamera`. Kartenereignisse laufen ueber `bindMapTarget` in `game.js`:
 
-- **Maus:** Linke Taste zeichnet mit Schiene/Strasse, rechte Taste dreht, mittlere bzw. Umschalt + rechte Taste verschiebt, Mausrad zoomt.
+- **Maus:** Linke Taste zeichnet mit Schiene/Strasse, rechte Taste dreht, mittlere bzw. Umschalt + rechte Taste verschiebt, Mausrad zoomt. Linkes Ziehen verschiebt ebenfalls (Touchpads haben keine mittlere Taste): mit den uebrigen Werkzeugen immer, mit Schiene/Strasse nur mit Umschalt. `leftPan` merkt sich den Startpunkt; erst nach mehr als 5 px wird daraus `three.dragging`/`three.panning`, sodass ein einfacher Klick weiter auswaehlt bzw. baut und ein Ziehen keinen Klick ausloest.
 - **Fuehrerhaus:** eigener Zweig; Ziehen (auch Touch) dreht den Blick.
 - **Touch** (`pointerType === "touch"`, eigener Zweig): Aktive Finger stehen in einer Map. Nach jeder Aenderung wird der Bodenpunkt unter dem Finger bzw. unter dem Fingermittelpunkt per Raycast (`groundPointAt`) neu verankert, damit die Karte am Finger haftet. Pinch skaliert `distance` umgekehrt zum Fingerabstand, Verdrehen aendert `yaw`. Der Nachlauf (`three.inertia`, `applyMapInertia`) nutzt eine geglaettete Geschwindigkeit aus `event.timeStamp` und startet nur, wenn zwischen letzter Bewegung und Loslassen weniger als 80 ms liegen. Nach einer Geste blockiert `three.blockClickUntil` den nachfolgenden Klick fuer 400 ms.
 - **Zeichnen per Touch:** Mit Schiene/Strasse wird zuerst nur `pendingPaint` gemerkt; gezeichnet wird erst nach 8 px Bewegung. Ein zweiter Finger davor macht eine Kamerageste daraus, eine offene Vorschau bleibt erhalten. Ein zweiter Finger waehrend des Zeichnens bricht das Zeichnen ab. Tippen ohne Bewegung entspricht einem Mausklick (Ein-Feld-Vorschau).
@@ -180,6 +180,8 @@ es prueft Desktop/Mobile, WebGL, Fahrzeugbewegung und Geometriespeicher und schr
 `node tests/browser-landscape.cjs` prueft die vier Typen mit echter Seed-Eingabe, Vorschau/Neustart-Uebereinstimmung, 3D-Pixeln, Neuladen, Zufallswerten und einer gebauten Strecke mit fahrendem Zug auf Desktop/Mobile.
 `node tests/browser-towns.cjs` prueft fahrende Zuege als Wachstumsquelle, Warenbonus, sichtbare neue Haeuser in 3D, Stadtliste/-ansicht, geschuetzte Infrastruktur und Neuladen auf Desktop/Mobile.
 `node tests/browser-assets.cjs` prueft Modellgruppen in Nahansichten, verschiedene Haeuser/Baeume, Industrie, Fahrzeuge/Ladung, Bewegung und gemeinsame Geometrien ohne Speicherzuwachs bei wiederholtem Umbau auf Desktop/Mobile.
+`node tests/browser-mouse-pan.cjs` prueft Verschieben per Linksziehen (Info-Werkzeug; Schiene nur mit Umschalt), dass ein Klick weiter auswaehlt, ein Ziehen nicht als Klick zaehlt und normales Ziehen mit der Schiene weiter zeichnet.
+
 `node tests/browser-touch.cjs` prueft echte Mehrfinger-Gesten: Verschieben mit Nachlauf, Tippen, Pinch-Zoom, Drehen, Zwei-Finger-Verschieben, Zeichnen vs. Kamerageste mit dem Schienenwerkzeug, erhaltene Vorschau beim Zoomen, Bau-Lupe, Scrollen am Kartenrand und unveraendertes Mauszeichnen auf Desktop/Mobile.
 
 Der detaillierte Vergleich mit OpenTTD und die noch offenen Unterschiede stehen in [OPENTTD-AUDIT.md](OPENTTD-AUDIT.md).

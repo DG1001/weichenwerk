@@ -2,6 +2,11 @@
 
 Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachlich.md), Technik: [technisch.md](technisch.md).
 
+## 2026-11-02 - Karte am Touchpad verschieben
+
+- Rueckmeldung vom MacBook: Mit dem Touchpad liess sich die Karte nicht verschieben (nur mittlere Maustaste oder Umschalt + rechte Taste; ein Touchpad hat keine mittlere Taste). Jetzt verschiebt linkes Ziehen die Karte (mit Schiene/Strasse mit Umschalt); ein einfacher Klick waehlt bzw. baut wie bisher, erst ab 5 px Bewegung wird verschoben.
+- Neuer Test `browser-mouse-pan` besteht.
+
 ## 2026-11-02 - Veroeffentlicht
 
 - Oeffentliches Repository https://github.com/DG1001/weichenwerk, Spiel unter https://dg1001.github.io/weichenwerk/ (GitHub Pages per Actions). Erster Lauf: Tests und Deploy erfolgreich; live im Browser geprueft (Start ohne Fehler, Service Worker registriert).
