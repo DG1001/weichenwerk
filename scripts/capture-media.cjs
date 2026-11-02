@@ -48,6 +48,7 @@ function buildDemo(seed) {
     for (let len = Math.min(10, best[1] - best[0] - 1); len >= 5 && !summary.loop; len--) {
       const mid = Math.floor((best[0] + best[1]) / 2), a = line[mid - Math.floor(len / 2)], b = line[mid - Math.floor(len / 2) + len];
       summary.loop = Boolean(route(a, b, 'loop'));
+      if (summary.loop) summary.focus = { x: Math.round((a.x + b.x) / 2), y: Math.round((a.y + b.y) / 2) };
     }
     selectStation(sa); buyVehicle('train', { wagons: 3, target: String(sb.id) });
     selectStation(sb); buyVehicle('train', { wagons: 3, target: String(sa.id) });
@@ -60,11 +61,14 @@ function buildDemo(seed) {
   }
   document.getElementById('routeMode').value = 'avoid';
   summary.trains = game.vehicles.length;
-  // Let traffic develop.
-  for (let i = 0; i < 1600; i++) updateVehicles(0.05);
-  const focus = sa && sb ? tileToWorld3d(Math.round((sa.x + sb.x) / 2), Math.round((sa.y + sb.y) / 2)) : { x: 0, z: 0 };
-  Object.assign(three.orbit, { targetX: focus.x, targetZ: focus.z, yaw: -0.55, pitch: 0.78, distance: 30 });
-  selectTile(getTile(0, 0)); game.selected = null;
+  // Let traffic develop, then wait until a passenger train is near the passing loop.
+  const center = summary.focus || (sa && sb ? { x: Math.round((sa.x + sb.x) / 2), y: Math.round((sa.y + sb.y) / 2) } : { x: 32, y: 24 });
+  const nearLoop = () => game.vehicles.some(v => v.cargo === 'passengers' && (p => p && Math.abs(p.x - center.x) + Math.abs(p.y - center.y) <= 3)(v.path[Math.round(trainPosition(v))]));
+  for (let i = 0; i < 1600 || (i < 6000 && !nearLoop()); i++) updateVehicles(0.05);
+  game.cash = 184350; game.month = 7; game.dayProgress = 13;
+  const focus = tileToWorld3d(center.x, center.y);
+  Object.assign(three.orbit, { targetX: focus.x, targetZ: focus.z, yaw: -0.55, pitch: 0.78, distance: 24 });
+  if (game.vehicles[0]) selectVehicle(game.vehicles[0]);
   mark3dDirty(); render();
   return summary;
 }
@@ -75,45 +79,49 @@ function buildDemo(seed) {
   const url = pathToFileURL(resolve(__dirname, '../index.html')).href;
   const open = async (viewport, phone) => {
     const page = await browser.newPage({ viewport, deviceScaleFactor: phone ? 2 : 1, isMobile: phone, hasTouch: phone });
+    page.setDefaultTimeout(600000); // software WebGL without a GPU can take many seconds per frame
     await page.addInitScript(() => { window.confirm = () => true; try { localStorage.clear(); } catch {} });
     await page.goto(url);
     await page.waitForFunction(() => three.ready, null, { timeout: 120000 });
     return page;
   };
   try {
+    // The help page first: after several software-rendered 3D pages the browser can fail to capture.
+    const help = await browser.newPage({ viewport: { width: 1100, height: 900 } });
+    help.setDefaultTimeout(600000);
+    await help.goto(pathToFileURL(resolve(__dirname, '../help.html')).href + '#pfadsignale');
+    await help.screenshot({ path: join(out, 'help.png') });
+    await help.close();
     const desktop = await open({ width: 1440, height: 900 }, false);
     const summary = await desktop.evaluate(buildDemo, seed);
     console.log('Demo:', JSON.stringify(summary));
     await desktop.evaluate(() => render());
     await desktop.screenshot({ path: join(out, 'desktop.png') });
     // Close-up of the passing loop area for the README.
-    await desktop.evaluate(() => { three.orbit.distance = 16; three.orbit.pitch = 0.62; render(); });
+    await desktop.evaluate(() => { three.orbit.distance = 11; three.orbit.pitch = 0.58; render(); });
     await desktop.locator('#threeViewport canvas').screenshot({ path: join(out, 'closeup.png') });
 
     for (const [name, viewport] of [['phone', { width: 390, height: 844 }], ['phone-landscape', { width: 844, height: 390 }]]) {
       const page = await open(viewport, true);
       await page.evaluate(buildDemo, seed);
-      await page.evaluate(() => { three.orbit.distance = innerWidth < innerHeight ? 40 : 26; render(); });
+      await page.evaluate(() => { three.orbit.distance = innerWidth < innerHeight ? 30 : 20; render(); });
       await page.screenshot({ path: join(out, `${name}.png`) });
       await page.close();
     }
-    const help = await browser.newPage({ viewport: { width: 1100, height: 900 } });
-    await help.goto(pathToFileURL(resolve(__dirname, '../help.html')).href + '#pfadsignale');
-    await help.screenshot({ path: join(out, 'help.png') });
-    await help.close();
 
     if (process.argv.includes('--gif')) {
       const frames = join(out, 'frames');
       rmSync(frames, { recursive: true, force: true }); mkdirSync(frames);
       await desktop.setViewportSize({ width: 960, height: 540 });
-      await desktop.evaluate(() => { three.orbit.distance = 20; three.orbit.pitch = 0.7; render(); });
+      await desktop.evaluate(() => { game.selected = null; three.orbit.distance = 15; three.orbit.pitch = 0.66; render(); });
       const canvas = desktop.locator('#threeViewport canvas');
-      for (let i = 0; i < 120; i++) {
-        await desktop.evaluate(() => { for (let k = 0; k < 4; k++) updateVehicles(1 / 30); three.orbit.yaw += 0.004; render(); });
+      // One second of game time per frame, so trains visibly travel and cross in the loop (time-lapse).
+      for (let i = 0; i < 60; i++) {
+        await desktop.evaluate(() => { for (let k = 0; k < 20; k++) updateVehicles(1 / 20); three.orbit.yaw += 0.006; render(); });
         await canvas.screenshot({ path: join(frames, `f${String(i).padStart(3, '0')}.png`) });
       }
-      execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', '15', '-i', join(frames, 'f%03d.png'),
-        '-vf', 'scale=720:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=160[p];[b][p]paletteuse=dither=bayer:bayer_scale=4',
+      execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', '8', '-i', join(frames, 'f%03d.png'),
+        '-vf', 'scale=600:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=96:stats_mode=diff[p];[b][p]paletteuse=dither=none:diff_mode=rectangle',
         join(out, 'demo.gif')]);
       rmSync(frames, { recursive: true, force: true });
     }
