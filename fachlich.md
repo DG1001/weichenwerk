@@ -27,7 +27,7 @@ Lieferungen und Stadtwachstum zaehlen erst ab dem Start der jeweiligen Aufgabe; 
 
 ## Grafik
 
-Im Panel unter **Grafik**: **Hoch** (bis doppelte Pixeldichte, volle Bildrate), **Ausgewogen** (bis 1,5-fache Pixeldichte) und **Akku sparen** (einfache Pixeldichte, hoechstens 30 Bilder pro Sekunde; Spiel und Zuege laufen gleich schnell weiter, nur seltener gezeichnet). Auf Touch-Geraeten ist **Ausgewogen** voreingestellt, sonst **Hoch**. Die Wahl gilt fuer diesen Browser und wird nicht im Spielstand gespeichert.
+Im Panel unter **Grafik**: **Hoch** (bis doppelte Pixeldichte, volle Bildrate), **Ausgewogen** (bis 1,5-fache Pixeldichte) und **Akku sparen** (einfache Pixeldichte, hoechstens 30 Bilder pro Sekunde; Spiel und Zuege laufen gleich schnell weiter, nur seltener gezeichnet). Auf Touch-Geraeten ist **Ausgewogen** voreingestellt, sonst **Hoch**. Die Wahl gilt fuer diesen Browser und wird nicht im Spielstand gespeichert. Erprobt: auf einem Xiaomi Redmi 9 mit **Ausgewogen** ausreichend fluessig, auf einem iPhone SE (2022) problemlos; ruckelt es auf einem schwaecheren Geraet, hilft **Akku sparen**.
 
 ## Als App installieren
 

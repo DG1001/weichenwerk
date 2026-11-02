@@ -6,6 +6,7 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 
 - Oeffentliches Repository https://github.com/DG1001/weichenwerk, Spiel unter https://dg1001.github.io/weichenwerk/ (GitHub Pages per Actions). Erster Lauf: Tests und Deploy erfolgreich; live im Browser geprueft (Start ohne Fehler, Service Worker registriert).
 - Workflow auf `actions/checkout@v5` und `actions/setup-node@v5` (Node-20-Warnung).
+- Praxistest auf echten Handys (Grafikstufe Ausgewogen, Standard auf Touch): Xiaomi Redmi 9 (M2004J19AG, Einsteiger-/Mittelklasse) laeuft recht gut, nicht ganz perfekt fluessig, aber ausreichend; iPhone SE (3. Generation, 2022) ohne Probleme. Offener Punkt "Leistung auf echten Handys messen" damit erledigt; bei Bedarf auf schwachen Geraeten **Akku sparen** waehlen.
 
 ## 2026-11-01 - Aufgaben-Modus, Vorbereitung der Veroeffentlichung
 
@@ -108,4 +109,3 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 ## Offene Punkte
 
 - Neigen per Geste: bewusst nicht geplant (Wunsch, funktioniert ohne gut).
-- Leistung auf echten Mittelklasse-Handys messen (Grafikstufen sind eingebaut, hier ohne GPU nicht messbar).
