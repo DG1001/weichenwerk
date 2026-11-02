@@ -7,6 +7,7 @@ Entwicklungsverlauf, neueste Eintraege zuerst. Spielregeln: [fachlich.md](fachli
 - Optionaler Aufgaben-Modus (Standard bleibt freies Bauen): zehn aufeinander aufbauende Aufgaben mit Praemien, Fortschritt ab Start der jeweiligen Aufgabe, Aufgabenkarte auf der Karte, Ueberspringen und Beenden. Lieferstatistik und Aufgabenstand im Spielstand, streng geprueft; alte Spielstaende laden ohne Aufgaben.
 - Tests: `tasks`, `passing-loop` und alle uebrigen Tests ohne Browser bestehen; Browser-Tests `tasks`, `pwa`, `help`, `layout` bestehen.
 - Veroeffentlichung vorbereitet: README fuer GitHub (Spiel-Link, Bilder, Entstehung mit XaresAICoder, GPT 6.1 Sol und Claude Opus 5.5, Lizenztabelle), Workflow fuer Tests und GitHub Pages, Skript fuer Screenshots und Demo-GIF.
+- README-Bilder: Screenshots per Skript; als Animation eine echte Bildschirmaufnahme (das per Skript erzeugte GIF zeigte bei Software-Rendering kaum Bewegung), auf 800 px und 10 Bilder/s verkleinert (2,3 MB).
 - Pruefung vor der Veroeffentlichung: keine Workspace-Adressen, persoenlichen E-Mail-Adressen, Zugangsdaten oder lokalen Pfade in Dateien oder Historie. Workspace-Vorlagen (`AGENTS.md`, `README_coder.md`, `.vscode/`) nicht mehr versioniert. Lizenzen: alle Fremdbestandteile mit MIT vereinbar, Lizenztexte liegen bei; Versionsangabe Nature Kit korrigiert (2.1).
 
 ## 2026-11-01 - Umbenennung in Weichenwerk, MIT-Lizenz

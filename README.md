@@ -6,6 +6,8 @@ Eine kleine, von OpenTTD inspirierte Eisenbahn- und Transportsimulation fuer den
 
 ![Weichenwerk am Desktop: Bahnstrecke mit Ausweichgleis, Zuegen und Staedten](docs/media/desktop.png)
 
+![Zuege im Betrieb: Ausweichgleise, Signale und Bahnhof in der Stadt](docs/media/demo.gif)
+
 ![Nahansicht: Zug wartet am Signal vor dem Ausweichgleis](docs/media/closeup.png)
 
 <p>

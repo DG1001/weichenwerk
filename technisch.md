@@ -85,7 +85,7 @@ Bis 980 px Breite (`styles.css`, letzter Block) gilt ein Handy-Layout ohne JavaS
 
 - Oeffentliches Repository `dg1001/weichenwerk`, Spiel unter `https://dg1001.github.io/weichenwerk/`.
 - `.github/workflows/pages.yml`: bei jedem Push auf `main` zuerst alle Tests ohne Browser (Node 22), danach Upload der Spieldateien (`index.html`, `help.html`, `styles.css`, `manifest.webmanifest`, `sw.js`, `LICENSE`, `src/`) nach GitHub Pages. Pull Requests laufen nur durch die Tests. Ueber HTTPS funktioniert dort auch die App-Installation.
-- README-Bilder in `docs/media/` erzeugt `node scripts/capture-media.cjs` (Screenshots) bzw. mit `--gif` zusaetzlich einen Zeitraffer `demo.gif` (braucht ffmpeg; derzeit nicht in der README, ohne GPU dauert die Aufnahme ueber eine Stunde). Das Skript baut auf einer generierten Welt per Spielfunktionen eine Demo-Anlage (Personenstrecke mit Ausweichgleis und zwei Zuegen, Kohlestrecke).
+- README-Bilder in `docs/media/` erzeugt `node scripts/capture-media.cjs` (Screenshots) bzw. mit `--gif` zusaetzlich einen Zeitraffer `demo.gif` (braucht ffmpeg; ohne GPU dauert die Aufnahme ueber eine Stunde). Das `demo.gif` der README ist dagegen eine echte Bildschirmaufnahme, verkleinert mit `ffmpeg -i aufnahme.gif -vf "fps=10,scale=800:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" docs/media/demo.gif` (82 MB auf 2,3 MB). Das Skript baut auf einer generierten Welt per Spielfunktionen eine Demo-Anlage (Personenstrecke mit Ausweichgleis und zwei Zuegen, Kohlestrecke).
 - Nicht im Repository: `node_modules/`, `artifacts/` sowie die Workspace-Dateien `AGENTS.md`, `README_coder.md` und `.vscode/` (siehe `.gitignore`).
 
 ## Spielhilfe
